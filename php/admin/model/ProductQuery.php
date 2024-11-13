@@ -1,14 +1,20 @@
 <?php
+// Include the confix.php file using the relative path
+//php/confix.php -> php/admin/model/ProductQuery.php
+require_once __DIR__ . '/../../confix.php';
+
 
 class ProductQuery
 {
     public $pdo;
 
+    // Constructor: Initializes PDO connection using confix.php
     public function __construct()
     {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;port=3306;dbname=duan1", "root", "051025");
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // Use the DatabaseConfig class defined in confix.php
+            $databaseConfig = new DatabaseConfig();
+            $this->pdo = $databaseConfig->getConnection();
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
             echo "Kết nối database thất bại";
@@ -187,87 +193,7 @@ class ProductQuery
         }
     }
 
-
-    public function allCatories(){
-        try {
-            $sql = "SELECT * FROM `categories`";
-            $data = $this->pdo->query($sql)->fetchAll();
-            $dsCtr = [];
-
-            foreach($data as $value){
-                $product = new categories();
-                $product->category_id = $value["category_id"];
-                $product->name = $value["name"];
-                $product->status = $value["status"];
-                array_push($dsCtr, $product);
-            }
-            return $dsCtr;
-            
-        } catch (Exception $error) {
-            //throw $th;
-            echo "Lỗi " . $error->getMessage() . "<br>";
-            echo "Lỗi danh sách danh mục";
-        }
-    }
-
-    public function createCtr(categories $product){
-        try {
-            $sql = "INSERT INTO `categories`(  `name`, `status`) VALUES ('" . $product->name . "','" . $product->status . "')";
-            $data = $this->pdo->exec($sql);
-            if ($data == "1") {
-                return "ok";
-            }
-        } catch (Exception $error) {
-            echo "Lỗi " . $error->getMessage() . "<br>";
-            echo "Thêm mới danh mục thất bại";
-        }
-    }
-
-    public function updateCtr(categories $product, $id){
-        try {
-            $sql = "UPDATE `categories` SET `name` = '{$product->name}',`status` = '{$product->status}' WHERE `category_id` = $id";
-           
-
-            $data = $this->pdo->exec($sql);
-
-            if ($data === 1 || $data === 0) {
-                return "ok";
-            }
-        } catch (Exception $error) {
-            echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Cập nhật danh mục thất bại thất bại";
-        }
-    }
-
-    public function findCtr($id){
-        try {
-            $sql = "SELECT * FROM `categories` WHERE `category_id` = $id";
-            $data = $this->pdo->query($sql)->fetch();
-            if ($data !== false) {
-                $product = new categories();
-                $product->category_id = $data["category_id"];
-                $product->name = $data["name"];
-                $product->status = $data["status"];
-                
-
-                return $product;
-            }
-        } catch (Exception $error) {
-            echo "Lỗi " . $error->getMessage() . "<br>";
-            echo "Tìm Danh mục thất bại";
-        }
-    }
-    public function deleteCtr($id){
-        try {
-            $sql = "DELETE FROM `categories` WHERE category_id =$id";
-            $data = $this->pdo->exec($sql);
-            if ($data === 1) {
-                return "ok";
-            }
-        } catch (Exception $error) {
-            echo "Lỗi " . $error->getMessage() . "<br>";
-            echo "Xóa thất bại";
-        }
-    }
+    // Additional methods for categories...
 
 }
+?>
