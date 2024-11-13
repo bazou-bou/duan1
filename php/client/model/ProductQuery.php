@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../confix.php';
 
 class ProductQuery
 {
@@ -7,8 +8,8 @@ class ProductQuery
     public function __construct()
     {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;port=3306;dbname=duan1", "root", "051025");
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $config = new DatabaseConfig();
+            $this->pdo = $config->getConnection();
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
             echo "Kết nối database thất bại";
@@ -20,7 +21,7 @@ class ProductQuery
         $this->pdo = null;
     }
 
-    // Find all products with category names
+    // Lấy tất cả sản phẩm kèm tên danh mục
     public function all()
     {
         try {
@@ -50,7 +51,7 @@ class ProductQuery
         }
     }
 
-    // Find a single product by ID
+    // Tìm sản phẩm theo ID
     public function find($id)
     {
         try {
@@ -81,7 +82,7 @@ class ProductQuery
         }
     }
 
-    // Insert a new product
+    // Thêm sản phẩm mới
     public function insert(Product $product)
     {
         try {
@@ -105,7 +106,7 @@ class ProductQuery
         }
     }
 
-    // Update an existing product
+    // Cập nhật sản phẩm
     public function update(Product $product, $id)
     {
         try {
@@ -137,7 +138,7 @@ class ProductQuery
         }
     }
 
-    // Find products by category
+    // Tìm sản phẩm theo danh mục
     public function findCategory($category)
     {
         try {
@@ -171,7 +172,7 @@ class ProductQuery
         }
     }
 
-    // Delete a product
+    // Xóa sản phẩm
     public function delete($id)
     {
         try {
