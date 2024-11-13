@@ -13,3 +13,11 @@ class Product
     public function __construct() {}
     public function __destruct() {}
 }
+
+class Users{
+    public $user_id;
+    public $username;
+    public $password;
+    public $email;
+    public $role;
+}

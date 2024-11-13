@@ -270,4 +270,13 @@ class ProductQuery
         }
     }
 
+    public function allUser(){
+        try {
+            $sql = "SELECT * FROM `users`";
+            $data = $this->pdo->query($sql)->fetchAll();
+        } catch (Exception $error) {
+            //throw $th;
+        }
+    }
+
 }

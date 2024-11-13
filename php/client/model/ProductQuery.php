@@ -186,4 +186,19 @@ class ProductQuery
             echo "Xóa thất bại";
         }
     }
+
+    public function createUser(Users $product){
+        try {
+            $sql = "INSERT INTO `users` ( `username`, `password`, `email`) VALUES ( '$product->username', '$product->password', '$product->email')";
+            $data = $this->pdo->exec($sql);
+            if($data == "1"){
+                return "ok";
+            }
+
+            //code...
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Thêm mới tài khoản thất bại";
+        }
+    }
 }
