@@ -195,4 +195,46 @@ class ProductController
             echo "Lỗi: Không nhận được thông tin ID. Mời bạn kiểm tra lại. <hr>";
         }
     }
+    public function insertUser(){
+        
+            $loi_ten_danhmuc = "";
+            $loi_tranthai_danhmuc = "";
+            $baoThanhCong = "";
+            
+            if (isset($_POST["submitForm"])) {
+                $product = new Users();
+                $product->username = $_POST["username"];
+                //  $product->img=$_POST["img"];
+                $product->password = $_POST["password"];
+                $product->email = $_POST["email"];
+                // $product->role = $_POST["role"];
+                
+                
+    
+                if ($_POST["username"] === "") {
+                    $loi_ten_danhmuc = "Hãy nhập uesername";
+                }
+                if ($_POST["password"] === "") {
+                    $loi_tranthai_danhmuc = "Hãy nhập mật khẩu của bạn";
+                }
+                if ($_POST["email"] === "") {
+                    $loi_tranthai_danhmuc = "Hãy nhập email của bạn";
+                }
+                // if ($_POST["role"] === "") {
+                //     $loi_tranthai_danhmuc = "Hãy nhập trạng thái của danh mục";
+                // }
+                
+    
+                if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "") {
+                    $baoThanhCong = "Bạn đã cập nhập ok";
+                    $dataCreated = $this->productQuery->createUser($product);
+                    if ($dataCreated == "ok") {
+                        $product = new Users();
+                    }
+                }
+            }
+            include "view/login/login.php";
+    
+        
+    }
 }
