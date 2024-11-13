@@ -195,14 +195,42 @@ class ProductQuery
 
     // Additional methods for categories...
 
-    public function allUser(){
+    public function allUser()
+    {
         try {
-            $sql = "SELECT * FROM `users`";
-            $data = $this->pdo->query($sql)->fetchAll();
+            // Query to get all users
+            $sql = "SELECT * FROM users";
+                    
+            // Execute the query and fetch all user data
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Initialize an array to store User objects
+            $danhSach = [];
+    
+            // Loop through each result and create a User object
+            foreach ($data as $value) {
+                // Create a new User object (assuming you have a User class)
+                $user = new User(); 
+                $user->user_id = $value["user_id"];  // Assuming 'user_id' exists in the 'users' table
+                $user->username = $value["username"];        // Assuming 'name' exists in the 'users' table
+                $user->password = $value["password"];      // Assuming 'email' exists in the 'users' table
+                $user->email = $value["email"];        // Assuming 'role' exists in the 'users' table
+                $user->role = $value["role"];    // Assuming 'status' exists in the 'users' table
+    
+                // Add the User object to the danhSach array
+                $danhSach[] = $user;
+            }
+    
+            return $danhSach;
+    
         } catch (Exception $error) {
-            //throw $th;
+            // Log the error message for debugging
+            error_log("Lỗi: " . $error->getMessage());
+            return "Tìm tất cả người dùng thất bại";
         }
     }
+    
+    
 
 }
 ?>
