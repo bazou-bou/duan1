@@ -242,7 +242,8 @@ class ProductController
     public function listUser()
     {
         // Hiển thị file view tương ứng. Hiển thị file list.php
-        $DanhSachobject = $this->productQuery->all();
+        $dsUser = $this->productQuery->allUser();
+        
         include "view/login/login.php";
     }
 }

@@ -1,4 +1,45 @@
+<?php
+// session_start();
 
+
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    $usernameOrEmail = $_POST['loginName']; 
+    $password = $_POST['loginPassword']; 
+
+    
+    $userFound = null;
+    foreach ($dsUser as $user) {
+        if (($user->email === $usernameOrEmail || $user->username === $usernameOrEmail) && $user->password === $password) {
+            $userFound = $user;
+            break;
+        }
+    }
+
+    if ($userFound) {
+        
+        $_SESSION['user_id'] = $userFound->user_id;
+        $_SESSION['username'] = $userFound->username;
+        $_SESSION['role'] = $userFound->role;
+        $_SESSION['email'] = $userFound->email;
+
+       
+        if ($userFound->role == 1) {
+           
+            header("Location: ?act=product-list"); 
+        } else {
+           
+            header("Location: ?act=client-list");
+        }
+        exit();
+    } else {
+        
+        $errorMessage = "Thông tin đăng nhập không chính xác!";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +66,6 @@
         }
         .tab-content{
             width: 500px;
-            /* background-color: red; */
         }
         .nav-link{
             width: 250px;
@@ -35,13 +75,10 @@
         }
         .nav{
             width: 500px;
-            /* background-color: red; */
         }
         .content{
             display: flex;
-            /* background-color: red; */
             justify-content: center;
-            /* height: 800px; */
             margin-top: 50px;
         }
         
@@ -51,70 +88,71 @@
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/header.html'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/header.php'; ?>
+    <?php var_dump($dsUser) ?>
     </header>
     <div class="content">
         <div class="center">
 
-    <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-		<li class="nav-item" role="presentation">
-			<a class="nav-link active" id="tab-login" data-bs-toggle="pill" href="#pills-login" role="tab"
-			aria-controls="pills-login" aria-selected="true">Login</a>
-		</li>
-		<!-- <li class="nav-item" role="presentation">
-			<a class="nav-link" id="tab-register" data-bs-toggle="pill" href="#pills-register" role="tab"
-			aria-controls="pills-register" aria-selected="false">Register</a>
-		</li> -->
-	</ul>
+   
 	<!-- Pills navs -->
 	
 	<!-- Pills content -->
-	<div class="tab-content">
-		<div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-            <?php var_dump($DanhSachobject) ?>
-			<form form method="post" enctype="multipart/form-data" class="mx-auto">
-				
-	
-				<!-- Email input -->
-				<div class="form-outline mb-4">
-					<input type="email" id="loginName" class="form-control" />
-					<label class="form-label" for="loginName">Email or username</label>
-				</div>
-	
-				<!-- Password input -->
-				<div class="form-outline mb-4">
-					<input type="password" id="loginPassword" class="form-control" />
-					<label class="form-label" for="loginPassword">Password</label>
-				</div>
-	
-				<!-- 2 column grid layout -->
-				<div class="row mb-4">
-					<div class="col-md-6 d-flex justify-content-center">
-						<!-- Checkbox -->
-						<div class="form-check mb-3 mb-md-0">
-							<input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />
-							<label class="form-check-label" for="loginCheck"> Remember me </label>
-						</div>
-					</div>
-	
-					<div class="col-md-6 d-flex justify-content-center">
-						<!-- Simple link -->
-						<a href="#!">Forgot password?</a>
-					</div>
-				</div>
-	
-				<!-- Submit button -->
-				<button type="submit" name="submitForm" class="btn btn-primary btn-block mb-4">Sign in</button>
-	
-				<!-- Register buttons -->
-				<div class="text-center">
-					<p>Not a member? <a href="#!">Register</a></p>
-				</div>
-			</form>
-		</div>
-		<!--  -->
-	</div>
-    </div>
+	<div class="content">
+        <div class="center">
+            <!-- Phần chứa form đăng nhập -->
+            <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="tab-login" data-bs-toggle="pill" href="#pills-login" role="tab"
+                    aria-controls="pills-login" aria-selected="true">Login</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+                    
+                    <!-- Form đăng nhập -->
+                    <form method="POST" enctype="multipart/form-data" class="mx-auto">
+                        <!-- Hiển thị thông báo lỗi nếu có -->
+                        <?php if (isset($errorMessage)): ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?php echo $errorMessage; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- Email hoặc Username -->
+                        <div class="form-outline mb-4">
+                            <input type="text" id="loginName" name="loginName" class="form-control" required />
+                            <label class="form-label" for="loginName">Email or username</label>
+                        </div>
+
+                        <!-- Mật khẩu -->
+                        <div class="form-outline mb-4">
+                            <input type="password" id="loginPassword" name="loginPassword" class="form-control" required />
+                            <label class="form-label" for="loginPassword">Password</label>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 d-flex justify-content-center">
+                                <div class="form-check mb-3 mb-md-0">
+                                    <input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />
+                                    <label class="form-check-label" for="loginCheck"> Remember me </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex justify-content-center">
+                                <a href="#!">Forgot password?</a>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+                        <div class="text-center">
+                            <p>Not a member? <a href="#!">Register</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <footer>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/footer.html'; ?>

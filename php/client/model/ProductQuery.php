@@ -202,4 +202,28 @@ class ProductQuery
             echo "Thêm mới tài khoản thất bại";
         }
     }
+
+    public function allUser(){
+        try {
+            $sql = "SELECT * FROM users";
+            $data = $this->pdo->query($sql)->fetchAll();
+            $dsUser = [];
+            foreach ($data as $value) {
+                $product = new Users();
+                $product->user_id = $value["user_id"];
+                $product->username = $value["username"];
+                $product->password = $value["password"];
+                $product->email = $value["email"];
+                $product->role = $value["role"];
+                
+
+                array_push($dsUser, $product);
+            }
+
+            return $dsUser;
+        } catch (Exception $error) {
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            echo "Danh sách tài khoản thất bại";
+        }
+    }
 }
