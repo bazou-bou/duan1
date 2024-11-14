@@ -204,10 +204,8 @@ class ProductController
             if (isset($_POST["submitForm"])) {
                 $product = new Users();
                 $product->username = $_POST["username"];
-                //  $product->img=$_POST["img"];
                 $product->password = $_POST["password"];
                 $product->email = $_POST["email"];
-                // $product->role = $_POST["role"];
                 
                 
     
@@ -226,14 +224,14 @@ class ProductController
                 
     
                 if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "") {
-                    $baoThanhCong = "Bạn đã cập nhập ok";
+                    $baoThanhCong = "Bạn đã tạo ok";
                     $dataCreated = $this->productQuery->createUser($product);
                     if ($dataCreated == "ok") {
                         $product = new Users();
                     }
                 }
             }
-            include "view/login/login.php";
+            include "view/login/dangky.php";
 
             
     
