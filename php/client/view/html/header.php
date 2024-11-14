@@ -1,3 +1,10 @@
+<?php
+// session_start();
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,8 +119,14 @@
                             <i class="bi bi-gear settings-icon"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
-                            <li><a class="dropdown-item" href="#">Đăng nhập</a></li>
-                            <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                            <?php if(isset($_SESSION['username'])){?>
+                                
+                                <li><a class="dropdown-item" href="#"><?=$_SESSION['username'] ?></a></li>
+                                <li><a class="dropdown-item" href="view/login/logout.php">Đăng xuất</a></li>
+                            <?php }else{?>
+                            <li><a class="dropdown-item" href="?act=client-login">Đăng nhập</a></li>
+                            <?php } ?>
+                            <?php ?>
                         </ul>
                     </li>
                 </ul>

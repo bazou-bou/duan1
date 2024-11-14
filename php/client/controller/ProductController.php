@@ -234,7 +234,16 @@ class ProductController
                 }
             }
             include "view/login/login.php";
+
+            
     
         
+    }
+    public function listUser()
+    {
+        // Hiển thị file view tương ứng. Hiển thị file list.php
+        $dsUser = $this->productQuery->allUser();
+        
+        include "view/login/login.php";
     }
 }
