@@ -71,6 +71,7 @@
 	<!-- Pills content -->
 	<div class="tab-content">
 		<div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+            <?php var_dump($DanhSachobject) ?>
 			<form form method="post" enctype="multipart/form-data" class="mx-auto">
 				
 	

@@ -195,14 +195,7 @@ class ProductQuery
 
     // Additional methods for categories...
 
-    public function allUser(){
-        try {
-            $sql = "SELECT * FROM `users`";
-            $data = $this->pdo->query($sql)->fetchAll();
-        } catch (Exception $error) {
-            //throw $th;
-        }
-    }
+    
 
     public function allCatories(){
         try {
@@ -285,6 +278,16 @@ class ProductQuery
             echo "Xóa thất bại";
         }
     }
+    public function allUser(){
+        try {
+            $sql = "SELECT * FROM `users`";
+            $data = $this->pdo->query($sql)->fetchAll();
+        } catch (Exception $error) {
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            echo "Danh sách tài khoản thất bại";
+        }
+    }
+    
 
 }
 ?>
