@@ -73,6 +73,11 @@ switch ($act) {
         $productCtrl->listUser();
         break;
 
+    case "client-dangky":
+        $productCtrl = new ProductController();
+        $productCtrl->insertUser();
+        break;
+
     
 
     default:

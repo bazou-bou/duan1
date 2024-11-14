@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
 
                         <div class="text-center">
-                            <p>Not a member? <a href="#!">Register</a></p>
+                            <p>Not a member? <a href="?act=client-dangky">Register</a></p>
                         </div>
                     </form>
                 </div>
