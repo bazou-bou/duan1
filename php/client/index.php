@@ -1,4 +1,5 @@
 <?php
+session_start();
 define("BASE_URL", "http://localhost/shopBanGiay/php/");
 // 1. Nhúng các file cần thiết
 include_once "controller/ProductController.php";
@@ -66,6 +67,23 @@ switch ($act) {
         $productCtrl = new ProductController();
         $productCtrl->showDelete($id);
         break;
+
+    case "client-login":
+        $productCtrl = new ProductController();
+        $productCtrl->listUser();
+        break;
+
+    case "client-dangky":
+        $productCtrl = new ProductController();
+        $productCtrl->insertUser();
+        break;
+
+    case "client-logout":
+        $productCtrl = new ProductController();
+        $productCtrl->showLogout();
+        break;
+
+    
 
     default:
         include "view/404.php";
