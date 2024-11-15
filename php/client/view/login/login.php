@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        
         if ($userFound->role == 1) {
            
-            header("Location: ?act=product-list"); 
+            header("http://localhost/duan1/php/admin/?act=product-list"); 
         } else {
            
             header("Location: ?act=client-list");
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/header.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/duan1/php/client/view/html/header.php'; ?>
     <?php var_dump($dsUser) ?>
     </header>
     <div class="content">

@@ -78,6 +78,11 @@ switch ($act) {
         $productCtrl->insertUser();
         break;
 
+    case "client-logout":
+        $productCtrl = new ProductController();
+        $productCtrl->showLogout();
+        break;
+
     
 
     default:

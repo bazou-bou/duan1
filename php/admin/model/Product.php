@@ -29,3 +29,15 @@ class categories
         
     }
 }
+
+class User
+{
+    public $user_id;
+    public $username ;
+    public $password;
+    public $email ;
+    public $role;
+
+    public function __construct() {}
+    public function __destruct() {}
+}

@@ -164,7 +164,7 @@ class ProductController
     }
 
     public function showUsers() {
-        //$DanhSachUsers = $this->productQuery->allUser();
+        $DanhSachUsers = $this->productQuery->allUser();
         include "view/product/users.php";
     }
 

@@ -122,7 +122,7 @@
                             <?php if(isset($_SESSION['username'])){?>
                                 
                                 <li><a class="dropdown-item" href="#"><?=$_SESSION['username'] ?></a></li>
-                                <li><a class="dropdown-item" href="view/login/logout.php">Đăng xuất</a></li>
+                                <li><a class="dropdown-item" href="?act=client-logout">Đăng xuất</a></li>
                             <?php }else{?>
                             <li><a class="dropdown-item" href="?act=client-login">Đăng nhập</a></li>
                             <?php } ?>
