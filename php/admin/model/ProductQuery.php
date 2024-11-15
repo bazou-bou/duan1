@@ -231,7 +231,35 @@ class ProductQuery
         }
     }
 
+    public function unban($user_id)
+    {
+        try {
+            $sql = "UPDATE `users` SET `status` = '1' WHERE `user_id` = $user_id";
+            $data = $this->pdo->exec($sql);
+            if ($data === 1) {
+                return "ok";
+            }
+        } catch (Exception $error) {
+            //throw $th;
+            echo "L��i " . $error->getMessage() . "<br>";
+            echo "Không banned thành công";
+    
+    }
+}
 
+    public function ban($user_id){
+        try {
+            $sql = "UPDATE `users` SET `status` = '0' WHERE `user_id` = $user_id";
+            $data = $this->pdo->exec($sql);
+            if ($data === 1) {
+                return "ok";
+            }
+        } catch (Exception $error) {
+            //throw $th;
+            echo "L��i " . $error->getMessage() . "<br>";
+            echo "Không banned thành công";
+        }
+    }
 
     public function allCatories()
     {
