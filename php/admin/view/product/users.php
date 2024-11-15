@@ -56,16 +56,33 @@
                             <td>
                                 <?= htmlspecialchars($user->role == 0 ? 'user' : ($user->role == 1 ? 'admin' : 'unknown')) ?>
                             </td>
-                            <td colspan="1" >
-                                <?= htmlspecialchars($user->status == 0 ? 'block' : ($user->status == 1 ? 'unblock' : 'unknown')) ?>
+                            <!-- User Status -->
+                            <td colspan="1">
+                                <?= htmlspecialchars($user->status == 0 ? 'Blocked' : ($user->status == 1 ? 'Active' : 'Unknown')) ?>
+                            </td>
 
-                            </td>
                             <td colspan="1" class="tdBtn">
-                                <!-- Nút Xóa -->
-                                <a href="" onclick="return confirm('Bạn có chắc khóa tài khoản này chứ?')" class="btn btn-danger btn-xs">
-                                    <i class="bi bi-trash"></i>
-                                </a>
+                                <?php if ($user->status == 0): ?>
+                                    <!-- Unban Button (User is currently blocked) -->
+                                    <a href="?act=unban&user_id=<?= htmlspecialchars($user->user_id) ?>"
+                                        onclick="return confirm('Bạn có chắc muốn mở khóa tài khoản này không?')"
+                                        class="btn btn-success btn-xs">
+                                        <i class="bi bi-unlock-fill"></i> Unban
+                                    </a>
+                                <?php elseif ($user->status == 1): ?>
+                                    <!-- Ban Button (User is currently active) -->
+                                    <a href="?act=ban&user_id=<?= htmlspecialchars($user->user_id) ?>"
+                                        onclick="return confirm('Bạn có chắc muốn khóa tài khoản này không?')"
+                                        class="btn btn-danger btn-xs">
+                                        <i class="bi bi-lock-fill"></i> Ban
+                                    </a>
+                                <?php else: ?>
+                                    <!-- Unknown Status -->
+                                    <span class="text-muted">Unknown Status</span>
+                                <?php endif; ?>
                             </td>
+
+
                         </tr>
                     <?php } ?>
                 </tbody>
