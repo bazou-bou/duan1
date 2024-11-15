@@ -45,7 +45,7 @@ class ProductController
     public function showCreate()
     {
         $loi_ten = $loi_anh = $loi_price = $loi_description = $loi_stock = $loi_views = $loi_category = $baoThanhCong = "";
-    
+
         if (isset($_POST["submitForm"])) {
             $product = new Product();
             $product->name = $_POST["name"] ?? '';
@@ -54,7 +54,7 @@ class ProductController
             $product->description = $_POST["description"] ?? '';
             $product->views = $_POST["views"] ?? '';
             $product->category_id = $_POST["category"] ?? '';
-    
+
             // Validation
             if ($product->name === "") $loi_ten = "Hãy nhập tên giày đi!!";
             if ($product->price === "") $loi_price = "Hãy nhập giá giày đi!!";
@@ -62,7 +62,7 @@ class ProductController
             if ($product->stock === "") $loi_stock = "Hãy nhập số lượng giày đi!!";
             if ($product->views === "") $loi_views = "Hãy nhập lượt xem giày đi!!";
             if ($product->category === "") $loi_category = "Hãy chọn phân loại giày đi!!";
-    
+
             // File upload
             $thanSo01 = $_FILES['fileUpload']['tmp_name'];
             $thanSo02 = "../upload/" . $_FILES['fileUpload']['name'];
@@ -72,7 +72,7 @@ class ProductController
             } else {
                 $loi_anh = "Không upload lên đc";
             }
-    
+
             // If no errors, insert product
             if ($loi_ten === "" && $loi_anh === "" && $loi_price === "" && $loi_description === "" && $loi_stock === "" && $loi_views === "" && $loi_category === "") {
                 $baoThanhCong = "Bạn đã cập nhật thành công";
@@ -83,18 +83,17 @@ class ProductController
                 }
             }
         }
-    
+
         include "view/product/create.php";
     }
-    
+
 
     // Khái báo phương thức showDetail($id) để xử lý trường hợp người dùng truy cập trang chi tiết
     // Lưu ý: Phải nhận vào param là $id muốn xem xem chi tiết
     public function showCategory($category)
     {
         $DanhSachCtegory = $this->productQuery->findCategory($category);
-            include "view/product/category.php";
-        
+        include "view/product/category.php";
     }
 
     // Khái báo phương thức showUpdate($id) để xử lý trường hợp người dùng truy cập trang chỉnh sửa
@@ -108,37 +107,37 @@ class ProductController
             $loi_description = "";
             $loi_stock = "";
             $loi_views = "";
-            $loi_category="";
+            $loi_category = "";
             $baoThanhCong = "";
             $DanhSachOne = $this->productQuery->find($id);
             if (isset($_POST["submitForm"])) {
                 $product = new Product();
-            $product->name = $_POST["name"];
-            //  $product->img=$_POST["img"];
-            $product->stock = $_POST["stock"];
-            $product->price = $_POST["price"];
-            $product->description = $_POST["description"];
-            $product->views = $_POST["views"];
-            $product->category_id=$_POST["category"];
+                $product->name = $_POST["name"];
+                //  $product->img=$_POST["img"];
+                $product->stock = $_POST["stock"];
+                $product->price = $_POST["price"];
+                $product->description = $_POST["description"];
+                $product->views = $_POST["views"];
+                $product->category_id = $_POST["category"];
 
-            if ($_POST["name"] === "") {
-                $loi_ten = "Hãy nhập tên giày đi!!";
-            }
-            if ($_POST["price"] === "") {
-                $loi_price = "Hãy nhập giá giày đi!!";
-            }
-            if ($_POST["description"] === "") {
-                $loi_description = "Hãy nhập mô tả giày đi!!";
-            }
-            if ($_POST["stock"] === "") {
-                $loi_stock = "Hãy nhập số lượng giày đi!!";
-            }
-            if ($_POST["views"] === "") {
-                $loi_views = "Hãy nhập lượt xem giày đi!!";
-            }
-            if ($_POST["category"]==="") {
-                $loi_category="Hãy chọn phân loại giày đi!!";
-            }
+                if ($_POST["name"] === "") {
+                    $loi_ten = "Hãy nhập tên giày đi!!";
+                }
+                if ($_POST["price"] === "") {
+                    $loi_price = "Hãy nhập giá giày đi!!";
+                }
+                if ($_POST["description"] === "") {
+                    $loi_description = "Hãy nhập mô tả giày đi!!";
+                }
+                if ($_POST["stock"] === "") {
+                    $loi_stock = "Hãy nhập số lượng giày đi!!";
+                }
+                if ($_POST["views"] === "") {
+                    $loi_views = "Hãy nhập lượt xem giày đi!!";
+                }
+                if ($_POST["category"] === "") {
+                    $loi_category = "Hãy chọn phân loại giày đi!!";
+                }
 
 
                 $thanSo01 = $_FILES['fileUpload']['tmp_name']; //Bộ nhớ tạm đang lưu trữ file
@@ -149,9 +148,9 @@ class ProductController
                 } else {
                     $loi_anh = "Không uplod lên đc";
                 }
-                if ($loi_ten === "" && $loi_anh === "" && $loi_price === "" && $loi_description === "" && $loi_stock === "" && $loi_views === ""&&$loi_category==="") {
+                if ($loi_ten === "" && $loi_anh === "" && $loi_price === "" && $loi_description === "" && $loi_stock === "" && $loi_views === "" && $loi_category === "") {
                     $baoThanhCong = "Bạn đã cập nhập ok";
-                    $dataCreated = $this->productQuery->update($product , $id);
+                    $dataCreated = $this->productQuery->update($product, $id);
                     if ($dataCreated == "ok") {
                         $product = new Product();
                     }
@@ -163,26 +162,35 @@ class ProductController
         }
     }
 
-    public function showUsers() {
+    public function showUsers()
+    {
         $DanhSachUsers = $this->productQuery->allUser();
         include "view/product/users.php";
     }
 
-    public function showCrt(){
+    public function createUser()
+    {
+        
+        
+    }
+
+    public function showCrt()
+    {
         $dsCtr = $this->productQuery->allCatories();
         include "view/catories/list.php";
     }
-    public function createCtr(){
+    public function createCtr()
+    {
         $loi_ten_danhmuc = "";
         $loi_tranthai_danhmuc = "";
         $baoThanhCong = "";
-        
+
         if (isset($_POST["submitForm"])) {
             $product = new categories();
             $product->name = $_POST["name"];
             //  $product->img=$_POST["img"];
             $product->status = $_POST["status"];
-            
+
 
             if ($_POST["name"] === "") {
                 $loi_ten_danhmuc = "Hãy nhập tên danh mục";
@@ -190,7 +198,7 @@ class ProductController
             if ($_POST["status"] === "") {
                 $loi_tranthai_danhmuc = "Hãy nhập trạng thái của danh mục";
             }
-            
+
 
             if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "") {
                 $baoThanhCong = "Bạn đã cập nhập ok";
@@ -201,46 +209,46 @@ class ProductController
             }
         }
         include "view/catories/create.php";
-
     }
 
-    public function updateCtr($id){
-        if($id !== ""){
-        $loi_ten_danhmuc = "";
-        $loi_tranthai_danhmuc = "";
-        $baoThanhCong = "";
-        
-        $dsachCtr = $this->productQuery->findCtr($id);
-        if (isset($_POST["submitForm"])) {
-            $product = new categories();
-            $product->name = $_POST["name"];
-            //  $product->img=$_POST["img"];
-            $product->status = $_POST["status"];
-            
+    public function updateCtr($id)
+    {
+        if ($id !== "") {
+            $loi_ten_danhmuc = "";
+            $loi_tranthai_danhmuc = "";
+            $baoThanhCong = "";
 
-            if ($_POST["name"] === "") {
-                $loi_ten_danhmuc = "Hãy nhập tên danh mục";
-            }
-            if ($_POST["status"] === "") {
-                $loi_tranthai_danhmuc = "Hãy nhập trạng thái của danh mục";
-            }
-            
+            $dsachCtr = $this->productQuery->findCtr($id);
+            if (isset($_POST["submitForm"])) {
+                $product = new categories();
+                $product->name = $_POST["name"];
+                //  $product->img=$_POST["img"];
+                $product->status = $_POST["status"];
 
-            if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "") {
-                $baoThanhCong = "Bạn đã cập nhập ok";
-                $dataCreated = $this->productQuery->updateCtr($product, $id);
-                if ($dataCreated == "ok") {
-                    $product = new categories();
+
+                if ($_POST["name"] === "") {
+                    $loi_ten_danhmuc = "Hãy nhập tên danh mục";
+                }
+                if ($_POST["status"] === "") {
+                    $loi_tranthai_danhmuc = "Hãy nhập trạng thái của danh mục";
+                }
+
+
+                if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "") {
+                    $baoThanhCong = "Bạn đã cập nhập ok";
+                    $dataCreated = $this->productQuery->updateCtr($product, $id);
+                    if ($dataCreated == "ok") {
+                        $product = new categories();
+                    }
                 }
             }
+            include "view/catories/update.php";
+        } else {
+            echo "Lỗi: Không nhận đucợ thông tin ID. Mời bạn kiểm tra lại. <hr>";
         }
-        include "view/catories/update.php";
-    }else{
-        echo "Lỗi: Không nhận đucợ thông tin ID. Mời bạn kiểm tra lại. <hr>";
     }
-}
 
-public function deleteCtr($category_id)
+    public function deleteCtr($category_id)
     {
         if ($category_id != "") {
             //1> gọi xuống model để xóa
@@ -253,4 +261,5 @@ public function deleteCtr($category_id)
             echo "Lỗi không tìm thấy id này!";
         }
     }
+
 }

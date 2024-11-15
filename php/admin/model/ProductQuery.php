@@ -217,6 +217,7 @@ class ProductQuery
                 $user->password = $value["password"];      // Assuming 'email' exists in the 'users' table
                 $user->email = $value["email"];        // Assuming 'role' exists in the 'users' table
                 $user->role = $value["role"];    // Assuming 'status' exists in the 'users' table
+                $user->status = $value["status"];// Assuming 'status' exists in the 'users'
 
                 // Add the User object to the danhSach array
                 $danhSach[] = $user;

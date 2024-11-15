@@ -11,8 +11,11 @@
     <title>Website Bán Giày Converse</title>
 
     <style>
-        * {vertical-align: middle;}
-        .tdBtn{
+        * {
+            vertical-align: middle;
+        }
+
+        .tdBtn {
             text-align: center;
         }
     </style>
@@ -20,7 +23,7 @@
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
     </header>
 
     <div class="container">
@@ -35,6 +38,7 @@
                         <th>Ảnh người dùng</th>
                         <th>Email</th>
                         <th>Chức vụ</th>
+                        <th colspan="2">Trạng thái</th>
                         <!-- <th colspan="2"><a href="?act=product-create" class="btn btn-primary">Thêm mới</a></th> -->
                     </tr>
                 </thead>
@@ -49,12 +53,16 @@
                                 </div>
                             </td>
                             <td><?= htmlspecialchars($user->email) ?></td>
-                            <td><?= htmlspecialchars($user->role) ?></td>
-                            <td class="tdBtn">
+                            <td>
+                                <?= htmlspecialchars($user->role == 0 ? 'user' : ($user->role == 1 ? 'admin' : 'unknown')) ?>
                             </td>
-                            <td class="tdBtn">
+                            <td colspan="1" >
+                                <?= htmlspecialchars($user->status == 0 ? 'block' : ($user->status == 1 ? 'unblock' : 'unknown')) ?>
+
+                            </td>
+                            <td colspan="1" class="tdBtn">
                                 <!-- Nút Xóa -->
-                                <a href="?act=product-delete&id=<?= htmlspecialchars($product->product_id) ?>" onclick="return confirm('Bạn có chắc xóa?')" class="btn btn-danger btn-xs">
+                                <a href="" onclick="return confirm('Bạn có chắc khóa tài khoản này chứ?')" class="btn btn-danger btn-xs">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
@@ -66,7 +74,7 @@
     </div>
 
     <footer>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
     </footer>
 </body>
 
