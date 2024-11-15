@@ -37,6 +37,7 @@ class User
     public $password;
     public $email ;
     public $role;
+    public $status;
 
     public function __construct() {}
     public function __destruct() {}
