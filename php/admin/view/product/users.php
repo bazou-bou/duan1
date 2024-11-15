@@ -33,34 +33,24 @@
                         <th>ID</th>
                         <th>Tên người dùng</th>
                         <th>Ảnh người dùng</th>
-                        <th>Phân loại</th>
-                        <th>Mô tả</th>
-                        <th>Giá cả</th>
-                        <th>Số lượng</th>
-                        <th>Lượt xem</th>
-                        <th colspan="2"><a href="?act=product-create" class="btn btn-primary">Thêm mới</a></th>
+                        <th>Email</th>
+                        <th>Chức vụ</th>
+                        <!-- <th colspan="2"><a href="?act=product-create" class="btn btn-primary">Thêm mới</a></th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($DanhSachUsers as $product) { ?>
+                    <?php foreach ($DanhSachUsers as $user) { ?>
                         <tr>
-                            <td><?= htmlspecialchars($product->product_id) ?></td>
-                            <td><?= htmlspecialchars($product->name) ?></td>
+                            <td><?= htmlspecialchars($user->user_id) ?></td>
+                            <td><?= htmlspecialchars($user->username) ?></td>
                             <td>
                                 <div class="anh">
-                                    <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" style="width: 100px; height: 100px;" alt="Product Image">
+                                    null
                                 </div>
                             </td>
-                            <td><?= htmlspecialchars($product->category) ?></td>
-                            <td><?= htmlspecialchars($product->description) ?></td>
-                            <td><?= htmlspecialchars($product->price) ?></td>
-                            <td><?= htmlspecialchars($product->stock) ?></td>
-                            <td><?= htmlspecialchars($product->views) ?></td>
+                            <td><?= htmlspecialchars($user->email) ?></td>
+                            <td><?= htmlspecialchars($user->role) ?></td>
                             <td class="tdBtn">
-                                <!-- Nút Sửa -->
-                                <a href="?act=product-update&id=<?= htmlspecialchars($product->product_id) ?>" class="btn btn-warning btn-xs">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
                             </td>
                             <td class="tdBtn">
                                 <!-- Nút Xóa -->

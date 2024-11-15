@@ -21,8 +21,7 @@
 
     <main>
         <section id="featured-products" class="my-4">
-            <h2 class="text-center mb-4">Sản Phẩm Nổi Bật</h2>
-
+        <h2 class="text-center mb-4 fs-1">Sản Phẩm <?php echo ucwords($category); ?></h2>
             <div class="row g-4">
 
                 <!-- Sidebar -->
