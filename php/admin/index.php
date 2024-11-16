@@ -94,6 +94,16 @@ switch ($act) {
         $catoriesCtrl->deleteCtr($id);
         break;
 
+    case "orders_list":
+        $productCtrl = new ProductController();
+        $productCtrl->listOrder();
+        break;
+
+    case "order_item":
+        $productCtrl = new ProductController();
+        $productCtrl->listOrderItem($id);
+        break;
+
     default:
         // Hiển thị "trang 404 fage not found" nếu giá trị "act" không nằm trong danh sách phía trên.
         include "view/404.php";
