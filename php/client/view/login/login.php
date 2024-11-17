@@ -93,8 +93,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <header>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/duan1/php/client/view/html/header.php'; ?>
+
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
         <?php var_dump($dsUser) ?>
+
     </header>
     <div class="content">
         <div class="center">
