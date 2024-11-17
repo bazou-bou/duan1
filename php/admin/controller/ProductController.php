@@ -54,6 +54,7 @@ class ProductController
             $product->description = $_POST["description"] ?? '';
             $product->views = $_POST["views"] ?? '';
             $product->category_id = $_POST["category"] ?? '';
+            $product->status = $_POST["status"] ?? '';
 
             // Validation
             if ($product->name === "") $loi_ten = "Hãy nhập tên giày đi!!";
@@ -61,6 +62,7 @@ class ProductController
             if ($product->description === "") $loi_description = "Hãy nhập mô tả giày đi!!";
             if ($product->stock === "") $loi_stock = "Hãy nhập số lượng giày đi!!";
             if ($product->views === "") $loi_views = "Hãy nhập lượt xem giày đi!!";
+            if ($product->category === "") $loi_category = "Hãy chọn phân loại giày đi!!";
             if ($product->category === "") $loi_category = "Hãy chọn phân loại giày đi!!";
 
             // File upload
