@@ -167,12 +167,34 @@ class ProductController
         $DanhSachUsers = $this->productQuery->allUser();
         include "view/product/users.php";
     }
-
-    public function createUser()
+    public function unban($user_id)
     {
-        
-        
+        try {
+            $banUser=$this->productQuery->unban($user_id);
+            if ($banUser=="ok") {
+                header("Location: ?act=product-listusers");
+            }
+            exit();
+        } catch (Exception $e) {
+            // Handle the error (e.g., log it and display a user-friendly message)
+            echo "Error unbanning user: " . $e->getMessage();
+        }
     }
+    
+    public function ban($user_id)
+    {
+        try {
+            $banUser=$this->productQuery->ban($user_id);
+            if ($banUser=="ok") {
+                header("Location: ?act=product-listusers");
+            }
+            exit();
+        } catch (Exception $e) {
+            // Handle the error (e.g., log it and display a user-friendly message)
+            echo "Error banning user: " . $e->getMessage();
+        }
+    }
+    
 
     public function showCrt()
     {

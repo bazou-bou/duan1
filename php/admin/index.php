@@ -24,6 +24,14 @@ if (isset($_GET["id"])) {
     $id = $_GET["id"];
     //echo $id . "<br>";
 }
+
+$user_id="";
+if (isset($_GET["user_id"])) {
+    $user_id = $_GET["user_id"];
+    echo $user_id . "<br>";
+}
+
+// 2.3. Lấy giá trị "category" từ đư��ng d��n url
 $category = "";
 if (isset($_GET["category"])) {
     $category = $_GET["category"];
@@ -94,6 +102,16 @@ switch ($act) {
         $catoriesCtrl->deleteCtr($id);
         break;
 
+
+    case "unban":
+        $productCtrl = new ProductController();
+        $productCtrl->unban($user_id);
+        break;
+
+    case "ban":
+        $productCtrl = new ProductController();
+        $productCtrl->ban($user_id);
+        break;
     case "orders_list":
         $productCtrl = new ProductController();
         $productCtrl->listOrder();
@@ -102,6 +120,7 @@ switch ($act) {
     case "order_item":
         $productCtrl = new ProductController();
         $productCtrl->listOrderItem($id);
+
         break;
 
     default:
