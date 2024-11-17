@@ -63,7 +63,7 @@
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
     </header>
     <main>
         <div class="container mt-5">
@@ -112,9 +112,12 @@
                 <div class="mb-3" style="padding-bottom: 20px;">
                     <select class="form-select" id="category" name="category" style="height: 40px;">
                         <option value="" disabled <?= empty($product->category) ? 'selected' : '' ?> disabled>Phân loại</option>
-                        <option value="1"<?= (isset($product->category) && $product->category == "Giày nam") ? 'selected' : '' ?>>Giày nam</option>
-                        <option value="2" <?= (isset($product->category) && $product->category == "Giày nữ") ? 'selected' : '' ?>>Giày nữ</option>
-                        <option value="3" <?= (isset($product->category) && $product->category == "Giày trẻ em") ? 'selected' : '' ?>>Giày trẻ em</option>
+                        <?php foreach ($dsCtr as $item) { ?>
+                            <option value="<?php echo $item->category_id; ?>" selected>
+                                <?php echo $item->name; ?>
+                            </option>
+                        <?php } ?>
+
                     </select>
                     <div class="text-danger"><?= htmlspecialchars($loi_category) ?></div>
                 </div>
@@ -126,9 +129,9 @@
             </form>
         </div>
     </main>
-<br><br>
+    <br><br>
     <footer>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
     </footer>
 </body>
 

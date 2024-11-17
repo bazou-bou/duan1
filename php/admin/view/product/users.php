@@ -38,7 +38,8 @@
                         <th>Ảnh người dùng</th>
                         <th>Email</th>
                         <th>Chức vụ</th>
-                        <th colspan="2">Trạng thái</th>
+                        <th >Trạng thái</th>
+                        <th>Chức năng</th>
                         <!-- <th colspan="2"><a href="?act=product-create" class="btn btn-primary">Thêm mới</a></th> -->
                     </tr>
                 </thead>
