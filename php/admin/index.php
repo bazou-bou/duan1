@@ -102,6 +102,7 @@ switch ($act) {
         $catoriesCtrl->deleteCtr($id);
         break;
 
+
     case "unban":
         $productCtrl = new ProductController();
         $productCtrl->unban($user_id);
@@ -110,6 +111,16 @@ switch ($act) {
     case "ban":
         $productCtrl = new ProductController();
         $productCtrl->ban($user_id);
+        break;
+    case "orders_list":
+        $productCtrl = new ProductController();
+        $productCtrl->listOrder();
+        break;
+
+    case "order_item":
+        $productCtrl = new ProductController();
+        $productCtrl->listOrderItem($id);
+
         break;
 
     default:

@@ -217,7 +217,7 @@ class ProductQuery
                 $user->password = $value["password"];      // Assuming 'email' exists in the 'users' table
                 $user->email = $value["email"];        // Assuming 'role' exists in the 'users' table
                 $user->role = $value["role"];    // Assuming 'status' exists in the 'users' table
-                $user->status = $value["status"];// Assuming 'status' exists in the 'users'
+                $user->status = $value["status"]; // Assuming 'status' exists in the 'users'
 
                 // Add the User object to the danhSach array
                 $danhSach[] = $user;
@@ -344,6 +344,80 @@ class ProductQuery
         } catch (Exception $error) {
             echo "Lỗi " . $error->getMessage() . "<br>";
             echo "Xóa thất bại";
+        }
+    }
+
+    public function allOrder()
+    {
+        try {
+            $sql = "SELECT * FROM `orders`";
+            $data = $this->pdo->query($sql)->fetchAll();
+            $dsachOrder = [];
+            foreach ($data as $value) {
+                $product = new Oder();
+                $product->order_id = $value["order_id"];
+                $product->user_id = $value["user_id"];
+                $product->total = $value["total"];
+                $product->status = $value["status"];
+                $product->sdt = $value["sdt"];
+                $product->name_custom = $value["name_custom"];
+                $product->address = $value["address"];
+                array_push($dsachOrder, $product);
+            }
+            return $dsachOrder;
+        } catch (Exception $error) {
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            echo "Show list thất bại";
+        }
+    }
+
+    public function findOrder($id)
+    {
+        try {
+            $sql = "SELECT 
+            o.*, 
+            oi.order_item_id, 
+            oi.product_id, 
+            oi.quantity, 
+            oi.order_date, 
+            oi.order_img, 
+            p.name AS product_name, 
+            p.price AS product_price, 
+            p.img AS product_img 
+        FROM 
+        orders o
+            JOIN 
+        order_items oi ON o.order_id = oi.order_id
+            JOIN 
+        products p ON oi.product_id = p.product_id
+            WHERE 
+        o.order_id = $id ";
+                $data = $this->pdo->query($sql)->fetchAll();
+                $dsItem = [];
+
+            foreach ($data as $value) {
+                $product = new OrderItem();
+                $product->order_item_id = $value["order_item_id"];
+                $product->order_id = $value["order_id"];
+                $product->product_id = $value["product_id"];
+                $product->quantity = $value["quantity"];
+                $product->order_img = $value["order_img"];
+                $product->order_date = $value["order_date"];
+                // $product->order_price = $value["order_price"];
+                $product->address = $value["address"];
+                $product->name_custom = $value["name_custom"];
+                $product->sdt = $value["sdt"];
+                $product->product_name = $value["product_name"];
+                $product->product_price = $value["product_price"];
+                $product->product_img = $value["product_img"];
+                $product->status = $value["status"];
+                array_push($dsItem, $product);
+            }
+
+            return $dsItem;
+        } catch (Exception $error) {
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            echo "Show chi tiết sản phẩm thất bại ";
         }
     }
 }

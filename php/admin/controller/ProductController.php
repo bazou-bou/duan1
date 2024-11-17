@@ -284,4 +284,18 @@ class ProductController
         }
     }
 
+    public function listOrder(){
+        $DanhSachobject = $this->productQuery->allOrder();
+
+        include "view/product/orderlist.php";
+    }
+
+    public function listOrderItem($id){
+        $DanhSachobject = $this->productQuery->findOrder($id);
+
+        include "view/product/orderitemlist.php";
+
+
+    }
+
 }
