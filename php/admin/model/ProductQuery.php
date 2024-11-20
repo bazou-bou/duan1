@@ -231,6 +231,32 @@ class ProductQuery
         }
     }
 
+    public function allComment()
+    {
+        try {
+            $sql = "SELECT * FROM comments";
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            $dsComment = [];
+            foreach ($data as $value) {
+
+                $comment = new Comments();
+                $comment->comment_id = $value["comment_id"];
+                $comment->product_id = $value["product_id"];
+                $comment->user_id = $value["user_id"];
+                $comment->username = $value["username"];
+                $comment->content = $value["content"];
+                $comment->comment_date = $value["comment_date"];
+                $dsComment[] = $comment;
+
+            }
+            return $dsComment;
+            
+        } catch (Exception $error) {
+            echo "L��i: ". $error->getMessage(). "<br>";
+            echo "Tìm tất cả bình luận thất bại";
+        }
+    }
+
     public function unban($user_id)
     {
         try {

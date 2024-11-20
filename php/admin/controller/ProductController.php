@@ -169,6 +169,13 @@ class ProductController
         $DanhSachUsers = $this->productQuery->allUser();
         include "view/product/users.php";
     }
+
+    public function showComment()
+    {
+        $DanhSachComment = $this->productQuery->allComment();
+        include "view/product/comment.php";
+    }
+
     public function unban($user_id)
     {
         try {

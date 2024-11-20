@@ -28,7 +28,7 @@ class ProductQuery
             $sql = "SELECT p.*, c.name AS category_name FROM products p
                     LEFT JOIN categories c ON p.category_id = c.category_id";
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-            
+
             $danhSach = [];
             foreach ($data as $value) {
                 $product = new Product();
@@ -41,7 +41,7 @@ class ProductQuery
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
 
-                array_push($danhSach, $product);
+                $danhSach[] = $product;
             }
 
             return $danhSach;
@@ -52,16 +52,19 @@ class ProductQuery
     }
 
     // Tìm sản phẩm theo ID
+    // Tìm sản phẩm theo ID
     public function find($id)
     {
         try {
+            // Tăng số lượt xem mỗi khi xem chi tiết sản phẩm
+            $sqlUpdateViews = "UPDATE products SET views = views + 1 WHERE product_id = $id";
+            $this->pdo->exec($sqlUpdateViews);  // Thực thi câu lệnh cập nhật
+
+            // Lấy thông tin sản phẩm
             $sql = "SELECT p.*, c.name AS category_name FROM products p
-                    LEFT JOIN categories c ON p.category_id = c.category_id
-                    WHERE p.product_id = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+                LEFT JOIN categories c ON p.category_id = c.category_id
+                WHERE p.product_id = $id";
+            $data = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 
             if ($data) {
                 $product = new Product();
@@ -71,8 +74,8 @@ class ProductQuery
                 $product->price = $data["price"];
                 $product->stock = $data["stock"];
                 $product->img = $data["img"];
-                $product->views = $data["views"];
-                $product->category_id = $data["category_id"];
+                $product->views = $data["views"];  // Lượt xem đã được cập nhật
+                $product->category = $data["category_name"];  // Thêm category_name ở đây
 
                 return $product;
             }
@@ -82,59 +85,103 @@ class ProductQuery
         }
     }
 
-    // Thêm sản phẩm mới
-    public function insert(Product $product)
+
+
+    // Thêm mới bình luận public function addComment($comment)
+    public function addComment($comment)
     {
         try {
-            $sql = "INSERT INTO products (name, price, img, description, stock, views, category_id) 
-                    VALUES (:name, :price, :img, :description, :stock, :views, :category_id)";
+            // Escape ký tự đặc biệt trong content để tránh SQL Injection
+            $content = $this->pdo->quote($comment->content);
+    
+            // Kiểm tra nếu username không có (trong trường hợp người dùng chưa đăng nhập)
+            if (empty($comment->username)) {
+                // Đặt username mặc định là 'Anonymous' hoặc lấy từ session
+                $comment->username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Anonymous';
+            }
+    
+            // Nếu chưa đăng nhập, user_id sẽ là NULL
+            $comment->user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : NULL;
+    
+            // Xây dựng câu lệnh SQL với cột comment_date thay vì date
+            $sql = "INSERT INTO comments (product_id, user_id, username, content, comment_date)
+                    VALUES (:product_id, :user_id, :username, :content, :date)";
+    
+            // Chuẩn bị câu lệnh SQL
             $stmt = $this->pdo->prepare($sql);
+    
+            // Thực thi câu lệnh SQL với tham số đã chuẩn bị
             $stmt->execute([
-                ':name' => $product->name,
-                ':price' => $product->price,
-                ':img' => $product->img,
-                ':description' => $product->description,
-                ':stock' => $product->stock,
-                ':views' => $product->views,
-                ':category_id' => $product->category_id
+                ':product_id' => $comment->product_id,
+                ':user_id' => $comment->user_id, // Chắc chắn có user_id hợp lệ hoặc NULL
+                ':username' => $comment->username,
+                ':content' => $content,
+                ':date' => $comment->comment_date // Dùng comment_date thay vì date
             ]);
-
-            return "ok";
+    
+            echo "Bình luận đã được thêm thành công!";
         } catch (Exception $error) {
-            echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Thêm mới thất bại";
+            echo "Lỗi: " . $error->getMessage();
+            echo "Thêm bình luận thất bại";
         }
     }
 
-    // Cập nhật sản phẩm
-    public function update(Product $product, $id)
+    //tìn bình luận theo id sản phẩm 
+    public function findComment($id){
+        try {
+            $sql = "SELECT * FROM comments WHERE product_id = $id";
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            $danhSach = [];
+            foreach ($data as $value) {
+                $comment = new Comments();
+                $comment->product_id = $id;
+                $comment->user_id = $value["user_id"];
+                $comment->username = $value["username"];
+                $comment->content = $value["content"];
+                $comment->comment_date = $value["comment_date"]; 
+
+                $danhSach[] = $comment;
+            }
+            return $danhSach;
+        } catch (Exception $error) {
+            echo "Listring: " . $error->getMessage() . "<br>";
+            echo "Tiền bình luận thất bại";
+        }
+    }
+    
+    
+    
+
+
+
+    // Tìm sản phẩm theo tên
+    public function searchProduct($searchName)
     {
         try {
-            $sql = "UPDATE products SET 
-                    name = :name,
-                    description = :description,
-                    price = :price,
-                    stock = :stock,
-                    img = :img,
-                    views = :views,
-                    category_id = :category_id
-                    WHERE product_id = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([
-                ':name' => $product->name,
-                ':description' => $product->description,
-                ':price' => $product->price,
-                ':stock' => $product->stock,
-                ':img' => $product->img,
-                ':views' => $product->views,
-                ':category_id' => $product->category_id,
-                ':id' => $id
-            ]);
+            $sql = "SELECT p.*, c.name AS category_name 
+                    FROM products p
+                    LEFT JOIN categories c ON p.category_id = c.category_id 
+                    WHERE p.name LIKE '%{$searchName}%'";
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
-            return "ok";
+            $danhSach = [];
+            foreach ($data as $value) {
+                $product = new Product();
+                $product->product_id = $value["product_id"];
+                $product->name = $value["name"];
+                $product->description = $value["description"];
+                $product->price = $value["price"];
+                $product->stock = $value["stock"];
+                $product->img = $value["img"];
+                $product->views = $value["views"];
+                $product->category = $value["category_name"];
+                $danhSach[] = $product;
+            }
+
+            return $danhSach;
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Cập nhật thất bại";
+            echo "Tìm kiếm thất bại";
         }
     }
 
@@ -144,11 +191,8 @@ class ProductQuery
         try {
             $sql = "SELECT p.*, c.name AS category_name FROM products p
                     LEFT JOIN categories c ON p.category_id = c.category_id
-                    WHERE c.name = :category";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':category', $category, PDO::PARAM_STR);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    WHERE c.name = '{$category}'";
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
             $danhSach = [];
             foreach ($data as $value) {
@@ -162,7 +206,7 @@ class ProductQuery
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
 
-                array_push($danhSach, $product);
+                $danhSach[] = $product;
             }
 
             return $danhSach;
@@ -172,41 +216,28 @@ class ProductQuery
         }
     }
 
-    // Xóa sản phẩm
-    public function delete($id)
+    // Thêm người dùng
+    public function createUser(Users $product)
     {
         try {
-            $sql = "DELETE FROM products WHERE product_id = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
+            $sql = "INSERT INTO `users` (`username`, `password`, `email`) 
+                    VALUES ('{$product->username}', '{$product->password}', '{$product->email}')";
+            $this->pdo->exec($sql);
 
             return "ok";
-        } catch (Exception $error) {
-            echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Xóa thất bại";
-        }
-    }
-
-    public function createUser(Users $product){
-        try {
-            $sql = "INSERT INTO `users` ( `username`, `password`, `email`) VALUES ( '$product->username', '$product->password', '$product->email')";
-            $data = $this->pdo->exec($sql);
-            if($data == "1"){
-                return "ok";
-            }
-
-            //code...
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
             echo "Thêm mới tài khoản thất bại";
         }
     }
 
-    public function allUser(){
+    // Lấy tất cả người dùng
+    public function allUser()
+    {
         try {
             $sql = "SELECT * FROM users";
-            $data = $this->pdo->query($sql)->fetchAll();
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
             $dsUser = [];
             foreach ($data as $value) {
                 $product = new Users();
@@ -215,20 +246,14 @@ class ProductQuery
                 $product->password = $value["password"];
                 $product->email = $value["email"];
                 $product->role = $value["role"];
-                
 
-                array_push($dsUser, $product);
+                $dsUser[] = $product;
             }
 
             return $dsUser;
         } catch (Exception $error) {
-            echo "Lỗi " . $error->getMessage() . "<br>";
+            echo "Lỗi: " . $error->getMessage() . "<br>";
             echo "Danh sách tài khoản thất bại";
         }
     }
 }
-
-
-
-
-

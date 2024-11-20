@@ -102,6 +102,11 @@ switch ($act) {
         $catoriesCtrl->deleteCtr($id);
         break;
 
+    case "comment-list":
+        $productCtrl = new ProductController();
+        $productCtrl->showComment();
+        break;
+
 
     case "unban":
         $productCtrl = new ProductController();

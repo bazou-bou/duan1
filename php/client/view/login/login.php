@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         if ($userFound->role == 1) {
-            header("Location: http://localhost/duan1/php/admin/?act=product-list");
+            header("Location: http://localhost/shopBanGiay/php/admin/?act=product-list");
             exit; // Dừng script ngay sau khi chuyển hướng
         } else {
             header("Location: ?act=client-list");
