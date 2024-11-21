@@ -45,6 +45,7 @@ class ProductController
     public function showCreate()
     {
         $loi_ten = $loi_anh = $loi_price = $loi_description = $loi_stock = $loi_views = $loi_category = $baoThanhCong = "";
+        $dsCtr = $this->productQuery->allCatories();
 
         if (isset($_POST["submitForm"])) {
             $product = new Product();
@@ -112,6 +113,7 @@ class ProductController
             $loi_category = "";
             $baoThanhCong = "";
             $DanhSachOne = $this->productQuery->find($id);
+            
             if (isset($_POST["submitForm"])) {
                 $product = new Product();
                 $product->name = $_POST["name"];
@@ -169,6 +171,13 @@ class ProductController
         $DanhSachUsers = $this->productQuery->allUser();
         include "view/product/users.php";
     }
+
+    public function showComment()
+    {
+        $DanhSachComment = $this->productQuery->allComment();
+        include "view/product/comment.php";
+    }
+
     public function unban($user_id)
     {
         try {

@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
+    <link rel="stylesheet" href="http://localhost/shopBanGiay/php/admin/view/css/styleindex.css">
     <title>Tạo Mới Sản Phẩm</title>
     <style>
         .formCreate {
@@ -63,9 +64,9 @@
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
     </header>
-    <main>
+    <main class="main-content">
         <div class="container mt-5">
             <form method="post" enctype="multipart/form-data" class="mx-auto formCreate" style="max-width: 800px;">
                 <?php if (!empty($baoThanhCong)) { ?>
@@ -112,9 +113,12 @@
                 <div class="mb-3" style="padding-bottom: 20px;">
                     <select class="form-select" id="category" name="category" style="height: 40px;">
                         <option value="" disabled <?= empty($product->category) ? 'selected' : '' ?> disabled>Phân loại</option>
-                        <option value="1"<?= (isset($product->category) && $product->category == "Giày nam") ? 'selected' : '' ?>>Giày nam</option>
-                        <option value="2" <?= (isset($product->category) && $product->category == "Giày nữ") ? 'selected' : '' ?>>Giày nữ</option>
-                        <option value="3" <?= (isset($product->category) && $product->category == "Giày trẻ em") ? 'selected' : '' ?>>Giày trẻ em</option>
+                        <?php foreach ($dsCtr as $item) { ?>
+                            <option value="<?php echo $item->category_id; ?>" selected>
+                                <?php echo $item->name; ?>
+                            </option>
+                        <?php } ?>
+
                     </select>
                     <div class="text-danger"><?= htmlspecialchars($loi_category) ?></div>
                 </div>
@@ -124,12 +128,19 @@
                     <a href="?act=product-list" class="btn btn-danger">Quay lại</a>
                 </div>
             </form>
+
+            <footer>
+                <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
+            </footer>
+        </div>
+        <div class="sidebar">
+            <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/sidebar.html'; ?>
+        </div>
+        </div>
+
+
         </div>
     </main>
-<br><br>
-    <footer>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
-    </footer>
 </body>
 
 </html>

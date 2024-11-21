@@ -90,3 +90,13 @@ class OrderItem
         
     }
 }
+class Comments{
+    public $comment_id;
+    public $product_id;
+    public $user_id;
+    public $username;
+    public $content;
+    public $comment_date;
+    public function __construct() {}
+    public function __destruct() {}
+}

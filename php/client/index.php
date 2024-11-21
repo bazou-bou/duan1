@@ -25,6 +25,13 @@ if (isset($_GET["id"])) {
     $id = $_GET["id"];
     //echo $id . "<br>";
 }
+
+$search = "";
+if (isset($_GET["search"])) {
+    $search = $_GET["search"];
+    //echo $search. "<br>";
+}
+
 $category = "";
 if (isset($_GET["category"])) {
     $category = $_GET["category"];
@@ -58,6 +65,11 @@ switch ($act) {
         $productCtrl->showDetail($id);
         break;
 
+    case "product-search":
+        $productCtrl = new ProductController();
+        $productCtrl->showSearch($search);
+        break;
+
     case "client-update":
         $productCtrl = new ProductController();
         $productCtrl->showUpdate($id);
@@ -83,7 +95,7 @@ switch ($act) {
         $productCtrl->showLogout();
         break;
 
-    
+
 
     default:
         include "view/404.php";
