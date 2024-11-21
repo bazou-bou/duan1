@@ -7,40 +7,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="http://localhost/shopBanGiay/php/admin/view/css/styleindex.css">
     <title>Website Bán Giày Converse</title>
 
     <style>
-        * {
-            vertical-align: middle;
-        }
-
-        /* Chỉnh sửa layout sử dụng Flexbox */
-        .main-content {
-            display: flex;
-            flex-direction: row-reverse;
-            /* Sidebar ở bên phải */
-        }
-
-        .sidebar {
-            width: 160px;
-            background-color: black;
-            height: auto;
-        }
-        
-
-        .container {
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        .tdBtn {
-            text-align: center;
-        }
-
-        .container-table {
-            margin-top: 20px;
-        }
     </style>
 </head>
 
@@ -68,23 +38,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php var_dump($DanhSachComment); foreach ($DanhSachComment as $key => $comment) {?>
-                            <tr>
-                                <td scope="row"><?php echo $comment->comment_id; ?></td>
-                                <td><?php echo $comment->username; ?></td>
-                                <td><?php echo $comment->product_id; ?></td>
-                                <td><?php echo $comment->content; ?></td>
-                                <td><?php echo $comment->comment_date; ?></td>
-                                <td><a href="?act=admin-edit-comment&id=<?= $comment->id?>" class="btn btn-warning">Sửa</a></td>
-                                <td><a href="?act=admin-delete-comment&id=<?= $comment->id?>" onclick="return confirm('Bạn có chắc xóa bình luận này?')" class="btn btn-danger">Xóa</a></td>
-                            </tr>
+                            <?php var_dump($DanhSachComment);
+                            foreach ($DanhSachComment as $key => $comment) { ?>
+                                <tr>
+                                    <td scope="row"><?php echo $comment->comment_id; ?></td>
+                                    <td><?php echo $comment->username; ?></td>
+                                    <td><?php echo $comment->product_id; ?></td>
+                                    <td><?php echo $comment->content; ?></td>
+                                    <td><?php echo $comment->comment_date; ?></td>
+                                    <td><a href="?act=admin-edit-comment&id=<?= $comment->id ?>" class="btn btn-warning">Sửa</a></td>
+                                    <td><a href="?act=admin-delete-comment&id=<?= $comment->id ?>" onclick="return confirm('Bạn có chắc xóa bình luận này?')" class="btn btn-danger">Xóa</a></td>
+                                </tr>
                             <?php } ?>
                             <!-- Hiển thị danh sách bình luận -->
-                             <!-- Thêm, sửa, xóa bình luận -->
+                            <!-- Thêm, sửa, xóa bình luận -->
                         </tbody>
                     </table>
 
-                    
+
                 </div>
 
                 <footer>

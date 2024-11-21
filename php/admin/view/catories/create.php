@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
+    <link rel="stylesheet" href="http://localhost/shopBanGiay/php/admin/view/css/styleindex.css">
     <title>Tạo Mới Sản Phẩm</title>
     <style>
         .formCreate {
@@ -65,7 +66,7 @@
     <header>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
     </header>
-    <main>
+    <main class="main-content">
         <div class="container mt-5">
             <form method="post" enctype="multipart/form-data" class="mx-auto formCreate" style="max-width: 800px;">
                 <?php if (!empty($baoThanhCong)) { ?>
@@ -97,12 +98,16 @@
                     <a href="?act=product-list" class="btn btn-danger">Quay lại</a>
                 </div>
             </form>
-        </div>
-    </main>
-<br><br>
+            
     <footer>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
     </footer>
+        </div>
+        
+        <div class="sidebar">
+                <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/sidebar.html'; ?>
+            </div>
+    </main>
 </body>
 
 </html>
