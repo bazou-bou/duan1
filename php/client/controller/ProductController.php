@@ -41,6 +41,9 @@ class ProductController
         $danhSachComment = $this->productQuery->findComment($id);
         
         // Kiểm tra và xử lý bình luận khi form được gửi
+        $loi_comment = "";
+        $loi_name = "";
+        $loi_email = "";
         if (isset($_POST['postComment'])) {
             // Kiểm tra dữ liệu từ form
             $loi_comment = "";
@@ -53,37 +56,55 @@ class ProductController
             if (empty($_POST['username'])) {
                 $loi_name = "Tên nhập chưa.";
             }
+        
             // Kiểm tra xem email đã nhập chưa
-            $loi_email="";
+            $loi_email = "";
             if (empty($_POST['email'])) {
                 $loi_email = "Email nhập chưa.";
             }
+            
             // Kiểm tra xem email đúng đ��nh dạng chưa
-            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $loi_email = "Email nhập không đúng đ��nh dạng.";
             }
+            
             // Nếu không có lỗi, kiểm tra trạng thái đăng nhập
-            if ($loi_comment == "") {
+            if ($loi_comment == "" || $loi_name == "" || $loi_email =="") {
                 // Kiểm tra xem người dùng đã đăng nhập chưa
                 if (isset($_SESSION['user_id']) && $_SESSION['user_id'] > 0) {
                     // Người dùng đã đăng nhập
                     $userId = $_SESSION['user_id']; // Lấy ID người dùng từ session
                     $username = $_SESSION['username']; // Lấy tên người dùng từ session
                     $email = $_SESSION['email']; // Lấy email người dùng từ session
-    
+            
                     // Thêm bình luận vào cơ sở dữ liệu
                     $comment = new Comments();
                     $comment->product_id = $id;
                     $comment->user_id = $userId;
                     $comment->username = $username;
-                    $comment->content = $_POST['msg'];
+                    $comment->content = htmlspecialchars($_POST['msg']); // Escaping comment content
                     $comment->comment_date = date('Y-m-d H:i:s'); // Thêm thời gian hiện tại
-                    
+        
                     // Thêm bình luận vào cơ sở dữ liệu
-                    $this->productQuery->addComment($comment);
+                    if ($this->productQuery->addComment($comment)) {
+                        // Thêm thành công
+                        echo "Bình luận của bạn đã được gửi thành công!";
+                    } else {
+                        // Lỗi khi thêm bình luận
+                        $loi_comment = "Có lỗi xảy ra khi gửi bình luận.";
+                    }
+                }else {
+                    // Người dùng chưa đăng nhập, hiển thị thông báo và chuyển hướng
+                    echo "<script type='text/javascript'>
+                            alert('Bạn cần đăng nhập để bình luận.');
+                            window.location.href = '?act=client-login'; // Chuyển hướng tới trang đăng nhập
+                          </script>";
+                    exit(); // Dừng chương trình để đảm bảo không có gì khác xảy ra sau khi chuyển hướng
                 }
             }
         }
+        
     
         // Gọi view để hiển thị chi tiết sản phẩm và các bình luận
         include "view/use/detail.php";

@@ -1,6 +1,6 @@
 <?php
 
-
+$isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đăng nhập
 
 ?>
 
@@ -251,7 +251,7 @@
                 loi_comment.innerHTML = '';
             }
             // Kiểm tra đăng nhập
-            
+
 
             if (name == '' || email == '' || comment == '' ) {
                 return false;
