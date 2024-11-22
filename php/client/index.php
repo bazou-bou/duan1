@@ -94,6 +94,28 @@ switch ($act) {
         $productCtrl = new ProductController();
         $productCtrl->showLogout();
         break;
+        // Hiển thị giỏ hàng của người dùng
+    case "client-listgiohang":
+        $cartCtrl = new CartController();
+        $cartCtrl->showCart($userId);
+        break;
+
+        // Xóa sản phẩm khỏi giỏ hàng
+    case "client-remove-listgiohang":
+        if (isset($_GET['product_id'])) {
+            $cartCtrl = new CartController();
+            $cartCtrl->removeFromCart($userId, $_GET['product_id']);
+        }
+        break;
+
+        // Cập nhật số lượng sản phẩm trong giỏ hàng
+    case "client-update-listgiohang":
+        if (isset($_POST['quantity']) && isset($_GET['id'])) {
+            $cartCtrl = new CartController();
+            $cartCtrl->updateCart($userId, $_GET['id'], $_POST['quantity']);
+        }
+        break;
+        // Nếu không có hành động nào khớp, hiển thị trang lỗi 404
 
 
 
