@@ -9,10 +9,13 @@ class CartController
     }
 
     // Hiển thị giỏ hàng của người dùng
-    public function showCart($userId)
+    public function showCart($id)
     {
-        $cartItems = $this->cartQuery->getCartByUser($userId);
-        include "views/cart/listCart.php";  // Hiển thị giỏ hàng
+        // $cartItems = $this->cartQuery->getCartByUser($userId);
+        $cartItems = $this->cartQuery->getCartByUser($id);
+        // include "views/cart/listgiohang.php";  // Hiển thị giỏ hàng
+
+        include "view/use/listgiohang.php";
     }
 
     // Thêm sản phẩm vào giỏ hàng
