@@ -255,12 +255,10 @@ class ProductQuery
                 $comment->content = $value["content"];
                 $comment->comment_date = $value["comment_date"];
                 $dsComment[] = $comment;
-
             }
             return $dsComment;
-            
         } catch (Exception $error) {
-            echo "L��i: ". $error->getMessage(). "<br>";
+            echo "L��i: " . $error->getMessage() . "<br>";
             echo "Tìm tất cả bình luận thất bại";
         }
     }
@@ -277,11 +275,11 @@ class ProductQuery
             //throw $th;
             echo "L��i " . $error->getMessage() . "<br>";
             echo "Không banned thành công";
-    
+        }
     }
-}
 
-    public function ban($user_id){
+    public function ban($user_id)
+    {
         try {
             $sql = "UPDATE `users` SET `status` = '0' WHERE `user_id` = $user_id";
             $data = $this->pdo->exec($sql);
@@ -426,8 +424,8 @@ class ProductQuery
         products p ON oi.product_id = p.product_id
             WHERE 
         o.order_id = $id ";
-                $data = $this->pdo->query($sql)->fetchAll();
-                $dsItem = [];
+            $data = $this->pdo->query($sql)->fetchAll();
+            $dsItem = [];
 
             foreach ($data as $value) {
                 $product = new OrderItem();
@@ -452,6 +450,103 @@ class ProductQuery
         } catch (Exception $error) {
             echo "Lỗi " . $error->getMessage() . "<br>";
             echo "Show chi tiết sản phẩm thất bại ";
+        }
+    }
+
+    public function allBanner()
+    {
+        try {
+            $sql = "SELECT * FROM `banners`";
+            $data = $this->pdo->query($sql)->fetchAll();
+
+            $banners = [];
+            foreach ($data as $row) {
+                $banner = new Banner();
+                $banner->id = $row["id"];
+                $banner->image_path = $row["image_path"];
+                $banner->title = $row["title"];
+                $banner->status = $row["status"];
+                $banners[] = $banner;
+            }
+            return $banners;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+    public function insertBanner(Banner $banner)
+    {
+        // try {
+        //     $sql = "INSERT INTO `banners` (`image_path`, `title`, `status`) VALUES (:image_path, :title, :status)";
+        //     $stmt = $this->pdo->prepare($sql);
+        //     $stmt->execute([
+        //         ':image_path' => $banner->image_path,
+        //         ':title' => $banner->title,
+        //         ':status' => $banner->status
+        //     ]);
+        //     return "ok";
+        // } catch (Exception $e) {
+        //     echo "ERROR: " . $e->getMessage();
+        // }
+
+        try {
+            $sql = "INSERT INTO `banners` (`image_path`, `title`, `status`) VALUES ('" . $banner->image_path . "','" . $banner->title . "','" . $banner->status . "');";
+            $data = $this->pdo->exec($sql);
+            
+            if ($data == "1") {
+                return "ok";
+            }
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+    public function deleteBanner($id)
+    {
+        try {
+            $sql = "DELETE FROM `banners` WHERE `id` = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':id' => $id]);
+            return "ok";
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+    public function updateBanner(Banner $banner)
+    {
+        try {
+            $sql = "UPDATE `banners` SET `image_path` = :image_path, `title` = :title, `status` = :status WHERE `id` = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                ':image_path' => $banner->image_path,
+                ':title' => $banner->title,
+                ':status' => $banner->status,
+                ':id' => $banner->id
+            ]);
+            return "ok";
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+    public function findBanner($id)
+    {
+        try {
+            $sql = "SELECT * FROM `banners` WHERE `id` = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch();
+            if ($row) {
+                return new Banner(
+                    $row['id'],
+                    $row['image_path'],
+                    $row['title'],
+                    $row['status']
+                );
+            }
+            return null;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
         }
     }
 }

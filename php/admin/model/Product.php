@@ -100,3 +100,11 @@ class Comments{
     public function __construct() {}
     public function __destruct() {}
 }
+class Banner{
+    public $id;
+    public $image_path;
+    public $title;
+    public $status;
+    public function __construct() {}
+    public function __destruct() {}
+}
