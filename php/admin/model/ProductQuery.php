@@ -45,6 +45,7 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
+                $product->status= $value["status"];
 
                 array_push($danhSach, $product);
             }
@@ -178,20 +179,27 @@ class ProductQuery
     }
 
     // Delete a product
-    public function delete($id)
+    public function toggleStatus($id, $table)
     {
         try {
-            $sql = "DELETE FROM products WHERE product_id = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-
-            return "ok";
+            // Cập nhật trạng thái status: 0 -> 1 hoặc 1 -> 0
+            $sql = "UPDATE `".$table."` 
+                    SET `status` = CASE 
+                        WHEN `status` = 0 THEN 1 
+                        ELSE 0 
+                    END 
+                    WHERE `product_id` = $id";
+            $data = $this->pdo->exec($sql);
+            
+            if ($data === 1) {
+                return "ok";
+            }
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Xóa thất bại";
+            echo "Cập nhật trạng thái thất bại";
         }
     }
+    
 
     // Additional methods for categories...
 
