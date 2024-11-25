@@ -26,15 +26,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['email'] = $userFound->email;
 
 
-        if ($userFound->role == 1) {
-            header("Location: http://localhost/shopBanGiay/php/admin/?act=product-list");
-            exit; // Dừng script ngay sau khi chuyển hướng
-        } else {
-            header("Location: ?act=client-list");
-            exit; // Dừng script để tránh thực thi thêm mã không cần thiết
+        if ($userFound->status == '1') {
+            if ($userFound->role == 1) {
+                header("Location: http://localhost/shopBanGiay/php/admin/?act=products-list");
+                exit; // Dừng script ngay sau khi chuyển hướng
+            } else {
+                header("Location: ?act=client-list");
+                exit; // Dừng script để tránh thực thi thêm mã không cần thiết
+            }
+        }else {
+            echo "
+            <script>
+                if (confirm('Tài khoản của bạn đã bị khóa! Bấm OK để đăng nhập lại.')) {
+                    window.location.href = '?act=client-login';
+                }
+            </script>";
+            exit;
         }
-
-        exit;
+        
+        
     } else {
 
         $errorMessage = "Thông tin đăng nhập không chính xác!";
@@ -95,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <header>
 
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
-        <?php var_dump($dsUser) ?>
+        
 
     </header>
     <div class="content">

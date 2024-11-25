@@ -26,20 +26,26 @@ class ProductController
         $DanhSachobject = $this->productQuery->all();
         include "view/product/list.php";
     }
+    
 
-    public function toggleStatus($product_id ,$table)
+
+
+    public function toggleStatus($id, $table, $field)
     {
-        if ($product_id != "") {
-            //1> gọi xuống model để xóa
-            $dataDelete = $this->productQuery->toggleStatus($product_id ,$table);
-            //2.cuyển hướng về trang danh sách
-            if ($dataDelete === "ok") {
-                header("location:?act=product-list");
-            }
+        // Truyền giá trị field linh hoạt
+        $toggleStatus = $this->productQuery->toggleStatus($id, $table, $field);
+
+        if ($toggleStatus == "ok") {
+            // Chuyển hướng nếu cập nhật thành công
+            header("Location: ?act=$table-list");
+            exit;
         } else {
-            echo "Lỗi không tìm thấy id này!";
+            // Hiển thị lỗi nếu cập nhật thất bại
+            echo "Không thể thay đổi trạng thái.";
         }
     }
+
+
 
     // Khái báo phương thức showCreate() để xử lý trường hợp người dùng truy cập trang tạo mới
     public function showCreate()
@@ -113,10 +119,10 @@ class ProductController
             $loi_category = "";
             $baoThanhCong = "";
             $DanhSachOne = $this->productQuery->find($id);
-            $dsCtr=$this->productQuery->allCatories();
+            $dsCtr = $this->productQuery->allCatories();
             // var_dump($dsCtr);
             // var_dump($DanhSachOne);
-            
+
             if (isset($_POST["submitForm"])) {
                 $product = new Product();
                 $product->name = $_POST["name"];
@@ -181,38 +187,10 @@ class ProductController
         include "view/product/comment.php";
     }
 
-    public function unban($user_id)
-    {
-        try {
-            $banUser=$this->productQuery->unban($user_id);
-            if ($banUser=="ok") {
-                header("Location: ?act=product-listusers");
-            }
-            exit();
-        } catch (Exception $e) {
-            // Handle the error (e.g., log it and display a user-friendly message)
-            echo "Error unbanning user: " . $e->getMessage();
-        }
-    }
-    
-    public function ban($user_id)
-    {
-        try {
-            $banUser=$this->productQuery->ban($user_id);
-            if ($banUser=="ok") {
-                header("Location: ?act=product-listusers");
-            }
-            exit();
-        } catch (Exception $e) {
-            // Handle the error (e.g., log it and display a user-friendly message)
-            echo "Error banning user: " . $e->getMessage();
-        }
-    }
-    
-
     public function showCrt()
     {
         $dsCtr = $this->productQuery->allCatories();
+
         include "view/catories/list.php";
     }
     public function createCtr()
@@ -284,32 +262,18 @@ class ProductController
         }
     }
 
-    public function deleteCtr($category_id)
+    public function listOrder()
     {
-        if ($category_id != "") {
-            //1> gọi xuống model để xóa
-            $dataDelete = $this->productQuery->deleteCtr($category_id);
-            //2.cuyển hướng về trang danh sách
-            if ($dataDelete === "ok") {
-                header("location:?act=catories-list");
-            }
-        } else {
-            echo "Lỗi không tìm thấy id này!";
-        }
-    }
-
-    public function listOrder(){
         $DanhSachobject = $this->productQuery->allOrder();
 
         include "view/product/orderlist.php";
     }
 
-    public function listOrderItem($id){
+    public function listOrderItem($id)
+    {
         $DanhSachobject = $this->productQuery->findOrder($id);
 
         include "view/product/orderitemlist.php";
-
-
     }
 
     // 1. Phương thức hiển thị danh sách banner
@@ -329,16 +293,16 @@ class ProductController
             $product->title = $_POST["title"] ?? '';
             $product->image_path = $_POST["image_path"] ?? '';
             $product->status = $_POST["status"] ?? '';
-                var_dump($product->title);
-                var_dump($product->image_path);
-                var_dump($product->status);
+            var_dump($product->title);
+            var_dump($product->image_path);
+            var_dump($product->status);
 
             // Validation
             if ($product->title === "") $loi_ten = "Hãy nhập tên giày đi!!";
             // if ($product->image_path === "") $loi_price = "Hãy nhập giá giày đi!!";
             if ($product->status === "") $loi_description = "Hãy nhập mô tả giày đi!!";
 
-            
+
 
 
             // File upload
@@ -352,7 +316,7 @@ class ProductController
             }
 
             // If no errors, insert product
-            if ($loi_ten === "" && $loi_anh === ""  && $loi_description === "" ) {
+            if ($loi_ten === "" && $loi_anh === ""  && $loi_description === "") {
                 $baoThanhCong = "Bạn đã cập nhật thành công";
                 // var_dump($product->title);
                 $dataCreated = $this->productQuery->insertBanner($product);
@@ -417,5 +381,4 @@ class ProductController
             echo "Lỗi: Không tìm thấy ID của banner.";
         }
     }
-
 }

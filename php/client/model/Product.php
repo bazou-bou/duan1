@@ -9,17 +9,19 @@ class Product
     public $img;
     public $views;
     public $category;
+    public $status;
 
     public function __construct() {}
     public function __destruct() {}
 }
 
-class Users{
+class Users {
     public $user_id;
     public $username;
     public $password;
     public $email;
     public $role;
+    public $status;
 }
 
 class Comments{
@@ -29,6 +31,7 @@ class Comments{
     public $username;
     public $content;
     public $comment_date;
+    public $status;
     public function __construct() {}
     public function __destruct() {}
 }

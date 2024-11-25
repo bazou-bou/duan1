@@ -199,11 +199,11 @@ class ProductController
         }
         include "view/login/dangky.php";
     }
-    public function listUser()
-    {
-        // Hiển thị file view tương ứng. Hiển thị file list.php
+    public function listUser() {
+        // Lấy danh sách người dùng từ Query
         $dsUser = $this->productQuery->allUser();
 
+        // Gửi danh sách người dùng sang view login.php
         include "view/login/login.php";
     }
 

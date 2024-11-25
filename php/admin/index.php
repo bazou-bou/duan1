@@ -25,11 +25,8 @@ if (isset($_GET["id"])) {
     echo $id . "<br>";
 }
 
-$user_id="";
-if (isset($_GET["user_id"])) {
-    $user_id = $_GET["user_id"];
-    echo $user_id . "<br>";
-}
+
+
 
 // 2.3. Lấy giá trị "category" từ đư��ng d��n url
 $category = "";
@@ -43,81 +40,87 @@ if (isset($_GET["category"])) {
 switch ($act) {
     case "":
         // Điều hướng sang trang mặc định (trang danh sách) nếu người dùng không truyền "act"
-        header("Location: ?act=product-list");
+        header("Location: ?act=products-list");
         break;
 
-    case "product-list":
+    case "products-list":
         // Hiển thị trang danh sách và xử lý logic
         $productCtrl = new ProductController();
         $productCtrl->showList();
         break;
 
-    case "product-create":
+    case "products-create":
         // Hiển thị trang tạo mới và xử lý logic
         $productCtrl = new ProductController();
         $productCtrl->showCreate();
         break;
 
-    case "product-category":
+    case "products-category":
         // Hiển thị trang chi tiết và xử lý logic
         $productCtrl = new ProductController();
         $productCtrl->showCategory($category);
         break;
 
-    case "product-update":
+    case "products-update":
         // Hiển thị trang chỉnh sửa và xử lý logic
         $productCtrl = new ProductController();
         $productCtrl->showUpdate($id);
         break;
 
-    case "toggleStatus":
+    case "products-status":
         // Hiện thị trang xóa và xử lý logic
         $productCtrl = new ProductController();
-        $table="products";
-        $productCtrl->toggleStatus($id , $table);
+        $table = "products";
+        $productCtrl->toggleStatus($id, $table, $field = "product_id");
         break;
 
-    case "product-listusers":
+    case "users-list":
         // Hiển thị trang chi tiết và xử lý logic
         $productCtrl = new ProductController();
         $productCtrl->showUsers();
         break;
 
-     case "catories-list":
+    case "users-status":
+        // Hiện thị trang xóa và xử lý logic
+        $productCtrl = new ProductController();
+        $table = "users";
+        $productCtrl->toggleStatus($id, $table, $field = "user_id");
+        break;
+
+    case "categories-list":
         $catoriesCtrl = new ProductController();
         $catoriesCtrl->showCrt();
         break;
 
-    case "catories-create":
+    case "categories-create":
         $catoriesCtrl = new ProductController();
         $catoriesCtrl->createCtr();
         break;
-        
-    case "catories-update":
-        $catoriesCtrl= new ProductController();
+
+    case "categories-update":
+        $catoriesCtrl = new ProductController();
         $catoriesCtrl->updateCtr($id);
         break;
 
-    case "catories-delete":
-        $catoriesCtrl = new ProductController();
-        $catoriesCtrl->deleteCtr($id);
+    case "categories-status":
+        // Hiện thị trang xóa và xử lý logic
+        $productCtrl = new ProductController();
+        $table = "categories";
+        $productCtrl->toggleStatus($id, $table, $field = "category_id");
         break;
 
-    case "comment-list":
+    case "comments-list":
         $productCtrl = new ProductController();
         $productCtrl->showComment();
         break;
 
-
-    case "unban":
+    case "comments-status":
+        // Hiện thị trang xóa và xử lý logic
         $productCtrl = new ProductController();
-        $productCtrl->unban($user_id);
+        $table = "comments";
+        $productCtrl->toggleStatus($id, $table, $field = "comment_id");
         break;
 
-    case "ban":
-        $productCtrl = new ProductController();
-        $productCtrl->ban($user_id);
-        break;
     case "orders_list":
         $productCtrl = new ProductController();
         $productCtrl->listOrder();
@@ -129,7 +132,7 @@ switch ($act) {
 
         break;
 
-    // Banners
+        // Banners
     case "banner-list":
         // Show the list of banners
         $bannerCtrl = new ProductController();

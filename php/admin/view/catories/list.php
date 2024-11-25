@@ -40,7 +40,7 @@
                         <tr>
                             <th>Mã danh mục</th>
                             <th>Tên Danh mục</th>
-                            <th colspan="2"><a href="?act=catories-create" class="btn btn-primary">Thêm mới</a></th>
+                            <th colspan="2"><a href="?act=categories-create" class="btn btn-primary">Thêm mới</a></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,16 +50,28 @@
                                 <td><?= htmlspecialchars($product->name) ?></td>
                                 <td class="tdBtn">
                                     <!-- Nút Sửa -->
-                                    <a href="?act=catories-update&id=<?= htmlspecialchars($product->category_id) ?>" class="btn btn-warning btn-xs">
+                                    <a href="?act=categories-update&id=<?= htmlspecialchars($product->category_id) ?>" class="btn btn-warning btn-xs">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                 </td>
-                                <td class="tdBtn">
-                                    <!-- Nút Xóa -->
-                                    <a href="?act=catories-delete&id=<?= htmlspecialchars($product->category_id) ?>" onclick="return confirm('Bạn có chắc xóa?')" class="btn btn-danger btn-xs">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </td>
+                                <td colspan="1" class="tdBtn">
+                                        <?php if ($product->status == 0): ?>
+                                            <a href="?act=categories-status&id=<?= htmlspecialchars($product->category_id) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn hiển thị danh mục này không?')"
+                                                class="btn btn-success btn-xs">
+                                                <i class="bi bi-unlock-fill"></i> Hiện
+                                            </a>
+                                        <?php elseif ($product->status == 1): ?>
+                                            <a href="?act=categories-status&id=<?= htmlspecialchars($product->category_id) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn ẩn danh mục này không?')"
+                                                class="btn btn-danger btn-xs">
+                                                <i class="bi bi-lock-fill"></i> Ẩn
+                                            </a>
+                                        <?php else: ?>
+                                            <!-- Unknown Status -->
+                                            <span class="text-muted">Unknown Status</span>
+                                        <?php endif; ?>
+                                    </td>
                             </tr>
                         <?php } ?>
                     </tbody>
