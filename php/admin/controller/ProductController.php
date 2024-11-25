@@ -113,6 +113,9 @@ class ProductController
             $loi_category = "";
             $baoThanhCong = "";
             $DanhSachOne = $this->productQuery->find($id);
+            $dsCtr=$this->productQuery->allCatories();
+            // var_dump($dsCtr);
+            // var_dump($DanhSachOne);
             
             if (isset($_POST["submitForm"])) {
                 $product = new Product();

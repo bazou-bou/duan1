@@ -122,20 +122,18 @@
 
                 <!-- Category -->
                 <div class="mb-3" style="padding-bottom: 20px;">
-                    <select class="form-select" id="category" name="category" style="height: 40px;">
-                        <option value="" disabled <?= empty($product->category) ? 'selected' : '' ?> disabled>Phân loại</option>
-                        <select name="category_id" id="category_id">
-                            <?php foreach ($dsCtr as $item) { ?>
-                                <option value="<?php echo $item->category_id; ?>"
-                                    <?php echo ($item->category_id == $product->category_id) ? 'selected' : ''; ?>>
-                                    <?php echo $item->name; ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-
+                    <select class="form-select" id="category_id" name="category_id" style="height: 40px;">
+                        <option value="" disabled <?= empty($DanhSachOne->category_id) ? 'selected' : '' ?>>Phân loại</option>
+                        <?php foreach ($dsCtr as $item) { ?>
+                            <option value="<?= htmlspecialchars($item->category_id) ?>"
+                                <?= ($item->category_id == $DanhSachOne->category_id) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($item->name) ?>
+                            </option>
+                        <?php } ?>
                     </select>
                     <div class="text-danger"><?= htmlspecialchars($loi_category) ?></div>
                 </div>
+
 
                 <!-- Buttons -->
                 <div class="text-center">
