@@ -118,6 +118,10 @@ class ProductController
     public function showSearch($search)
     {
         $danhSachSearch = $this->productQuery->searchProduct($search);
+        // Gọi dữ liệu sản phẩm hot
+        $hotProductsResult = $this->productQuery->getHotProducts();
+        $danhSachHot = $hotProductsResult['products'] ?? [];
+        $soLuongHot = $hotProductsResult['count'] ?? 0;
         include "view/use/searchProduct.php";
     }
 
