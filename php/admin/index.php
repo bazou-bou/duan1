@@ -22,7 +22,7 @@ if (isset($_GET["act"])) {
 $id = "";
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
-    //echo $id . "<br>";
+    echo $id . "<br>";
 }
 
 $user_id="";
@@ -70,10 +70,11 @@ switch ($act) {
         $productCtrl->showUpdate($id);
         break;
 
-    case "product-delete":
+    case "toggleStatus":
         // Hiện thị trang xóa và xử lý logic
         $productCtrl = new ProductController();
-        $productCtrl->showDelete($id);
+        $table="products";
+        $productCtrl->toggleStatus($id , $table);
         break;
 
     case "product-listusers":
