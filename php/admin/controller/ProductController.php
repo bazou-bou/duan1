@@ -309,4 +309,110 @@ class ProductController
 
     }
 
+    // 1. Phương thức hiển thị danh sách banner
+    public function showBannerList()
+    {
+        $bannerList = $this->productQuery->allBanner();  // Gọi phương thức lấy tất cả banner từ model
+        include "view/product/banner.php";  // Gọi view hiển thị danh sách banner
+    }
+
+    // 2. Phương thức hiển thị trang tạo mới banner
+    public function showBannerCreate()
+    {
+        $loi_ten = $loi_anh  = $loi_description = "";
+
+        if (isset($_POST["submitForm"])) {
+            $product = new Banner();
+            $product->title = $_POST["title"] ?? '';
+            $product->image_path = $_POST["image_path"] ?? '';
+            $product->status = $_POST["status"] ?? '';
+                var_dump($product->title);
+                var_dump($product->image_path);
+                var_dump($product->status);
+
+            // Validation
+            if ($product->title === "") $loi_ten = "Hãy nhập tên giày đi!!";
+            // if ($product->image_path === "") $loi_price = "Hãy nhập giá giày đi!!";
+            if ($product->status === "") $loi_description = "Hãy nhập mô tả giày đi!!";
+
+            
+
+
+            // File upload
+            $thanSo01 = $_FILES['fileUpload']['tmp_name'];
+            $thanSo02 = "../upload/" . $_FILES['fileUpload']['name'];
+            if (move_uploaded_file($thanSo01, $thanSo02)) {
+                $product->image_path = "upload/" . $_FILES['fileUpload']['name'];
+                $loi_anh = "";
+            } else {
+                $loi_anh = "Không upload lên đc";
+            }
+
+            // If no errors, insert product
+            if ($loi_ten === "" && $loi_anh === ""  && $loi_description === "" ) {
+                $baoThanhCong = "Bạn đã cập nhật thành công";
+                // var_dump($product->title);
+                $dataCreated = $this->productQuery->insertBanner($product);
+                if ($dataCreated == "ok") {
+                    header("Location: ?act=product-list");
+                    exit();
+                }
+            }
+        }
+
+        include "view/product/bannercreate.php";  // Gọi view để tạo mới banner
+    }
+
+    // 3. Phương thức hiển thị trang chỉnh sửa banner
+    public function showBannerUpdate($id)
+    {
+        if ($id !== "") {
+            $loi_ten = $loi_anh = $baoThanhCong = "";
+            $banner = $this->productQuery->findBanner($id);  // Tìm banner theo ID
+
+            if (isset($_POST["submitForm"])) {
+                $banner->title = $_POST["name"];
+                $banner->status = $_POST["status"];
+
+                // Validation
+                if ($banner->title === "") $loi_ten = "Hãy nhập tên banner!";
+
+                // Upload hình ảnh
+                $fileTmpName = $_FILES['fileUpload']['tmp_name'];
+                $fileName = "../upload/" . $_FILES['fileUpload']['name'];
+                if (move_uploaded_file($fileTmpName, $fileName)) {
+                    $banner->image_path = "upload/" . $_FILES['fileUpload']['name'];
+                }
+
+                // Nếu không có lỗi, thực hiện cập nhật banner
+                if ($loi_ten === "" && $loi_anh === "") {
+                    $baoThanhCong = "Bạn đã cập nhật banner thành công!";
+                    $dataUpdated = $this->productQuery->updateBanner($banner, $id);
+                    if ($dataUpdated == "ok") {
+                        header("Location: ?act=banner-list");
+                        exit();
+                    }
+                }
+            }
+
+            include "view/product/bannerupdate.php";  // Gọi view để chỉnh sửa banner
+        } else {
+            echo "Lỗi: Không tìm thấy thông tin ID của banner.";
+        }
+    }
+
+    // 4. Phương thức xóa banner
+    public function showBannerDelete($id)
+    {
+        if ($id !== "") {
+            $dataDeleted = $this->productQuery->deleteBanner($id);  // Xóa banner theo ID
+            if ($dataDeleted == "ok") {
+                header("Location: ?act=banner-list");
+                exit();
+            }
+        } else {
+            echo "Lỗi: Không tìm thấy ID của banner.";
+        }
+    }
+
 }

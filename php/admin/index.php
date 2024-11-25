@@ -128,6 +128,31 @@ switch ($act) {
 
         break;
 
+    // Banners
+    case "banner-list":
+        // Show the list of banners
+        $bannerCtrl = new ProductController();
+        $bannerCtrl->showBannerList();
+        break;
+
+    case "banner-create":
+        // Show the banner creation form
+        $bannerCtrl = new ProductController();
+        $bannerCtrl->showBannerCreate();
+        break;
+
+    case "banner-update":
+        // Show the banner update form
+        $bannerCtrl = new ProductController();
+        $bannerCtrl->showBannerUpdate($id);
+        break;
+
+    case "banner-delete":
+        // Delete the banner
+        $bannerCtrl = new ProductController();
+        $bannerCtrl->showBannerDelete($id);
+        break;
+
     default:
         // Hiển thị "trang 404 fage not found" nếu giá trị "act" không nằm trong danh sách phía trên.
         include "view/404.php";
