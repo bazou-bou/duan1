@@ -29,13 +29,13 @@
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/duan1-1/php/client/view//html/header.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
 
     </header>
 
     <!-- slideshow -->
     <div class="slider">
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/duan1-1/php/client/view/html/slideshow.html'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/slideshow.html'; ?>
     </div>
 
     <main>

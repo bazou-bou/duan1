@@ -76,7 +76,6 @@ class ProductQuery
                 $product->img = $data["img"];
                 $product->views = $data["views"];  // Lượt xem đã được cập nhật
                 $product->category = $data["category_name"];  // Thêm category_name ở đây
-
                 return $product;
             }
         } catch (Exception $error) {
@@ -85,6 +84,41 @@ class ProductQuery
         }
     }
 
+    //lấy sản phẩm hot nhất 
+    public function getHotProducts()
+    {
+        try {
+            $sql = "SELECT p.*, c.name AS category_name FROM products p
+                    LEFT JOIN categories c ON p.category_id = c.category_id
+                    ORDER BY p.views DESC LIMIT 3";
+            
+            // Thực hiện truy vấn
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            
+            $danhSach = [];
+            foreach ($data as $value) {
+                $product = new Product();
+                $product->product_id = $value["product_id"];
+                $product->name = $value["name"];
+                $product->description = $value["description"];
+                $product->price = $value["price"];
+                $product->stock = $value["stock"];
+                $product->img = $value["img"];
+                $product->views = $value["views"];
+                $product->category = $value["category_name"];
+                $danhSach[] = $product;
+            }
+    
+            // Trả về danh sách sản phẩm và số lượng
+            return [
+                'products' => $danhSach,
+                'count' => count($danhSach)
+            ];
+        } catch (Exception $error) {
+            echo "Lỗi: ". $error->getMessage(). "<br>";
+            echo "Lấy sản phẩm hot nhất thất bại";
+        }
+    }
 
 
     // Thêm mới bình luận public function addComment($comment)
