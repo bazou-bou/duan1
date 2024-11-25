@@ -5,6 +5,8 @@ define("BASE_URL", "http://localhost/shopBanGiay/php/");
 include_once "controller/ProductController.php";
 include_once "model/Product.php";
 include_once "model/ProductQuery.php";
+include_once "controller/CartController.php";
+include_once "model/CartQuery.php";
 
 
 // 2. Giới thiệu cách người dùng sẽ tương tác với phần mềm
@@ -97,7 +99,7 @@ switch ($act) {
         // Hiển thị giỏ hàng của người dùng
     case "client-listgiohang":
         $cartCtrl = new CartController();
-        $cartCtrl->showCart($userId);
+        $cartCtrl->showCart($id);
         break;
 
         // Xóa sản phẩm khỏi giỏ hàng
@@ -116,6 +118,9 @@ switch ($act) {
         }
         break;
         // Nếu không có hành động nào khớp, hiển thị trang lỗi 404
+
+
+    
 
 
 

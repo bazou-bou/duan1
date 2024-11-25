@@ -29,7 +29,8 @@
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
+
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/header.php'; ?>
 
     </header>
 

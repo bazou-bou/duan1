@@ -32,3 +32,23 @@ class Comments{
     public function __construct() {}
     public function __destruct() {}
 }
+
+class Card{
+    public $cart_id;
+    public $user_id;
+    public $username;
+    public $item_id;
+    public $product_id;
+    public $product_name;
+    public $quantity;
+    public $product_image;
+    public $product_price;
+    public function __construct()
+    {
+        
+    }
+    public function __destruct()
+    {
+        
+    }
+}
