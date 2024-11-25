@@ -40,8 +40,10 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
-
+                $product->status = $value["status"];
+                if ($product->status == 1) {
                 $danhSach[] = $product;
+                }
             }
 
             return $danhSach;
@@ -90,11 +92,11 @@ class ProductQuery
         try {
             $sql = "SELECT p.*, c.name AS category_name FROM products p
                     LEFT JOIN categories c ON p.category_id = c.category_id
-                    ORDER BY p.views DESC LIMIT 3";
+                    ORDER BY p.views DESC";
             
             // Thực hiện truy vấn
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-            
+    
             $danhSach = [];
             foreach ($data as $value) {
                 $product = new Product();
@@ -106,19 +108,26 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
+                $product->status = $value["status"];
+                if ($product->status == 1) {
                 $danhSach[] = $product;
+                }
             }
     
-            // Trả về danh sách sản phẩm và số lượng
+            // Trả về danh sách sản phẩm
             return [
                 'products' => $danhSach,
-                'count' => count($danhSach)
             ];
         } catch (Exception $error) {
-            echo "Lỗi: ". $error->getMessage(). "<br>";
+            echo "Lỗi: " . $error->getMessage() . "<br>";
             echo "Lấy sản phẩm hot nhất thất bại";
+            return [
+                'products' => [],
+            ];
         }
     }
+    
+    
 
 
     // Thêm mới bình luận public function addComment($comment)
@@ -197,7 +206,7 @@ class ProductQuery
                     LEFT JOIN categories c ON p.category_id = c.category_id 
                     WHERE p.name LIKE '%{$searchName}%'";
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-
+    
             $danhSach = [];
             foreach ($data as $value) {
                 $product = new Product();
@@ -209,15 +218,27 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
+                $product->status = $value["status"];
+                if ($product->status == 1) {
                 $danhSach[] = $product;
+                }
             }
-
-            return $danhSach;
+    
+            // Trả về danh sách sản phẩm và số lượng
+            return [
+                'products' => $danhSach,
+                'count' => count($danhSach)  // Đếm số lượng sản phẩm
+            ];
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
             echo "Tìm kiếm thất bại";
+            return [
+                'products' => [],
+                'count' => 0  // Nếu có lỗi, trả về số lượng là 0
+            ];
         }
     }
+    
 
     // Tìm sản phẩm theo danh mục
     public function findCategory($category)

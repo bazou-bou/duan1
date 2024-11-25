@@ -24,6 +24,9 @@ class ProductController
     {
         // Hiển thị file view tương ứng. Hiển thị file list.php
         $DanhSachobject = $this->productQuery->all();
+        // Gọi dữ liệu sản phẩm hot
+        $hotProductsResult = $this->productQuery->getHotProducts();
+        $danhSachHot = $hotProductsResult['products'] ?? [];
         include "view/use/list.php";
     }
 
@@ -33,13 +36,13 @@ class ProductController
     {
         // Lấy chi tiết sản phẩm từ productQuery
         $DanhSachOne = $this->productQuery->find($id);
-        
+
         // Lấy các sản phẩm cùng loại
         $danhsachCategory = $this->productQuery->findCategory($DanhSachOne->category);
-    
+
         // Lấy danh sách bình luận
         $danhSachComment = $this->productQuery->findComment($id);
-        
+
         // Kiểm tra và xử lý bình luận khi form được gửi
         $loi_comment = "";
         $loi_name = "";
@@ -50,34 +53,34 @@ class ProductController
             if (empty($_POST['msg'])) {
                 $loi_comment = "Bình luận không được để trống.";
             }
-            
+
             // Kiểm tra xem username đã nhập chưa
             $loi_name = "";
             if (empty($_POST['username'])) {
                 $loi_name = "Tên nhập chưa.";
             }
-        
+
             // Kiểm tra xem email đã nhập chưa
             $loi_email = "";
             if (empty($_POST['email'])) {
                 $loi_email = "Email nhập chưa.";
             }
-            
+
             // Kiểm tra xem email đúng đ��nh dạng chưa
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $loi_email = "Email nhập không đúng đ��nh dạng.";
             }
-            
+
             // Nếu không có lỗi, kiểm tra trạng thái đăng nhập
-            if ($loi_comment == "" || $loi_name == "" || $loi_email =="") {
+            if ($loi_comment == "" || $loi_name == "" || $loi_email == "") {
                 // Kiểm tra xem người dùng đã đăng nhập chưa
                 if (isset($_SESSION['user_id']) && $_SESSION['user_id'] > 0) {
                     // Người dùng đã đăng nhập
                     $userId = $_SESSION['user_id']; // Lấy ID người dùng từ session
                     $username = $_SESSION['username']; // Lấy tên người dùng từ session
                     $email = $_SESSION['email']; // Lấy email người dùng từ session
-            
+
                     // Thêm bình luận vào cơ sở dữ liệu
                     $comment = new Comments();
                     $comment->product_id = $id;
@@ -85,7 +88,7 @@ class ProductController
                     $comment->username = $username;
                     $comment->content = htmlspecialchars($_POST['msg']); // Escaping comment content
                     $comment->comment_date = date('Y-m-d H:i:s'); // Thêm thời gian hiện tại
-        
+
                     // Thêm bình luận vào cơ sở dữ liệu
                     if ($this->productQuery->addComment($comment)) {
                         // Thêm thành công
@@ -94,7 +97,7 @@ class ProductController
                         // Lỗi khi thêm bình luận
                         $loi_comment = "Có lỗi xảy ra khi gửi bình luận.";
                     }
-                }else {
+                } else {
                     // Người dùng chưa đăng nhập, hiển thị thông báo và chuyển hướng
                     echo "<script type='text/javascript'>
                             alert('Bạn cần đăng nhập để bình luận.');
@@ -104,26 +107,44 @@ class ProductController
                 }
             }
         }
-        
-    
+
+
         // Gọi view để hiển thị chi tiết sản phẩm và các bình luận
         include "view/use/detail.php";
     }
-    
-    
-      
-    
-    
+
+
+
+
+
     // Khái báo phương thức showCreate() để xử lý trường hợp người dùng truy cập trang tạo mới
     public function showSearch($search)
     {
-        $danhSachSearch = $this->productQuery->searchProduct($search);
-        // Gọi dữ liệu sản phẩm hot
+        // Làm sạch từ khóa tìm kiếm
+        $search = addslashes(trim($search));
+    
+        // Tìm kiếm sản phẩm
+        $searchResult = $this->productQuery->searchProduct($search);
+        $danhSachSearch = $searchResult['products'] ?? [];
+        $soLuongSearch = $searchResult['count'] ?? 0;
+    
+        $message = null;
+        if (empty($danhSachSearch)) {
+            $message = "Không tìm thấy sản phẩm nào phù hợp với từ khóa '$search'.";
+        } else {
+            $message = "Tìm thấy $soLuongSearch sản phẩm phù hợp với từ khóa '$search'.";
+        }
+    
+        // Lấy danh sách sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
-        $soLuongHot = $hotProductsResult['count'] ?? 0;
+    
+        // Gửi dữ liệu tới view
         include "view/use/searchProduct.php";
     }
+    
+
+
 
 
     // Khái báo phương thức showDetail($id) để xử lý trường hợp người dùng truy cập trang chi tiết
@@ -137,7 +158,7 @@ class ProductController
         include "view/use/category.php";
     }
 
-    
+
 
     public function insertUser()
     {

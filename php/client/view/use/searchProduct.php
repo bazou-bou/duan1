@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -121,7 +123,7 @@
                     </div>
                     <div id="sticky-search-title">
                         <p class="d-inline search-keyword mb-0"><?= htmlspecialchars($search); ?></p>
-                        <small class="d-inline search-count text-muted">(<?= htmlspecialchars($soLuongHot); ?>)</small>
+                        <small class="d-inline search-count text-muted">(<?= htmlspecialchars($soLuongSearch); ?>)</small>
                     </div>
 
 

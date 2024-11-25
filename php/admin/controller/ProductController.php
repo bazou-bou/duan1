@@ -27,11 +27,11 @@ class ProductController
         include "view/product/list.php";
     }
 
-    public function showDelete($product_id)
+    public function toggleStatus($product_id ,$table)
     {
         if ($product_id != "") {
             //1> gọi xuống model để xóa
-            $dataDelete = $this->productQuery->delete($product_id);
+            $dataDelete = $this->productQuery->toggleStatus($product_id ,$table);
             //2.cuyển hướng về trang danh sách
             if ($dataDelete === "ok") {
                 header("location:?act=product-list");

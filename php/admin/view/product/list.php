@@ -64,6 +64,24 @@
                                             <i class="bi bi-pencil"></i>
                                         </a>
                                     </td>
+                                    <td colspan="1" class="tdBtn">
+                                    <?php if ($product->status == 0): ?>
+                                        <a href="?act=toggleStatus&id=<?= htmlspecialchars($product->product_id) ?>"
+                                            onclick="return confirm('Bạn có chắc muốn hiển thị sản phẩm này không?')"
+                                            class="btn btn-success btn-xs">
+                                            <i class="bi bi-unlock-fill"></i> Hiện
+                                        </a>
+                                    <?php elseif ($product->status == 1): ?>
+                                        <a href="?act=toggleStatus&id=<?= htmlspecialchars($product->product_id) ?>"
+                                            onclick="return confirm('Bạn có chắc muốn ẩn sản phẩm này không?')"
+                                            class="btn btn-danger btn-xs">
+                                            <i class="bi bi-lock-fill"></i> Ẩn
+                                        </a>
+                                    <?php else: ?>
+                                        <!-- Unknown Status -->
+                                        <span class="text-muted">Unknown Status</span>
+                                    <?php endif; ?>
+                                </td>
                                     <td class="tdBtn">
                                         <!-- Nút Xóa -->
                                         <a href="?act=product-delete&id=<?= htmlspecialchars($product->product_id) ?>" onclick="return confirm('Bạn có chắc xóa?')" class="btn btn-danger btn-xs">

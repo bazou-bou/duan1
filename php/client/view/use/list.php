@@ -9,7 +9,8 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/styleindex.css">
+    <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/styleindex.css">
+    <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/chitietsanpham.css">
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
     <style>
         * {
@@ -23,12 +24,24 @@
             height: 500px;
             overflow: hidden;
         }
+        .hot_view {
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.hot_img {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+}
     </style>
     <title>Website Bán Giày Converse</title>
 </head>
 
 <body>
     <header>
+
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/header.php'; ?>
     </header>
 
@@ -101,61 +114,36 @@
         </section>
 
         <!-- Additional Products -->
-        <section id="display-products" class="my-4">
-            <h2 class="text-center mb-4">Sản Phẩm</h2>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                <div class="col">
-                    <div class="card">
-                        <img src="../../img/shoes/lacoste/shoeL2.jpg" class="card-img-top" alt="Trưng bày 1" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Trưng bày 1</h5>
-                            <p class="card-text">Giá: 800,000 VNĐ</p>
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-dark">Thêm vào giỏ hàng</button>
-                                <button class="btn btn-success">Thanh toán</button>
-                            </div>
+        <section id="display-products" class="my-4 hot_view"  id="display-products" >
+            <img src="http://localhost/shopBanGiay/img/hot_view.gif" class="hot_img">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 containerhot">
+                <?php
+                $limitedProducts = array_slice($danhSachHot, 0, 5);
+                foreach ($limitedProducts as $product) { ?>
+                    <?php if (is_object($product)) { ?>
+                        <div class="col mb-4">
+                            <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id ?? '') ?>" class="text-decoration-none">
+                                <div class="card product-item">
+                                    <div class="product-thumb">
+                                        <img src="<?= htmlspecialchars(BASE_URL . ($product->img ?? 'default-image.jpg')) ?>" class="card-img-top" alt="Product Image">
+                                        <div class="product-action-link">
+                                            <button class="btn cart-btn">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="product-title"><?= htmlspecialchars($product->name ?? 'Tên sản phẩm không có') ?></h5>
+                                        <p class="product-price"><?= number_format($product->price ?? 0, 0, ',', '.') ?> VNĐ</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id ?? '') ?>" class="stretched-link">Xem Chi Tiết</a>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="../../img/shoes/nike/shoe4.jpg" class="card-img-top" alt="Trưng bày 2" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Trưng bày 2</h5>
-                            <p class="card-text">Giá: 1,200,000 VNĐ</p>
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-dark">Thêm vào giỏ hàng</button>
-                                <button class="btn btn-success">Thanh toán</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="../../img/shoes/lacoste/shoeL5.jpg" class="card-img-top" alt="Trưng bày 3" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Trưng bày 3</h5>
-                            <p class="card-text">Giá: 950,000 VNĐ</p>
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-dark">Thêm vào giỏ hàng</button>
-                                <button class="btn btn-success">Thanh toán</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="../../img/shoes/lacoste/shoeL3.jpg" class="card-img-top" alt="Trưng bày 4" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">Trưng bày 4</h5>
-                            <p class="card-text">Giá: 750,000 VNĐ</p>
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-dark">Thêm vào giỏ hàng</button>
-                                <button class="btn btn-success">Thanh toán</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </section>
     </main>
