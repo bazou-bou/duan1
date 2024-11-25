@@ -77,11 +77,6 @@ switch ($act) {
         $productCtrl->showUpdate($id);
         break;
 
-    case "client-delete":
-        $productCtrl = new ProductController();
-        $productCtrl->showDelete($id);
-        break;
-
     case "client-login":
         $productCtrl = new ProductController();
         $productCtrl->listUser();

@@ -45,34 +45,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($DanhSachCtegory as $product) { ?>
-                            <tr>
-                                <td><?= htmlspecialchars($product->product_id) ?></td>
-                                <td><?= htmlspecialchars($product->name) ?></td>
-                                <td>
-                                    <div class="anh">
-                                        <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" style="width: 100px; height: 100px;" alt="Product Image">
-                                    </div>
-                                </td>
-                                <td><?= htmlspecialchars($product->category) ?></td>
-                                <td><?= htmlspecialchars($product->description) ?></td>
-                                <td><?= htmlspecialchars($product->price) ?></td>
-                                <td><?= htmlspecialchars($product->stock) ?></td>
-                                <td><?= htmlspecialchars($product->views) ?></td>
-                                <td class="tdBtn">
-                                    <!-- Nút Sửa -->
-                                    <a href="?act=product-update&id=<?= htmlspecialchars($product->product_id) ?>" class="btn btn-warning btn-xs">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                </td>
-                                <td class="tdBtn">
-                                    <!-- Nút Xóa -->
-                                    <a href="?act=product-delete&id=<?= htmlspecialchars($product->product_id) ?>" onclick="return confirm('Bạn có chắc xóa?')" class="btn btn-danger btn-xs">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php } ?>
+                    <?php foreach ($DanhSachCtegory as $product) { ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($product->product_id) ?></td>
+                                    <td><?= htmlspecialchars($product->name) ?></td>
+                                    <td>
+                                        <div class="anh">
+                                            <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" style="width: 100px; height: 100px;" alt="Product Image">
+                                        </div>
+                                    </td>
+                                    <td><?= htmlspecialchars($product->category) ?></td>
+                                    <td><?= htmlspecialchars($product->description) ?></td>
+                                    <td><?= htmlspecialchars($product->price) ?></td>
+                                    <td><?= htmlspecialchars($product->stock) ?></td>
+                                    <td><?= htmlspecialchars($product->views) ?></td>
+                                    <td class="tdBtn">
+                                        <!-- Nút Sửa -->
+                                        <a href="?act=products-update&id=<?= htmlspecialchars($product->product_id) ?>" class="btn btn-warning btn-xs">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </td>
+                                    <td colspan="1" class="tdBtn">
+                                        <?php if ($product->status == 0): ?>
+                                            <a href="?act=products-status&id=<?= htmlspecialchars($product->product_id) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn hiển thị sản phẩm này không?')"
+                                                class="btn btn-success btn-xs">
+                                                <i class="bi bi-unlock-fill"></i> Hiện
+                                            </a>
+                                        <?php elseif ($product->status == 1): ?>
+                                            <a href="?act=products-status&id=<?= htmlspecialchars($product->product_id) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn ẩn sản phẩm này không?')"
+                                                class="btn btn-danger btn-xs">
+                                                <i class="bi bi-lock-fill"></i> Ẩn
+                                            </a>
+                                        <?php else: ?>
+                                            <!-- Unknown Status -->
+                                            <span class="text-muted">Unknown Status</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                     </tbody>
                 </table>
             </div>

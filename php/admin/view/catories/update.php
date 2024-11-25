@@ -97,7 +97,7 @@
                 
                 <div class="text-center">
                     <button type="submit" name="submitForm" class="btn btn-success">Lưu lại</button>
-                    <a href="?act=product-list" class="btn btn-danger">Quay lại</a>
+                    <a href="?act=categories-list" class="btn btn-danger">Quay lại</a>
                 </div>
             </form>
             

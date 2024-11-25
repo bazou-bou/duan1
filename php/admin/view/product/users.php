@@ -64,25 +64,23 @@
                                 </td>
 
                                 <td colspan="1" class="tdBtn">
-                                    <?php if ($user->status == 0): ?>
-                                        <!-- Unban Button (User is currently blocked) -->
-                                        <a href="?act=unban&user_id=<?= htmlspecialchars($user->user_id) ?>"
-                                            onclick="return confirm('Bạn có chắc muốn mở khóa tài khoản này không?')"
-                                            class="btn btn-success btn-xs">
-                                            <i class="bi bi-unlock-fill"></i> Unban
-                                        </a>
-                                    <?php elseif ($user->status == 1): ?>
-                                        <!-- Ban Button (User is currently active) -->
-                                        <a href="?act=ban&user_id=<?= htmlspecialchars($user->user_id) ?>"
-                                            onclick="return confirm('Bạn có chắc muốn khóa tài khoản này không?')"
-                                            class="btn btn-danger btn-xs">
-                                            <i class="bi bi-lock-fill"></i> Ban
-                                        </a>
-                                    <?php else: ?>
-                                        <!-- Unknown Status -->
-                                        <span class="text-muted">Unknown Status</span>
-                                    <?php endif; ?>
-                                </td>
+                                        <?php if ($user->status == 0): ?>
+                                            <a href="?act=users-status&id=<?= htmlspecialchars($user->user_id) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn hiển thị người dùng này không?')"
+                                                class="btn btn-success btn-xs">
+                                                <i class="bi bi-unlock-fill"></i> Hiện
+                                            </a>
+                                        <?php elseif ($user->status == 1): ?>
+                                            <a href="?act=users-status&id=<?= htmlspecialchars($user->user_id) ?>"
+                                                onclick="return confirm('Bạn có chắc muốn ẩn người dùng này không?')"
+                                                class="btn btn-danger btn-xs">
+                                                <i class="bi bi-lock-fill"></i> Ẩn
+                                            </a>
+                                        <?php else: ?>
+                                            <!-- Unknown Status -->
+                                            <span class="text-muted">Unknown Status</span>
+                                        <?php endif; ?>
+                                    </td>
                             </tr>
                         <?php } ?>
                     </tbody>
