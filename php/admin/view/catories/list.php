@@ -34,7 +34,7 @@
                 <table class="table table-bordered  ">
                     <thead class="table-dark">
                         <tr>
-                            <th><a href="?act=product-list">Quay lại</a></th>
+                            <th><a href="?act=products-list">Quay lại</a></th>
 
                         </tr>
                         <tr>
