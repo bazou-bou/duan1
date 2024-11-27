@@ -40,6 +40,7 @@
                         <tr>
                             <th>Mã danh mục</th>
                             <th>Tên Danh mục</th>
+                            <th>Ảnh Danh mục</th>
                             <th colspan="2"><a href="?act=categories-create" class="btn btn-primary">Thêm mới</a></th>
                         </tr>
                     </thead>
@@ -48,6 +49,12 @@
                             <tr>
                                 <td><?= htmlspecialchars($product->category_id) ?></td>
                                 <td><?= htmlspecialchars($product->name) ?></td>
+                                
+                                <td>
+                                <div class="anh">
+                                            <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" style="width: 100px; height: 100px;" alt="Product Image">
+                                        </div>
+                                </td>
                                 <td class="tdBtn">
                                     <!-- Nút Sửa -->
                                     <a href="?act=categories-update&id=<?= htmlspecialchars($product->category_id) ?>" class="btn btn-warning btn-xs">
