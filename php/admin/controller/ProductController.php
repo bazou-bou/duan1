@@ -27,11 +27,11 @@ class ProductController
         include "view/product/list.php";
     }
 
-    public function toggleStatus($product_id ,$table)
+    public function toggleStatus($product_id, $table)
     {
         if ($product_id != "") {
             //1> gọi xuống model để xóa
-            $dataDelete = $this->productQuery->toggleStatus($product_id ,$table);
+            $dataDelete = $this->productQuery->toggleStatus($product_id, $table);
             //2.cuyển hướng về trang danh sách
             if ($dataDelete === "ok") {
                 header("location:?act=product-list");
@@ -113,10 +113,10 @@ class ProductController
             $loi_category = "";
             $baoThanhCong = "";
             $DanhSachOne = $this->productQuery->find($id);
-            $dsCtr=$this->productQuery->allCatories();
+            $dsCtr = $this->productQuery->allCatories();
             // var_dump($dsCtr);
             // var_dump($DanhSachOne);
-            
+
             if (isset($_POST["submitForm"])) {
                 $product = new Product();
                 $product->name = $_POST["name"];
@@ -184,8 +184,8 @@ class ProductController
     public function unban($user_id)
     {
         try {
-            $banUser=$this->productQuery->unban($user_id);
-            if ($banUser=="ok") {
+            $banUser = $this->productQuery->unban($user_id);
+            if ($banUser == "ok") {
                 header("Location: ?act=product-listusers");
             }
             exit();
@@ -194,12 +194,12 @@ class ProductController
             echo "Error unbanning user: " . $e->getMessage();
         }
     }
-    
+
     public function ban($user_id)
     {
         try {
-            $banUser=$this->productQuery->ban($user_id);
-            if ($banUser=="ok") {
+            $banUser = $this->productQuery->ban($user_id);
+            if ($banUser == "ok") {
                 header("Location: ?act=product-listusers");
             }
             exit();
@@ -208,7 +208,7 @@ class ProductController
             echo "Error banning user: " . $e->getMessage();
         }
     }
-    
+
 
     public function showCrt()
     {
@@ -298,18 +298,18 @@ class ProductController
         }
     }
 
-    public function listOrder(){
+    public function listOrder()
+    {
         $DanhSachobject = $this->productQuery->allOrder();
 
         include "view/product/orderlist.php";
     }
 
-    public function listOrderItem($id){
+    public function listOrderItem($id)
+    {
         $DanhSachobject = $this->productQuery->findOrder($id);
 
         include "view/product/orderitemlist.php";
-
-
     }
 
     // 1. Phương thức hiển thị danh sách banner
@@ -329,16 +329,16 @@ class ProductController
             $product->title = $_POST["title"] ?? '';
             $product->image_path = $_POST["image_path"] ?? '';
             $product->status = $_POST["status"] ?? '';
-                var_dump($product->title);
-                var_dump($product->image_path);
-                var_dump($product->status);
+            // var_dump($product->title);
+            // var_dump($product->image_path);
+            // var_dump($product->status);
 
             // Validation
             if ($product->title === "") $loi_ten = "Hãy nhập tên giày đi!!";
             // if ($product->image_path === "") $loi_price = "Hãy nhập giá giày đi!!";
             if ($product->status === "") $loi_description = "Hãy nhập mô tả giày đi!!";
 
-            
+
 
 
             // File upload
@@ -352,7 +352,7 @@ class ProductController
             }
 
             // If no errors, insert product
-            if ($loi_ten === "" && $loi_anh === ""  && $loi_description === "" ) {
+            if ($loi_ten === "" && $loi_anh === ""  && $loi_description === "") {
                 $baoThanhCong = "Bạn đã cập nhật thành công";
                 // var_dump($product->title);
                 $dataCreated = $this->productQuery->insertBanner($product);
@@ -370,27 +370,49 @@ class ProductController
     public function showBannerUpdate($id)
     {
         if ($id !== "") {
-            $loi_ten = $loi_anh = $baoThanhCong = "";
-            $banner = $this->productQuery->findBanner($id);  // Tìm banner theo ID
+            $loi_ten = $loi_anh = $loi_description = $baoThanhCong = "";
+            $banner = $this->productQuery->findBanner($id);  // Lấy thông tin banner hiện tại
+            $dsbanner = $this->productQuery->allBanner();  // Lấy danh sách banner
+
+            // var_dump($banner); // Kiểm tra đối tượng banner
+
+            $oldImagePath = $banner->image_path;  // Lưu lại đường dẫn ảnh cũ
 
             if (isset($_POST["submitForm"])) {
-                $banner->title = $_POST["name"];
-                $banner->status = $_POST["status"];
+                $banner = new Banner();
+                $banner->title = $_POST["title"] ?? '';
+                $banner->image_path = $_POST["image_path"] ?? '';
+                $banner->status = $_POST["status"] ?? '';
 
-                // Validation
-                if ($banner->title === "") $loi_ten = "Hãy nhập tên banner!";
 
-                // Upload hình ảnh
-                $fileTmpName = $_FILES['fileUpload']['tmp_name'];
-                $fileName = "../upload/" . $_FILES['fileUpload']['name'];
-                if (move_uploaded_file($fileTmpName, $fileName)) {
-                    $banner->image_path = "upload/" . $_FILES['fileUpload']['name'];
+                // Validate các trường dữ liệu
+                if ($banner->title === "") {
+                    $loi_ten = "Hãy nhập tiêu đề banner!";
+                }
+                if ($banner->status === "") {
+                    $loi_description = "Hãy chọn trạng thái banner!";
                 }
 
-                // Nếu không có lỗi, thực hiện cập nhật banner
-                if ($loi_ten === "" && $loi_anh === "") {
+                // Nếu có ảnh mới, thực hiện upload
+                if ($_FILES['fileUpload']['name'] != "") {
+                    $thanSo01 = $_FILES['fileUpload']['tmp_name']; // Bộ nhớ tạm lưu trữ file
+                    $thanSo02 = "../upload/" . $_FILES['fileUpload']['name']; // Đường dẫn lưu file
+
+                    if (move_uploaded_file($thanSo01, $thanSo02)) {
+                        $banner->image_path = "upload/" . $_FILES['fileUpload']['name']; // Cập nhật đường dẫn ảnh
+                        $loi_anh = "";
+                    } else {
+                        $loi_anh = "Không upload được ảnh!";
+                    }
+                } else {
+                    // Nếu không có ảnh mới, giữ lại ảnh cũ
+                    $banner->image_path = $oldImagePath;
+                }
+                // Nếu không có lỗi, tiến hành cập nhật banner
+                if ($loi_ten === "" && $loi_anh === "" && $loi_description === "") {
                     $baoThanhCong = "Bạn đã cập nhật banner thành công!";
-                    $dataUpdated = $this->productQuery->updateBanner($banner, $id);
+                    $dataUpdated = $this->productQuery->updateBanner($banner, $id);  // Cập nhật vào cơ sở dữ liệu
+
                     if ($dataUpdated == "ok") {
                         header("Location: ?act=banner-list");
                         exit();
@@ -417,5 +439,4 @@ class ProductController
             echo "Lỗi: Không tìm thấy ID của banner.";
         }
     }
-
 }

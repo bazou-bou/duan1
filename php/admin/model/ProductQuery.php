@@ -45,7 +45,6 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
-                $product->status= $value["status"];
 
                 array_push($danhSach, $product);
             }
@@ -179,27 +178,20 @@ class ProductQuery
     }
 
     // Delete a product
-    public function toggleStatus($id, $table)
+    public function delete($id)
     {
         try {
-            // Cập nhật trạng thái status: 0 -> 1 hoặc 1 -> 0
-            $sql = "UPDATE `".$table."` 
-                    SET `status` = CASE 
-                        WHEN `status` = 0 THEN 1 
-                        ELSE 0 
-                    END 
-                    WHERE `product_id` = $id";
-            $data = $this->pdo->exec($sql);
-            
-            if ($data === 1) {
-                return "ok";
-            }
+            $sql = "DELETE FROM products WHERE product_id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return "ok";
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Cập nhật trạng thái thất bại";
+            echo "Xóa thất bại";
         }
     }
-    
 
     // Additional methods for categories...
 
@@ -512,20 +504,17 @@ class ProductQuery
         }
     }
 
-    public function updateBanner(Banner $banner)
+    public function updateBanner(Banner $banner, $id)
     {
         try {
-            $sql = "UPDATE `banners` SET `image_path` = :image_path, `title` = :title, `status` = :status WHERE `id` = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([
-                ':image_path' => $banner->image_path,
-                ':title' => $banner->title,
-                ':status' => $banner->status,
-                ':id' => $banner->id
-            ]);
-            return "ok";
-        } catch (Exception $e) {
-            echo "ERROR: " . $e->getMessage();
+            $sql = "UPDATE `banners` SET `image_path` = '{$banner->image_path}', `title` = '{$banner->title}', `status` = '{$banner->status}' WHERE `id` = $id";
+            $data = $this->pdo->exec($sql);
+            if ($data === 1 || $data === 0) {
+                return "ok";
+            }
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Cập nhật danh mục thất bại thất bại";
         }
     }
 
@@ -536,17 +525,19 @@ class ProductQuery
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':id' => $id]);
             $row = $stmt->fetch();
+    
             if ($row) {
-                return new Banner(
-                    $row['id'],
-                    $row['image_path'],
-                    $row['title'],
-                    $row['status']
-                );
+                $banner = new Banner();
+                $banner->id = $row['id'];
+                $banner->image_path = $row['image_path'];
+                $banner->title = $row['title'];
+                $banner->status = $row['status'];
+                return $banner;
             }
             return null;
         } catch (Exception $e) {
             echo "ERROR: " . $e->getMessage();
         }
     }
+    
 }

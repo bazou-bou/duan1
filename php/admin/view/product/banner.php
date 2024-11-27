@@ -11,14 +11,93 @@
     <title>Website Bán Giày Converse</title>
 
     <style>
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        h3 {
+            color: #3c50eb;
+            font-weight: bold;
+        }
+
+        .table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
             vertical-align: middle;
         }
 
-        .tdBtn {
-            text-align: center;
+        .table th {
+            background-color: #3c50eb;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        
+
+        .anh img {
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: px;
+        }
+
+
+
+        .btn {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border: none;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .badge {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
     </style>
+
 </head>
 
 <body>
@@ -28,7 +107,6 @@
     <main class="main-content">
         <div class="container">
             <h3 class="text-center my-3">Trang Banner</h3>
-            <?php var_dump($bannerList) ?>
             <div class="container-table">
                 <table class="table table-bordered  ">
                     <thead class="table-dark">
@@ -50,14 +128,20 @@
                                         <img src="<?= (BASE_URL . $banner->image_path) ?>" style="width: 100px; height: 100px;" alt="Product Image">
                                     </div>
                                 </td>
-                                
+                                <td>
+                                    <?php if ($banner->status == 1) { ?>
+                                        <span class="badge bg-success">Hiển thị</span>
+                                    <?php } else { ?>
+                                        <span class="badge bg-danger">Không hiển thị</span>
+                                    <?php } ?>
+                                </td>
+
                                 <td class="tdBtn">
                                     <!-- Nút Sửa -->
                                     <a href="?act=banner-update&id=<?= ($banner->id) ?>" class="btn btn-warning btn-xs">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                </td>
-                                <td class="tdBtn">
+
                                     <!-- Nút Xóa -->
                                     <a href="?act=banner-delete&id=<?= ($banner->id) ?>" onclick="return confirm('Bạn có chắc xóa?')" class="btn btn-danger btn-xs">
                                         <i class="bi bi-trash"></i>
