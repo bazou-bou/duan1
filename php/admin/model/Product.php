@@ -20,6 +20,7 @@ class categories
     public $category_id;
     public $name;
     public $status;
+    public $img;
 
     public function __construct()
     {

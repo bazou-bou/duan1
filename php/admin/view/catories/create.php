@@ -89,6 +89,12 @@
                     <div class="text-danger"><?= htmlspecialchars($loi_tranthai_danhmuc) ?></div>
                 </div>
 
+                <div class="mb-3 " style="padding-bottom: 20px;">
+                    <label for="fileUpload" class="form-label">Nhập hình ảnh giày</label>
+                    <input type="file" name="fileUpload" id="fileUpload" class="form-control " required>
+                    <div class="text-danger"><?= htmlspecialchars($loi_anh) ?></div>
+                </div>
+
                 
 
                 
