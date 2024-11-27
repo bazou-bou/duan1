@@ -29,7 +29,7 @@
                     <table class="table table-bordered">
                         <thead class="table-dark">
                             <tr>
-                                <th><a href="?act=catories-list">Danh mục</a></th>
+                                <th><a href="?act=categories-list">Danh mục</a></th>
                             </tr>
                             <tr>
                                 <th>ID</th>

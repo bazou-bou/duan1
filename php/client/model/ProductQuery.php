@@ -127,6 +127,30 @@ class ProductQuery
         }
     }
     
+    public function allCatories()
+    {
+        try {
+            $sql = "SELECT * FROM `categories`";
+            $data = $this->pdo->query($sql)->fetchAll();
+            $dsCtr = [];
+
+            foreach ($data as $value) {
+                $product = new categories();
+                $product->category_id = $value["category_id"];
+                $product->name = $value["name"];
+                $product->img=$value["img"];
+                $product->status = $value["status"];
+                if ($product->status == 1) {
+                    $dsCtr[] = $product;
+                }
+            }
+            return $dsCtr;
+        } catch (Exception $error) {
+            //throw $th;
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            echo "Lỗi danh sách danh mục";
+        }
+    }
     
 
 

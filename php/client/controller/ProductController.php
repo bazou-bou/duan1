@@ -24,6 +24,9 @@ class ProductController
     {
         // Hiển thị file view tương ứng. Hiển thị file list.php
         $DanhSachobject = $this->productQuery->all();
+        
+        $DanhSachCategory = $this->productQuery->allCatories();
+        //var_dump($DanhSachCategory);
         // Gọi dữ liệu sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
