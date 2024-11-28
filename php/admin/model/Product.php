@@ -97,6 +97,7 @@ class Comments{
     public $username;
     public $content;
     public $comment_date;
+    public $status;
     public function __construct() {}
     public function __destruct() {}
 }

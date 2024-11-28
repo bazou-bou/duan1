@@ -127,6 +127,30 @@ class ProductQuery
         }
     }
     
+    public function allCatories()
+    {
+        try {
+            $sql = "SELECT * FROM `categories`";
+            $data = $this->pdo->query($sql)->fetchAll();
+            $dsCtr = [];
+
+            foreach ($data as $value) {
+                $product = new categories();
+                $product->category_id = $value["category_id"];
+                $product->name = $value["name"];
+                $product->img=$value["img"];
+                $product->status = $value["status"];
+                if ($product->status == 1) {
+                    $dsCtr[] = $product;
+                }
+            }
+            return $dsCtr;
+        } catch (Exception $error) {
+            //throw $th;
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            echo "Lỗi danh sách danh mục";
+        }
+    }
     
 
 
@@ -182,8 +206,11 @@ class ProductQuery
                 $comment->username = $value["username"];
                 $comment->content = $value["content"];
                 $comment->comment_date = $value["comment_date"]; 
+                $comment->status=$value["status"];
+                if ($comment->status == 1) {
+                    $danhSach[] = $comment;
+                    }
 
-                $danhSach[] = $comment;
             }
             return $danhSach;
         } catch (Exception $error) {
@@ -287,28 +314,31 @@ class ProductQuery
     }
 
     // Lấy tất cả người dùng
-    public function allUser()
-    {
+
+    public function allUser() {
         try {
             $sql = "SELECT * FROM users";
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
             $dsUser = [];
             foreach ($data as $value) {
-                $product = new Users();
-                $product->user_id = $value["user_id"];
-                $product->username = $value["username"];
-                $product->password = $value["password"];
-                $product->email = $value["email"];
-                $product->role = $value["role"];
+                $user = new Users();
+                $user->user_id = $value["user_id"];
+                $user->username = $value["username"];
+                $user->password = $value["password"];
+                $user->email = $value["email"];
+                $user->role = $value["role"];
+                $user->status = $value["status"];
 
-                $dsUser[] = $product;
+                $dsUser[] = $user;
             }
 
             return $dsUser;
         } catch (Exception $error) {
-            echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Danh sách tài khoản thất bại";
+            error_log("Lỗi khi lấy danh sách user: " . $error->getMessage());
+            return [];
         }
     }
+
+
 }

@@ -45,6 +45,7 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
+                $product->status = $value["status"];
 
                 array_push($danhSach, $product);
             }
@@ -166,6 +167,7 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
+                $product->status=$value["status"];
 
                 array_push($danhSach, $product);
             }
@@ -177,21 +179,35 @@ class ProductQuery
         }
     }
 
-    // Delete a product
-    public function delete($id)
+    public function toggleStatus($id, $table, $field)
     {
         try {
-            $sql = "DELETE FROM products WHERE product_id = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
+            // Đảm bảo $id là số nguyên
+            $id = (int)$id;
 
-            return "ok";
+            // Tạo câu SQL động với bảng và cột được truyền từ bên ngoài
+            $sql = "UPDATE `$table` 
+                    SET `status` = CASE 
+                        WHEN `status` = 0 THEN 1 
+                        ELSE 0 
+                    END 
+                    WHERE `$field` = $id";
+
+            // Thực thi câu truy vấn
+            $data = $this->pdo->exec($sql);
+
+            if ($data === 1) {
+                return "ok";
+            } else {
+                return "Không có bản ghi nào được cập nhật.";
+            }
         } catch (Exception $error) {
-            echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Xóa thất bại";
+            // Log lỗi thay vì hiển thị trực tiếp
+            error_log("Lỗi toggleStatus: " . $error->getMessage());
+            return "Lỗi: Cập nhật trạng thái thất bại";
         }
     }
+
 
     // Additional methods for categories...
 
@@ -246,6 +262,7 @@ class ProductQuery
                 $comment->username = $value["username"];
                 $comment->content = $value["content"];
                 $comment->comment_date = $value["comment_date"];
+                $comment->status=$value["status"];
                 $dsComment[] = $comment;
             }
             return $dsComment;
@@ -483,7 +500,7 @@ class ProductQuery
         try {
             $sql = "INSERT INTO `banners` (`image_path`, `title`, `status`) VALUES ('" . $banner->image_path . "','" . $banner->title . "','" . $banner->status . "');";
             $data = $this->pdo->exec($sql);
-            
+
             if ($data == "1") {
                 return "ok";
             }
