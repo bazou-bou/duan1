@@ -314,6 +314,7 @@ class ProductQuery
                 $product->category_id = $value["category_id"];
                 $product->name = $value["name"];
                 $product->status = $value["status"];
+                $product->img = $value["img"];
                 array_push($dsCtr, $product);
             }
             return $dsCtr;
@@ -327,7 +328,7 @@ class ProductQuery
     public function createCtr(categories $product)
     {
         try {
-            $sql = "INSERT INTO `categories`(  `name`, `status`) VALUES ('" . $product->name . "','" . $product->status . "')";
+            $sql = "INSERT INTO `categories`(  `name`, `status`, `img`) VALUES ('" . $product->name . "','" . $product->status . "','" . $product->img . "')";
             $data = $this->pdo->exec($sql);
             if ($data == "1") {
                 return "ok";
@@ -341,7 +342,7 @@ class ProductQuery
     public function updateCtr(categories $product, $id)
     {
         try {
-            $sql = "UPDATE `categories` SET `name` = '{$product->name}',`status` = '{$product->status}' WHERE `category_id` = $id";
+            $sql = "UPDATE `categories` SET `name` = '{$product->name}',`status` = '{$product->status}' ,`img` = '{$product->img}' WHERE `category_id` = $id";
 
 
             $data = $this->pdo->exec($sql);
