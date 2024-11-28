@@ -217,6 +217,7 @@ class ProductController
 
         session_unset();
         session_destroy();
+        
 
 
         echo "<script>window.location.href = '?act=client-list';</script>";

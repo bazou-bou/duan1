@@ -1,6 +1,11 @@
 <?php
 // session_start();
 
+// if(isset($_POST["username"])){
+//     $_SESSION['username'] = "khách";
+//     $_SESSION['user_id'] = 0;
+// }
+    
 
 
 
