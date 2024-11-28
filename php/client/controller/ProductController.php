@@ -125,6 +125,8 @@ class ProductController
     {
         // Làm sạch từ khóa tìm kiếm
         $search = addslashes(trim($search));
+        $DanhSachCategory = $this->productQuery->allCatories();
+
     
         // Tìm kiếm sản phẩm
         $searchResult = $this->productQuery->searchProduct($search);
@@ -155,9 +157,11 @@ class ProductController
     public function showCategory($category)
     {
         $category = $category;
+        $DanhSachCategory = $this->productQuery->allCatories();
+
 
         $DanhSachobject = $this->productQuery->all();
-        $DanhSachCategory = $this->productQuery->findCategory($category);
+        $DanhSachOneCategory = $this->productQuery->findCategory($category);
         include "view/use/category.php";
     }
 

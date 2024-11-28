@@ -198,12 +198,14 @@ class ProductController
         $loi_ten_danhmuc = "";
         $loi_tranthai_danhmuc = "";
         $baoThanhCong = "";
+        $loi_anh = "";
 
         if (isset($_POST["submitForm"])) {
             $product = new categories();
             $product->name = $_POST["name"];
             //  $product->img=$_POST["img"];
             $product->status = $_POST["status"];
+            // $product->img = $_POST["img"];
 
 
             if ($_POST["name"] === "") {
@@ -212,6 +214,15 @@ class ProductController
             if ($_POST["status"] === "") {
                 $loi_tranthai_danhmuc = "Hãy nhập trạng thái của danh mục";
             }
+
+            $thanSo01 = $_FILES['fileUpload']['tmp_name']; //Bộ nhớ tạm đang lưu trữ file
+                $thanSo02 = "../upload/" . $_FILES['fileUpload']['name']; // Đường dẫn để chuyển file từ bộ nhớ tạm vào
+                if (move_uploaded_file($thanSo01, $thanSo02)) {
+                    $product->img = "upload/" . $_FILES['fileUpload']['name'];
+                    $loi_anh = "";
+                } else {
+                    $loi_anh = "Không uplod lên đc";
+                }
 
 
             if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "") {
@@ -231,6 +242,7 @@ class ProductController
             $loi_ten_danhmuc = "";
             $loi_tranthai_danhmuc = "";
             $baoThanhCong = "";
+            $loi_anh = "";
 
             $dsachCtr = $this->productQuery->findCtr($id);
             if (isset($_POST["submitForm"])) {
@@ -245,6 +257,15 @@ class ProductController
                 }
                 if ($_POST["status"] === "") {
                     $loi_tranthai_danhmuc = "Hãy nhập trạng thái của danh mục";
+                }
+
+                $thanSo01 = $_FILES['fileUpload']['tmp_name']; //Bộ nhớ tạm đang lưu trữ file
+                $thanSo02 = "../upload/" . $_FILES['fileUpload']['name']; // Đường dẫn để chuyển file từ bộ nhớ tạm vào
+                if (move_uploaded_file($thanSo01, $thanSo02)) {
+                    $product->img = "upload/" . $_FILES['fileUpload']['name'];
+                    $loi_anh = "";
+                } else {
+                    $loi_anh = "Không uplod lên đc";
                 }
 
 
