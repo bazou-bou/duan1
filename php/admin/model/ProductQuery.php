@@ -179,7 +179,6 @@ class ProductQuery
         }
     }
 
-    // Delete a product
     public function toggleStatus($id, $table, $field)
     {
         try {
@@ -208,7 +207,6 @@ class ProductQuery
             return "Lỗi: Cập nhật trạng thái thất bại";
         }
     }
-
 
 
     // Additional methods for categories...
@@ -524,20 +522,17 @@ class ProductQuery
         }
     }
 
-    public function updateBanner(Banner $banner)
+    public function updateBanner(Banner $banner, $id)
     {
         try {
-            $sql = "UPDATE `banners` SET `image_path` = :image_path, `title` = :title, `status` = :status WHERE `id` = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([
-                ':image_path' => $banner->image_path,
-                ':title' => $banner->title,
-                ':status' => $banner->status,
-                ':id' => $banner->id
-            ]);
-            return "ok";
-        } catch (Exception $e) {
-            echo "ERROR: " . $e->getMessage();
+            $sql = "UPDATE `banners` SET `image_path` = '{$banner->image_path}', `title` = '{$banner->title}', `status` = '{$banner->status}' WHERE `id` = $id";
+            $data = $this->pdo->exec($sql);
+            if ($data === 1 || $data === 0) {
+                return "ok";
+            }
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Cập nhật danh mục thất bại thất bại";
         }
     }
 
@@ -548,17 +543,19 @@ class ProductQuery
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':id' => $id]);
             $row = $stmt->fetch();
+    
             if ($row) {
-                return new Banner(
-                    $row['id'],
-                    $row['image_path'],
-                    $row['title'],
-                    $row['status']
-                );
+                $banner = new Banner();
+                $banner->id = $row['id'];
+                $banner->image_path = $row['image_path'];
+                $banner->title = $row['title'];
+                $banner->status = $row['status'];
+                return $banner;
             }
             return null;
         } catch (Exception $e) {
             echo "ERROR: " . $e->getMessage();
         }
     }
+    
 }
