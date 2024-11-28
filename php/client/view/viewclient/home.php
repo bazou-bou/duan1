@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
 
-
+<!--  -->
 <!-- slider -->
 <div class="slider">
     <div class="owl-carousel owl-one owl-theme">
@@ -66,54 +66,21 @@
 <div class="space-medium">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="showcase-block">
-                    <div class="display-logo ">
-                        <a href="#">
-                            <h2> Converse Chuck 1970</h2>
-                        </a>
-                    </div>
-                    <div class="showcase-img">
-                        <a href="#"><img src="../viewclient/images/ds_1.webp" alt=""></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="showcase-block">
-                    <div class="display-logo ">
-                        <a href="#">
-                            <h2> Converse Chuck 1970</h2>
-                        </a>
-                    </div>
-                    <div class="showcase-img">
-                        <a href="#"><img src="../viewclient/images/ds_1.webp" alt=""></a>
+            <?php foreach ($DanhSachCategory as $category) { ?>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="showcase-block">
+                        <div class="display-logo ">
+                            <a href="#">
+                                <h2><?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?></h2>
+                            </a>
+                        </div>
+                        <div class="showcase-img">
+                            <a href="#"><img src="<?php echo htmlspecialchars($category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="showcase-block">
-                    <div class="display-logo ">
-                        <a href="#">
-                            <h2> Converse Chuck 1970</h2>
-                        </a>
-                    </div>
-                    <div class="showcase-img">
-                        <a href="#"><img src="../viewclient/images/ds_1.webp" alt=""></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="showcase-block">
-                    <div class="display-logo ">
-                        <a href="#">
-                            <h2> Converse Chuck 1970</h2>
-                        </a>
-                    </div>
-                    <div class="showcase-img">
-                        <a href="#"><img src="../viewclient/images/ds_1.webp" alt=""></a>
-                    </div>
-                </div>
-            </div>
+            <?php } ?>
+
         </div>
     </div>
 </div>
@@ -173,94 +140,110 @@
             </div>
         </div>
     </div>
+    
     <div class="product-carousel">
         <div class="box-body">
             <div class="row">
+
                 <div class="owl-carousel owl-two owl-theme">
+                    
+                <?= var_dump($danhSachHot) ?>
+
                     <!-- product -->
-                    <div class="item">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_5.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">Apple iPhone 6 <strong>(32 GB, Gold)</strong></a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1700</a>
-                                        <a href="#" class="discounted-price">$2000</a>
-                                        <span class="offer-price">20%off</span>
+                    <?php
+                    $limitedProducts = array_slice($danhSachHot, 0, 5);
+                    foreach ($limitedProducts as $product) { ?>
+                        <?php if (is_object($product)) { ?>
+
+                            <div class="item">
+                                <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id ?? '') ?>">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="product-block">
+                                            <div class="product-img"><img src="<?= htmlspecialchars(BASE_URL . ($product->img ?? 'default-image.jpg')) ?>" alt=""></div>
+                                            <div class="product-content">
+                                                <h5><a href="#" class="product-title"><?= htmlspecialchars($products->name) ?></a></h5>
+                                                <div class="product-meta"><a href="#" class="product-price"><?= number_format($products->price, 0, ',', '.') ?></a>
+                                                    <!-- <a href="#" class="discounted-price">$2000</a>
+                                        <span class="offer-price">20%off</span> -->
+                                                </div>
+                                                <div class="shopping-btn">
+                                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
+                                                    <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id ?? '') ?>" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
-                        </div>
-                        <!-- /.product -->
-                    </div>
-                    <!-- product -->
-                    <div class="item">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_6.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">Apple iPhone 7 <strong>(256 GB, Black)</strong> </a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1400</a>
-                                        <a href="#" class="discounted-price"><strike>$1800</strike></a>
-                                        <span class="offer-price">20%off</span>
-                                    </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <?php } ?>
+                    <?php } ?>
                     <!-- /.product -->
-                    <!-- product -->
-                    <div class="item">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_7.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">Apple iPhone 6S <strong>(32GB, Gold)</strong> </a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1300</a>
-                                        <a href="#" class="discounted-price"><strike>$2000</strike></a>
-                                        <span class="offer-price">20%off</span>
-                                    </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.product -->
-                    <!-- product -->
-                    <div class="item">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_8.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">Apple iPhone X <strong>(64 GB, Grey)</strong></a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1200</a>
-                                        <a href="#" class="discounted-price"><strike>$2000</strike></a>
-                                        <span class="offer-price">20%off</span>
-                                    </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.product -->
-                    </div>
                 </div>
+                <!-- product -->
+                <!-- <div class="item">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-block">
+                            <div class="product-img"><img src="../viewclient/images/product_img_6.png" alt=""></div>
+                            <div class="product-content">
+                                <h5><a href="#" class="product-title">Apple iPhone 7 <strong>(256 GB, Black)</strong> </a></h5>
+                                <div class="product-meta"><a href="#" class="product-price">$1400</a>
+                                    <a href="#" class="discounted-price"><strike>$1800</strike></a>
+                                    <span class="offer-price">20%off</span>
+                                </div>
+                                <div class="shopping-btn">
+                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
+                                    <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- /.product -->
+                <!-- product -->
+                <!-- <div class="item">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-block">
+                            <div class="product-img"><img src="../viewclient/images/product_img_7.png" alt=""></div>
+                            <div class="product-content">
+                                <h5><a href="#" class="product-title">Apple iPhone 6S <strong>(32GB, Gold)</strong> </a></h5>
+                                <div class="product-meta"><a href="#" class="product-price">$1300</a>
+                                    <a href="#" class="discounted-price"><strike>$2000</strike></a>
+                                    <span class="offer-price">20%off</span>
+                                </div>
+                                <div class="shopping-btn">
+                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
+                                    <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- /.product -->
+                <!-- product -->
+                <!-- <div class="item">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-block">
+                            <div class="product-img"><img src="../viewclient/images/product_img_8.png" alt=""></div>
+                            <div class="product-content">
+                                <h5><a href="#" class="product-title">Apple iPhone X <strong>(64 GB, Grey)</strong></a></h5>
+                                <div class="product-meta"><a href="#" class="product-price">$1200</a>
+                                    <a href="#" class="discounted-price"><strike>$2000</strike></a>
+                                    <span class="offer-price">20%off</span>
+                                </div>
+                                <div class="shopping-btn">
+                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
+                                    <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.product -->
+                <!-- </div> -->
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- /.seller products -->
 <!-- featured products -->

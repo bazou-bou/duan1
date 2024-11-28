@@ -30,6 +30,7 @@ class ProductController
         // Gọi dữ liệu sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
+        // var_dump($danhSachHot);
         include "view/viewclient/home.php";
         
     }

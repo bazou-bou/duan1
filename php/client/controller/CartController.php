@@ -23,6 +23,7 @@ class CartController
     {
         $this->cartQuery->addProductToCart($userId, $productId, $quantity);
         header("Location: ?act=client-listgiohang&id=$userId");
+        
     }
 
     // Xóa sản phẩm khỏi giỏ hàng

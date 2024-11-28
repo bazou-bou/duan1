@@ -98,7 +98,8 @@ if (isset($_POST['search'])) {
                 <ul class="navbar-nav">
                     <!-- Giỏ hàng -->
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
+                        <a class="nav-link text-white" href="?act=client-listgiohang&id=<?= htmlspecialchars($_SESSION['user_id']) ?>">
+                            
                             <i class="bi bi-cart cart-icon"></i>
                         </a>
                     </li>

@@ -342,7 +342,7 @@ class ProductController
                 // var_dump($product->title);
                 $dataCreated = $this->productQuery->insertBanner($product);
                 if ($dataCreated == "ok") {
-                    header("Location: ?act=product-list");
+                    header("Location: ?act=banner-list");
                     exit();
                 }
             }

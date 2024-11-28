@@ -1,8 +1,16 @@
 <?php
 
-$isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đăng nhập
 
+$isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đăng nhập
+$_SESSION["quantity"] =1;
+if (isset($_POST["quantity"])) {
+    $_SESSION["quantity"] = intval($_POST["quantity"]); // Chuyển đổi sang số nguyên
+}
+
+var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,17 +90,23 @@ $isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đ�
                         <h5 class="fs-5">Số lượng:</h5>
                         <div class="input-group">
                             <button class="btn btn-sm px-2 no-border" type="button" id="button-decrement">-</button>
+                            <form method="POST" action="" enctype="multipart/form-data">
                             <input type="number" id="quantity" name="quantity" class="form-control text-center form-control-sm no-border no-spinner" value="1" min="1">
+                            <!-- <button type="submit">Gửi</button> -->
+                            
                             <button class="btn btn-sm px-2 no-border" type="button" id="button-increment">+</button>
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="mt-3">
-                        <button class="btn btn-success me-2" type="button"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-                        <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
-                    </div>
+                    <button class="btn btn-success me-2" type="submit" id="addToCartButton">
+                    <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" type="submit">Thêm vào giỏ hàng</a>
+                    </button>
 
+                    <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
+                    </div>
+</form>
                     <!-- Description -->
                     <div class="mt-3">
                         <p><?= htmlspecialchars($DanhSachOne->description) ?></p>
@@ -280,7 +294,19 @@ $isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đ�
                 });
             });
         });
+
+
+        
+    document.getElementById("addToCartButton").addEventListener("click", function () {
+        // Gửi form bằng JavaScript
+        document.getElementById("addToCartForm").submit();
+
+        // Chuyển trang sau khi gửi form
+        window.location.href = "?act=client-list"; // Thay URL bằng trang bạn muốn chuyển đến
+    });
     </script>
+
+    
 </body>
 
 </html>
