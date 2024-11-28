@@ -48,7 +48,7 @@
 
     <!-- slideshow -->
     <div class="slider">
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/slideshow.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/slideshow.php'; ?>
     </div>
 
     <main>

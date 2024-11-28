@@ -340,5 +340,27 @@ class ProductQuery
         }
     }
 
+    public function allBanner() {
+        try {
+            $sql = "SELECT * FROM `banners`";
+            $data = $this->pdo->query($sql)->fetchAll();
 
+            $banners = [];
+            foreach ($data as $value) {
+                $banner = new Banner(); 
+                $banner->id = $value["id"];
+                $banner->image_path = $value["image_path"];
+                $banner->title = $value["title"];
+                $banner->status = $value["status"];
+                if ($banner->status == 1) {
+                $banners[] = $banner;
+                }
+            }
+
+            return $banners;
+        } catch (Exception $error) {
+            error_log("Lỗi khi lấy danh sách banner: " . $error->getMessage());
+            return [];
+        }
+    }
 }

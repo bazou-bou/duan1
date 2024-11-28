@@ -1,3 +1,11 @@
+<?php
+include_once("model/ProductQuery.php");
+
+$productQuery = new ProductQuery();
+
+$bannerList = $productQuery->allBanner();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,35 +18,30 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <style>
-    img{
+    img {
       width: 100%;
       height: 500px;
       object-fit: cover;
     }
   </style>
-  <title>Document</title>
+  <title>Carousel</title>
 </head>
 
 <body style="height: 400px; width: 100%;">
   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-        aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-        aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-        aria-label="Slide 3"></button>
+      <?php foreach ($bannerList as $index => $banner) { ?>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<?= $index ?>"
+          class="<?= $index === 0 ? 'active' : '' ?>" aria-current="<?= $index === 0 ? 'true' : 'false' ?>"
+          aria-label="Slide <?= $index + 1 ?>"></button>
+      <?php } ?>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="./img/Banner-uiux-5.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="./img/Banner-uiux-4.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="./img/Banner-uiux-3.jpg" class="d-block w-100" alt="...">
-      </div>
+      <?php foreach ($bannerList as $index => $banner) { ?>
+        <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+          <img src="<?= htmlspecialchars(BASE_URL . $banner->image_path) ?>" class="d-block w-100" alt="Banner <?= $index + 1 ?>">
+        </div>
+      <?php } ?>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
