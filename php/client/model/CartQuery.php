@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../../confix.php';
 
 class CartQuery
@@ -20,59 +19,32 @@ class CartQuery
     // Lấy giỏ hàng của người dùng
     public function getCartByUser($id)
     {
-        // $sql = "SELECT ci.*, p.name, p.price, p.img 
-        //         FROM cart_items ci 
-        //         JOIN products p ON ci.product_id = p.product_id 
-        //         WHERE ci.cart_id = (SELECT cart_id FROM carts WHERE user_id = :userId LIMIT 1)";
-        // $stmt = $this->pdo->prepare($sql);
-        // $stmt->bindParam(':userId', $userId);
-        // $stmt->execute();
-        // return $stmt->fetchAll(PDO::FETCH_OBJ);
-
         try {
             $sql = "SELECT 
-    carts.cart_id, 
-    carts.user_id, 
-    users.username, 
-    cart_items.item_id, 
-    cart_items.product_id, 
-    products.name AS product_name, 
-    cart_items.quantity, 
-    products.img AS product_image, 
-    products.price AS product_price 
-    FROM carts 
-    LEFT JOIN cart_items ON carts.cart_id = cart_items.cart_id 
-    LEFT JOIN products ON cart_items.product_id = products.product_id 
-    LEFT JOIN users ON carts.user_id = users.user_id 
-    WHERE carts.user_id = '{$id}'
-    ORDER BY carts.cart_id, cart_items.item_id";
-
-            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-
-            $cartItems = [];
-            foreach($data as $value){
-                $product = new Card();
-                $product->cart_id = $value["cart_id"];
-                $product->user_id = $value["user_id"];
-                $product->username = $value["username"];
-                $product->item_id = $value["item_id"];
-                $product->product_id = $value["product_id"];
-                $product->product_name = $value["product_name"];
-                $product->quantity = $value["quantity"];
-                $product->product_image = $value["product_image"];
-                $product->product_price = $value["product_price"];
-
-                $cartItems[] = $product;
-            }
-
-            return $cartItems;
+                        carts.cart_id, 
+                        carts.user_id, 
+                        users.username, 
+                        cart_items.item_id, 
+                        cart_items.product_id, 
+                        products.name AS product_name, 
+                        cart_items.quantity, 
+                        products.img AS product_image, 
+                        products.price AS product_price 
+                    FROM carts 
+                    LEFT JOIN cart_items ON carts.cart_id = cart_items.cart_id 
+                    LEFT JOIN products ON cart_items.product_id = products.product_id 
+                    LEFT JOIN users ON carts.user_id = users.user_id 
+                    WHERE carts.user_id = :userId
+                    ORDER BY carts.cart_id, cart_items.item_id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':userId' => $id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $error) {
-            echo "Lỗi: " . $error->getMessage() . "<br>";
-            echo "Truy xuất đơn hàng thất bại";
+            echo "Lỗi: " . $error->getMessage();
         }
     }
 
-    // Thêm sản phẩm vào giỏ
+    // Thêm sản phẩm vào giỏ hàng
     public function addProductToCart($userId, $productId, $quantity)
     {
         $cartId = $this->getCartId($userId);
@@ -93,23 +65,31 @@ class CartQuery
         }
     }
 
-    // Cập nhật số lượng sản phẩm trong giỏ
-    public function updateQuantity($cartId, $productId, $quantity)
-    {
-        $sql = "UPDATE cart_items SET quantity = quantity + :quantity WHERE cart_id = :cartId AND product_id = :productId";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':quantity' => $quantity, ':cartId' => $cartId, ':productId' => $productId]);
-    }
-
-    // Thêm sản phẩm vào giỏ mới
+    // Thêm sản phẩm vào giỏ hàng (với xử lý hình ảnh)
     private function insertProduct($cartId, $productId, $quantity)
     {
-        $sql = "INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (:cartId, :productId, :quantity)";
+        // Lấy hình ảnh sản phẩm từ bảng products
+        $sql = "SELECT img FROM products WHERE product_id = :productId";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':cartId' => $cartId, ':productId' => $productId, ':quantity' => $quantity]);
+        $stmt->execute([':productId' => $productId]);
+        $productImg = $stmt->fetchColumn();
+
+        if (!$productImg) {
+            $productImg = 'default.jpg'; // Ảnh mặc định nếu sản phẩm không có ảnh
+        }
+
+        $sql = "INSERT INTO cart_items (cart_id, product_id, quantity, card_img) 
+                VALUES (:cartId, :productId, :quantity, :cardImg)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':cartId' => $cartId,
+            ':productId' => $productId,
+            ':quantity' => $quantity,
+            ':cardImg' => $productImg
+        ]);
     }
 
-    // Tạo giỏ mới cho người dùng
+    // Tạo giỏ hàng mới cho người dùng
     private function createNewCart($userId, $productId, $quantity)
     {
         $sql = "INSERT INTO carts (user_id) VALUES (:userId)";
@@ -128,6 +108,14 @@ class CartQuery
         return $stmt->fetchColumn();
     }
 
+    // Cập nhật số lượng sản phẩm
+    public function updateQuantity($cartId, $productId, $quantity)
+    {
+        $sql = "UPDATE cart_items SET quantity = quantity + :quantity WHERE cart_id = :cartId AND product_id = :productId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':quantity' => $quantity, ':cartId' => $cartId, ':productId' => $productId]);
+    }
+
     // Xóa sản phẩm khỏi giỏ
     public function removeProductFromCart($userId, $productId)
     {
@@ -138,5 +126,18 @@ class CartQuery
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':cartId' => $cartId, ':productId' => $productId]);
         }
+    }
+     // hiển thị số lượng mà người dùng thêm vào giỏ hàng ở header
+    public function getTotalItems($userId)
+    {
+        $cartId = $this->getCartId($userId);
+
+        if (!$cartId) {
+            return 0;
+        }
+
+        $stmt = $this->pdo->prepare("SELECT SUM(quantity) FROM cart_items WHERE cart_id = :cartId");
+        $stmt->execute([':cartId' => $cartId]);
+        return $stmt->fetchColumn();
     }
 }

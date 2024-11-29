@@ -16,7 +16,7 @@
                     </div>
                     <div class="contact-info">
                         <span class="contact-icon"><i class="fa fa-envelope"></i></span>
-                        <span class="contact-text">nhom21@ltweb.com</span>
+                        <span class="contact-text">nhom12@ltweb.com</span>
                     </div>
                 </div>
             </div>

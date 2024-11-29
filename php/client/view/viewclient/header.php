@@ -1,3 +1,11 @@
+<?php
+// Lấy số lượng sản phẩm trong giỏ hàng
+$userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
+$cartCtrl = new CartController();
+$totalItems = $cartCtrl->getTotalItemsInCart($userId);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,6 +40,22 @@
 </head>
 
 <body>
+    <!-- top-header-->
+<div class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6 hidden-xs">
+                <p class="top-text">Shop BTL</p>
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+                <ul>
+                    <li>nhom12@laptrinhweb.com</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.top-header-->
+    </div>
+</div>
 <!-- top-header-->
 <!-- header-section-->
 <div class="header-wrapper">
@@ -58,9 +82,8 @@
                     <ul>
                         <li><a href="index.php?act=taikhoan" class="title hidden-xs">Tài khoản</a></li>
                         <li class="hidden-xs">|</li>
-                        <li><a href="index.php?act=dangnhap_form" class="title hidden-xs">Đăng nhập</a></li>
-                        <li><a href="favorite-list.html"><i class="fa fa-heart"></i></a></li>
-                        <li><a href="index.php?act=giohang" class="title"><i class="fa fa-shopping-cart"></i>   <sup class="cart-quantity">1</sup></a>
+                        <li><a href="?act=client-login" class="title hidden-xs">Đăng nhập</a></li>
+                        <li><a href="?act=client-listgiohang" class="title"><i class="fa fa-shopping-cart"></i>   <sup class="cart-quantity"><?= $totalItems ?></sup></a>
                         </li>
                     </ul>
                 </div>
@@ -77,10 +100,10 @@
                     <!-- navigations-->
                     <div id="navigation">
                         <ul>
-                            <li class="active"><a href="home.php">Trang chủ</a></li>
-                            <li><a href="index.php?act=sanpham_list">Sản phẩm</a>
+                            <li class="active"><a href="?act=client-list">Trang chủ</a></li>
+                            <li><a href="?act=client-listsp">Sản phẩm</a>
                             </li>
-                            <li><a href="index.php?act=gioithieu">Giới thiệu</a>
+                            <li><a href="?act=gioithieu">Giới thiệu</a>
                             </li>
                             <li><a href="index.php?act=tintuc_list">Tin tức</a> </li>
                             <li><a href="index.php?act=lienhe">Liên hệ</a>
