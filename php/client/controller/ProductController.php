@@ -115,7 +115,7 @@ class ProductController
 
 
         // Gọi view để hiển thị chi tiết sản phẩm và các bình luận
-        include "view/use/detail.php";
+        include "view/viewclient/sanpham_chitiet.php";
     }
 
 
