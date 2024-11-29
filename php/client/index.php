@@ -52,11 +52,6 @@ switch ($act) {
         $productCtrl->showList();
         break;
 
-    case "client-listsp":
-        $productCtrl = new ProductController();
-        $productCtrl->showListSP();
-        break;
-
     case "client-create":
         $productCtrl = new ProductController();
         $productCtrl->showCreate();
@@ -113,18 +108,17 @@ switch ($act) {
     case "client-remove-listgiohang":
         if (isset($_GET['product_id'])) {
             $cartCtrl = new CartController();
-            $userId = $_SESSION["user_id"]; // Lấy user ID từ session
             $cartCtrl->removeFromCart($userId, $_GET['product_id']);
         }
         break;
 
+        // Cập nhật số lượng sản phẩm trong giỏ hàng
     case "client-update-listgiohang":
         if (isset($_POST['quantity']) && isset($_GET['id'])) {
             $cartCtrl = new CartController();
             $cartCtrl->updateCart($userId, $_GET['id'], $_POST['quantity']);
         }
         break;
-
         // Nếu không có hành động nào khớp, hiển thị trang lỗi 404
 
 

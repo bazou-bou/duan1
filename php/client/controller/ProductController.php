@@ -34,20 +34,6 @@ class ProductController
         include "view/viewclient/home.php";
         
     }
-    public function showListSP()
-    {
-        // Hiển thị file view tương ứng. Hiển thị file list.php
-        $DanhSachobject = $this->productQuery->all();
-        
-        $DanhSachCategory = $this->productQuery->allCatories();
-        //var_dump($DanhSachCategory);
-        // Gọi dữ liệu sản phẩm hot
-        $hotProductsResult = $this->productQuery->getHotProducts();
-        $danhSachHot = $hotProductsResult['products'] ?? [];
-        // var_dump($danhSachHot);
-        include "view/viewclient/sanpham_list.php";
-        
-    }
 
 
 
@@ -129,7 +115,7 @@ class ProductController
 
 
         // Gọi view để hiển thị chi tiết sản phẩm và các bình luận
-        include "view/viewclient/sanpham_chitiet.php";
+        include "view/use/detail.php";
     }
 
 
@@ -216,14 +202,14 @@ class ProductController
                 }
             }
         }
-        include "view/viewclient/dangki_form.php";
+        include "view/login/dangky.php";
     }
     public function listUser() {
         // Lấy danh sách người dùng từ Query
         $dsUser = $this->productQuery->allUser();
 
         // Gửi danh sách người dùng sang view login.php
-        include "view/viewclient/dangnhap_form.php";
+        include "view/login/login.php";
     }
 
     public function showLogout()
@@ -233,6 +219,7 @@ class ProductController
 
         session_unset();
         session_destroy();
+        
 
 
         echo "<script>window.location.href = '?act=client-list';</script>";
