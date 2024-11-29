@@ -50,7 +50,7 @@ class CartQuery
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
             $cartItems = [];
-            foreach($data as $value){
+            foreach ($data as $value) {
                 $product = new Card();
                 $product->cart_id = $value["cart_id"];
                 $product->user_id = $value["user_id"];
@@ -94,11 +94,17 @@ class CartQuery
     }
 
     // Cập nhật số lượng sản phẩm trong giỏ
-    public function updateQuantity($cartId, $productId, $quantity)
+    public function updateQuantity($item_id, $quantity)
     {
-        $sql = "UPDATE cart_items SET quantity = quantity + :quantity WHERE cart_id = :cartId AND product_id = :productId";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':quantity' => $quantity, ':cartId' => $cartId, ':productId' => $productId]);
+        try {
+            var_dump($quantity);
+            $sql = "UPDATE cart_items SET quantity = $quantity WHERE item_id = $item_id;";
+            $this->pdo->exec($sql);
+            return 'ok';
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Cập nhập đơn hàng thất bại";
+        }
     }
 
     // Thêm sản phẩm vào giỏ mới
@@ -129,14 +135,14 @@ class CartQuery
     }
 
     // Xóa sản phẩm khỏi giỏ
-    public function removeProductFromCart($userId, $productId)
-    {
-        $cartId = $this->getCartId($userId);
+    // public function removeProductFromCart($userId, $productId)
+    // {
+    //     $cartId = $this->getCartId($userId);
 
-        if ($cartId) {
-            $sql = "DELETE FROM cart_items WHERE cart_id = :cartId AND product_id = :productId";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([':cartId' => $cartId, ':productId' => $productId]);
-        }
-    }
+    //     if ($cartId) {
+    //         $sql = "DELETE FROM cart_items WHERE cart_id = :cartId AND product_id = :productId";
+    //         $stmt = $this->pdo->prepare($sql);
+    //         $stmt->execute([':cartId' => $cartId, ':productId' => $productId]);
+    //     }
+    // }
 }

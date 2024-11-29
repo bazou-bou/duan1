@@ -30,9 +30,7 @@ class ProductController
         // Gọi dữ liệu sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
-        // var_dump($danhSachHot);
-        include "view/viewclient/home.php";
-        
+        include "view/use/list.php";
     }
 
 
@@ -115,7 +113,7 @@ class ProductController
 
 
         // Gọi view để hiển thị chi tiết sản phẩm và các bình luận
-        include "view/viewclient/sanpham_chitiet.php";
+        include "view/use/detail.php";
     }
 
 
@@ -223,10 +221,9 @@ class ProductController
 
         session_unset();
         session_destroy();
-        
 
 
-        echo "<script>window.location.href = '?act=client-list';</script>";
+        echo "<script>window.location.href = '?act=client-login';</script>";
         exit();
     }
 }

@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "
             <script>
                 if (confirm('Tài khoản của bạn đã bị khóa! Bấm OK để đăng nhập lại.')) {
-                    window.location.href = '?act=client-login';
+                    window.location.href = '?act=client-logout';
                 }
             </script>";
             exit;
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/styleindex.css">
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
     <style>
-        * {
+        /* * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             justify-content: center;
             margin-top: 50px;
-        }
+        } */
     </style>
     <title>Website Bán Giày Converse</title>
 </head>

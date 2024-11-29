@@ -100,7 +100,7 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
 
                     <!-- Action Buttons -->
                     <div class="mt-3">
-                    <button class="btn btn-success me-2" type="submit" id="addToCartButton">
+                    <button class="btn btn-success me-2" type="submit" id="addToCartButton" hre>
                     <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" type="submit">Thêm vào giỏ hàng</a>
                     </button>
 

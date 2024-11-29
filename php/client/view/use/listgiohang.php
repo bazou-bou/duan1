@@ -75,7 +75,7 @@
 
     </style>
 </head>
-
+<?= var_dump($_POST['quantity']);  ?>
 <body>
     <header>
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/header.php'; ?>
@@ -100,6 +100,7 @@
                 <tbody>
                     <?php 
                         $totalAmount = 0;
+                        var_dump($cartItems);
                         foreach ($cartItems as $item) {
                             $itemTotal = $item->quantity * $item->product_price;
                     ?>
@@ -118,7 +119,7 @@
                         </td>
                         <td><?= htmlspecialchars($item->product_name) ?></td>
                         <td class="text-danger fs-5"><?= number_format($item->product_price, 0, ',', '.') ?> VNĐ</td>
-                        <td><?= $item->quantity ?></td>
+                        <td><form action="?act=update-cart&id=<?= $item->product_id ?>$item_id=<?= $item->item_id ?>" method="post"><input type="number" class="form-control" name="quantity[<?= $item->item_id ?>]" value="<?= $item->quantity ?>"></form></td>
                         <td class="text-danger fs-5"><?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</td>
                         <td class="text-center">
                             <a href="?act=remove-item&item_id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
@@ -173,6 +174,9 @@
             checkbox.addEventListener("change", updateTotal);
         });
     });
+
+
+
 </script>
 
 

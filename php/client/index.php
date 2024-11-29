@@ -28,6 +28,12 @@ if (isset($_GET["id"])) {
     //echo $id . "<br>";
 }
 
+$item_id="";
+if (isset($_GET["item_id"])) {
+    $item_id = $_GET["item_id"];
+    //echo $item_id . "<br>";
+}
+
 $search = "";
 if (isset($_GET["search"])) {
     $search = $_GET["search"];
@@ -108,7 +114,7 @@ switch ($act) {
     case "client-remove-listgiohang":
         if (isset($_GET['product_id'])) {
             $cartCtrl = new CartController();
-            $cartCtrl->removeFromCart($userId, $_GET['product_id']);
+           // $cartCtrl->removeFromCart($userId, $_GET['product_id']);
         }
         break;
 
@@ -116,11 +122,27 @@ switch ($act) {
     case "client-update-listgiohang":
         if (isset($_POST['quantity']) && isset($_GET['id'])) {
             $cartCtrl = new CartController();
+            
             $cartCtrl->updateCart($userId, $_GET['id'], $_POST['quantity']);
         }
         break;
         // Nếu không có hành động nào khớp, hiển thị trang lỗi 404
-
+        case "update-cart":
+            if (!empty($_POST['quantity'])) {
+                $cartCtrl = new CartController();
+                $quantities = $_POST["quantity"]; // Lấy mảng quantity từ POST
+        
+                // Lặp qua từng sản phẩm trong giỏ hàng
+                foreach ($quantities as $item_id => $quantity) {
+                    $item_id = intval($item_id); // Đảm bảo id là số nguyên
+                    $quantity = intval($quantity); // Đảm bảo số lượng là số nguyên
+        
+                    // Gọi phương thức cập nhật giỏ hàng
+                    $cartCtrl->updateCart($item_id, $quantity);
+                }
+            }
+            break;
+        
 
 
 
