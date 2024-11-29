@@ -1,4 +1,8 @@
 <?php
+// session_start();
+// if($_SESSION["username"]=="khách"){
+//     $_SESSION['user_id'] =0;
+// }
 
 // Kiểm tra nếu dữ liệu tìm kiếm được gửi
 if (isset($_POST['search'])) {
@@ -98,9 +102,19 @@ if (isset($_POST['search'])) {
                 <ul class="navbar-nav">
                     <!-- Giỏ hàng -->
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
+
+                        <?php if(isset($_SESSION['user_id'])){?>
+
+                        <a class="nav-link text-white" href="?act=client-listgiohang&id=<?= htmlspecialchars($_SESSION['user_id']) ?>">
+                            
                             <i class="bi bi-cart cart-icon"></i>
-                        </a>
+                        </a> 
+                        <?php }else{?> 
+                            <a class="nav-link text-white" href="">
+                            
+                            <i class="bi bi-cart cart-icon"></i>
+                        </a> 
+                        <?php } ?>
                     </li>
 
                     <!-- Đăng nhập dạng thả xuống -->
@@ -109,7 +123,7 @@ if (isset($_POST['search'])) {
                             <i class="bi bi-gear settings-icon"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
-                            <?php if (isset($_SESSION['username'])) { ?>
+                            <?php if (isset($_SESSION['username']) && $_SESSION['username']!="khách" ) { ?>
                                 <li><a class="dropdown-item" href="#"><?= htmlspecialchars($_SESSION['username']) ?></a></li>
                                 <li><a class="dropdown-item" href="?act=client-logout">Đăng xuất</a></li>
                             <?php } else { ?>

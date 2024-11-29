@@ -30,6 +30,7 @@ class ProductController
 
 
 
+
     public function toggleStatus($id, $table, $field)
     {
         // Truyền giá trị field linh hoạt
@@ -283,6 +284,8 @@ class ProductController
         }
     }
 
+  
+
     public function listOrder()
     {
         $DanhSachobject = $this->productQuery->allOrder();
@@ -314,9 +317,6 @@ class ProductController
             $product->title = $_POST["title"] ?? '';
             $product->image_path = $_POST["image_path"] ?? '';
             $product->status = $_POST["status"] ?? '';
-            var_dump($product->title);
-            var_dump($product->image_path);
-            var_dump($product->status);
 
             // Validation
             if ($product->title === "") $loi_ten = "Hãy nhập tên giày đi!!";
@@ -355,27 +355,49 @@ class ProductController
     public function showBannerUpdate($id)
     {
         if ($id !== "") {
-            $loi_ten = $loi_anh = $baoThanhCong = "";
-            $banner = $this->productQuery->findBanner($id);  // Tìm banner theo ID
+            $loi_ten = $loi_anh = $loi_description = $baoThanhCong = "";
+            $banner = $this->productQuery->findBanner($id);  // Lấy thông tin banner hiện tại
+            $dsbanner = $this->productQuery->allBanner();  // Lấy danh sách banner
+
+            // var_dump($banner); // Kiểm tra đối tượng banner
+
+            $oldImagePath = $banner->image_path;  // Lưu lại đường dẫn ảnh cũ
 
             if (isset($_POST["submitForm"])) {
-                $banner->title = $_POST["name"];
-                $banner->status = $_POST["status"];
+                $banner = new Banner();
+                $banner->title = $_POST["title"] ?? '';
+                $banner->image_path = $_POST["image_path"] ?? '';
+                $banner->status = $_POST["status"] ?? '';
 
-                // Validation
-                if ($banner->title === "") $loi_ten = "Hãy nhập tên banner!";
 
-                // Upload hình ảnh
-                $fileTmpName = $_FILES['fileUpload']['tmp_name'];
-                $fileName = "../upload/" . $_FILES['fileUpload']['name'];
-                if (move_uploaded_file($fileTmpName, $fileName)) {
-                    $banner->image_path = "upload/" . $_FILES['fileUpload']['name'];
+                // Validate các trường dữ liệu
+                if ($banner->title === "") {
+                    $loi_ten = "Hãy nhập tiêu đề banner!";
+                }
+                if ($banner->status === "") {
+                    $loi_description = "Hãy chọn trạng thái banner!";
                 }
 
-                // Nếu không có lỗi, thực hiện cập nhật banner
-                if ($loi_ten === "" && $loi_anh === "") {
+                // Nếu có ảnh mới, thực hiện upload
+                if ($_FILES['fileUpload']['name'] != "") {
+                    $thanSo01 = $_FILES['fileUpload']['tmp_name']; // Bộ nhớ tạm lưu trữ file
+                    $thanSo02 = "../upload/" . $_FILES['fileUpload']['name']; // Đường dẫn lưu file
+
+                    if (move_uploaded_file($thanSo01, $thanSo02)) {
+                        $banner->image_path = "upload/" . $_FILES['fileUpload']['name']; // Cập nhật đường dẫn ảnh
+                        $loi_anh = "";
+                    } else {
+                        $loi_anh = "Không upload được ảnh!";
+                    }
+                } else {
+                    // Nếu không có ảnh mới, giữ lại ảnh cũ
+                    $banner->image_path = $oldImagePath;
+                }
+                // Nếu không có lỗi, tiến hành cập nhật banner
+                if ($loi_ten === "" && $loi_anh === "" && $loi_description === "") {
                     $baoThanhCong = "Bạn đã cập nhật banner thành công!";
-                    $dataUpdated = $this->productQuery->updateBanner($banner, $id);
+                    $dataUpdated = $this->productQuery->updateBanner($banner, $id);  // Cập nhật vào cơ sở dữ liệu
+
                     if ($dataUpdated == "ok") {
                         header("Location: ?act=banner-list");
                         exit();

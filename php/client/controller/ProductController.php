@@ -30,7 +30,9 @@ class ProductController
         // Gọi dữ liệu sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
-        include "view/use/list.php";
+        // var_dump($danhSachHot);
+        include "view/viewclient/home.php";
+        
     }
 
 
@@ -221,6 +223,7 @@ class ProductController
 
         session_unset();
         session_destroy();
+        
 
 
         echo "<script>window.location.href = '?act=client-list';</script>";

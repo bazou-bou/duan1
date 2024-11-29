@@ -80,7 +80,7 @@
                 <div class="mb-3" style="padding-bottom: 20px;">
                     <select class="form-select" id="status" name="status" style="height: 40px;">
                         <option value="" disabled <?= empty($banner->status) ? 'selected' : '' ?> disabled>Trạng thái</option>
-                        <option value="1" class="form-control">Hoạt động</option>
+                        <option value="1" class="form-control">Hiển thị</option>
                         <option value="0" class="form-control">Không hiển thị</option>
 
                     </select>
