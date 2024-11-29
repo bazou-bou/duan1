@@ -82,7 +82,8 @@
                             <p class="mb-1">Số lượng: <?= $item->quantity ?></p>
                             <p class="fw-bold">Tổng: <?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</p>
                             <div class="cart-item-actions">
-                                <a href="?act=remove-item&item_id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
+                            <a href="?act=client-remove-listgiohang&product_id=<?= $item->product_id ?>" class="btn btn-danger btn-sm">Xóa</a>
+
                                 <a href="?act=client-detail&id=<?= $item->product_id ?>" class="btn btn-primary btn-sm">Xem Chi Tiết</a>
                             </div>
                         </div>
