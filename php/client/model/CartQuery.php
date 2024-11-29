@@ -139,10 +139,27 @@ class CartQuery
     // {
     //     $cartId = $this->getCartId($userId);
 
+
     //     if ($cartId) {
     //         $sql = "DELETE FROM cart_items WHERE cart_id = :cartId AND product_id = :productId";
     //         $stmt = $this->pdo->prepare($sql);
     //         $stmt->execute([':cartId' => $cartId, ':productId' => $productId]);
     //     }
     // }
+
+     // hiển thị số lượng mà người dùng thêm vào giỏ hàng ở header
+    public function getTotalItems($userId)
+    {
+        $cartId = $this->getCartId($userId);
+
+        if (!$cartId) {
+            return 0;
+        }
+
+        $stmt = $this->pdo->prepare("SELECT SUM(quantity) FROM cart_items WHERE cart_id = :cartId");
+        $stmt->execute([':cartId' => $cartId]);
+        return $stmt->fetchColumn();
+    }
+
 }
+
