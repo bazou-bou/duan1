@@ -101,8 +101,8 @@ switch ($act) {
     case "client-addcart":
         $cartCtrl = new CartController();
         $userId =  $_SESSION["user_id"];
-        $quantity=$_SESSION["quantity"] ;
-        $cartCtrl->addToCart($userId, $id,$quantity);
+        $quantity = $_SESSION["quantity"];
+        $cartCtrl->addToCart($userId, $id, $quantity);
         break;
         // Xóa sản phẩm khỏi giỏ hàng
     case "client-remove-listgiohang":
@@ -122,7 +122,7 @@ switch ($act) {
         // Nếu không có hành động nào khớp, hiển thị trang lỗi 404
 
 
-    
+
 
 
 
