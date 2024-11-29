@@ -43,5 +43,9 @@ class CartController
         }
         header("Location: ?act=client-listgiohang&id=$userId");  // Quay lại giỏ hàng
     }
+
+}
+
 }
 ?>
+
