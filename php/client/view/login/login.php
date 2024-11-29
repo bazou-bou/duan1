@@ -5,7 +5,7 @@
 //     $_SESSION['username'] = "khách";
 //     $_SESSION['user_id'] = 0;
 // }
-    
+
 
 
 
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: ?act=client-list");
                 exit; // Dừng script để tránh thực thi thêm mã không cần thiết
             }
-        }else {
+        } else {
             echo "
             <script>
                 if (confirm('Tài khoản của bạn đã bị khóa! Bấm OK để đăng nhập lại.')) {
@@ -48,8 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </script>";
             exit;
         }
-        
-        
     } else {
 
         $errorMessage = "Thông tin đăng nhập không chính xác!";
@@ -110,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <header>
 
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
-        
+
 
     </header>
     <div class="content">

@@ -82,7 +82,6 @@
     </header>
 
     <main class="container cart-container">
-
     <h1 class="text-center mb-4">Giỏ Hàng của bạn</h1>
     <?php if (!empty($cartItems)) { ?>
         <form id="cart-form" method="POST" action="?act=update-cart">
@@ -137,35 +136,6 @@
             </table>
             <div class="text-end">
                 <button type="submit" class="btn btn-checkout btn-lg">Thanh Toán</button>
-
-        <h1 class="text-center mb-4">Giỏ Hàng của bạn</h1>
-        <?php if (!empty($cartItems)) { ?>
-            <div class="row g-4">
-                <?php 
-                    $totalAmount = 0;
-                    foreach ($cartItems as $item) {
-                        $itemTotal = $item->quantity * $item->product_price;
-                        $totalAmount += $itemTotal;
-                ?>
-                <div class="col-md-6 col-lg-4">
-                    <div class="d-flex cart-item-card p-3">
-                        <img src="<?= htmlspecialchars(BASE_URL . $item->product_image) ?>" alt="Product Image"
-                            class="cart-item-image">
-                        <div class="cart-item-details ms-3">
-                            <h5 class="mb-1"><?= htmlspecialchars($item->product_name) ?></h5>
-                            <p class="mb-1 text-muted">Giá: <?= number_format($item->product_price, 0, ',', '.') ?> VNĐ</p>
-                            <p class="mb-1">Số lượng: <?= $item->quantity ?></p>
-                            <p class="fw-bold">Tổng: <?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</p>
-                            <div class="cart-item-actions">
-                            <a href="?act=client-remove-listgiohang&product_id=<?= $item->product_id ?>" class="btn btn-danger btn-sm">Xóa</a>
-
-                                <a href="?act=client-detail&id=<?= $item->product_id ?>" class="btn btn-primary btn-sm">Xem Chi Tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php } ?>
-
             </div>
         </form>
     <?php } else { ?>

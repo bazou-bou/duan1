@@ -2,7 +2,7 @@
 
 
 $isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đăng nhập
-$_SESSION["quantity"] = 1;
+$_SESSION["quantity"] =1;
 if (isset($_POST["quantity"])) {
     $_SESSION["quantity"] = intval($_POST["quantity"]); // Chuyển đổi sang số nguyên
 }
@@ -91,22 +91,22 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
                         <div class="input-group">
                             <button class="btn btn-sm px-2 no-border" type="button" id="button-decrement">-</button>
                             <form method="POST" action="" enctype="multipart/form-data">
-                                <input type="number" id="quantity" name="quantity" class="form-control text-center form-control-sm no-border no-spinner" value="1" min="1">
-                                <!-- <button type="submit">Gửi</button> -->
-
-                                <button class="btn btn-sm px-2 no-border" type="button" id="button-increment">+</button>
+                            <input type="number" id="quantity" name="quantity" class="form-control text-center form-control-sm no-border no-spinner" value="1" min="1">
+                            <!-- <button type="submit">Gửi</button> -->
+                            
+                            <button class="btn btn-sm px-2 no-border" type="button" id="button-increment">+</button>
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="mt-3">
-                        <button class="btn btn-success me-2" type="submit" id="addToCartButton">
-                            <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" type="submit">Thêm vào giỏ hàng</a>
-                        </button>
+                    <button class="btn btn-success me-2" type="submit" id="addToCartButton">
+                    <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" type="submit">Thêm vào giỏ hàng</a>
+                    </button>
 
-                        <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
+                    <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
                     </div>
-                    </form>
+</form>
                     <!-- Description -->
                     <div class="mt-3">
                         <p><?= htmlspecialchars($DanhSachOne->description) ?></p>
@@ -240,7 +240,7 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
 
         //prevents
         document.getElementById('postComment').addEventListener('click', function(event) {
-            let name = document.getElementById('username').value;
+            let name = document.getElementById('username').value;   
             let email = document.getElementById('email').value;
             let comment = document.getElementById('msg').value;
             let loi_comment = document.getElementById('loi_comment');
@@ -267,7 +267,7 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
             // Kiểm tra đăng nhập
 
 
-            if (name == '' || email == '' || comment == '') {
+            if (name == '' || email == '' || comment == '' ) {
                 return false;
             }
         });
@@ -296,17 +296,17 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
         });
 
 
+        
+    document.getElementById("addToCartButton").addEventListener("click", function () {
+        // Gửi form bằng JavaScript
+        document.getElementById("addToCartForm").submit();
 
-        document.getElementById("addToCartButton").addEventListener("click", function() {
-            // Gửi form bằng JavaScript
-            document.getElementById("addToCartForm").submit();
-
-            // Chuyển trang sau khi gửi form
-            window.location.href = "?act=client-list"; // Thay URL bằng trang bạn muốn chuyển đến
-        });
+        // Chuyển trang sau khi gửi form
+        window.location.href = "?act=client-list"; // Thay URL bằng trang bạn muốn chuyển đến
+    });
     </script>
 
-
+    
 </body>
 
 </html>
