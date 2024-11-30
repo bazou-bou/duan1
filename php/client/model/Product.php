@@ -72,3 +72,11 @@ class Card{
         
     }
 }
+class Banner{
+    public $id;
+    public $image_path;
+    public $title;
+    public $status;
+    public function __construct() {}
+    public function __destruct() {}
+}

@@ -17,43 +17,37 @@
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
     </header>
 
     <main>
         <section id="featured-products" class="my-4">
-        <h2 class="text-center mb-4 fs-1">Sản Phẩm <?php echo ucwords($category); ?></h2>
+            <h2 class="text-center mb-4 fs-1">Sản Phẩm <?php echo ucwords($category); ?></h2>
             <div class="row g-4">
 
                 <!-- Sidebar -->
                 <div class="col-lg-3 col-md-4">
-                <aside id="sidebar" class="bg-light p-3 rounded">
+                    <aside id="sidebar" class="bg-light p-3 rounded">
                         <h2 class="fs-4">Danh Mục Nổi Bật</h2>
                         <ul class="list-unstyled">
-                            <li class="d-flex align-items-center mb-3">
-                                <img src="../../img/watch/watch3.jpg" alt="Giày Nam" class="category-image me-3 img-fluid" style="max-width: 50px;">
-                                <a href="?act=client-category&category=Giày nam" class="text-decoration-none">Giày Nam</a>
-                            </li>
-                            <li class="d-flex align-items-center mb-3">
-                                <img src="../../img/shoes/lacoste/shoeL4.jpg" alt="Giày Nữ" class="category-image me-3 img-fluid" style="max-width: 50px;">
-                                <a href="?act=client-category&category=Giày nữ" class="text-decoration-none">Giày Nữ</a>
-                            </li>
-                            <li class="d-flex align-items-center mb-3">
-                                <img src="../../img/watch/watch5.jpg" alt="Giày Trẻ Em" class="category-image me-3 img-fluid" style="max-width: 50px;">
-                                <a href="?act=client-category&category=Giày trẻ em" class="text-decoration-none">Giày Trẻ Em</a>
-                            </li>
-                            <li class="d-flex align-items-center mb-3">
-                                <img src="../../img/bags/bag2.webp" alt="Khuyến Mãi" class="category-image me-3 img-fluid" style="max-width: 50px;">
-                                <a href="#" class="text-decoration-none">Khuyến Mãi</a>
-                            </li>
+                            <?php foreach ($DanhSachCategory as $category) { ?>
+                                <li>
+                                    <img src="<?php echo htmlspecialchars(BASE_URL . $category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>" class="category-image me-3 img-fluid" style="max-width: 50px; max-height: 50px;">
+                                    <a href="?act=client-category&category=<?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>">
+                                        <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>
+                                    </a>
+                                </li>
+                                <hr>
+                            <?php } ?>
                         </ul>
                     </aside>
                 </div>
 
+
                 <!-- Featured Products -->
                 <div class="col-lg-9 col-md-8">
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-                        <?php foreach ($DanhSachCategory as $product) { ?>
+                        <?php foreach ($DanhSachOneCategory as $product) { ?>
                             <div class="col mb-4">
                                 <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
                                     <div class="card product-item">

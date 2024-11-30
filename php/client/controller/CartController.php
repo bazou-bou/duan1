@@ -23,29 +23,36 @@ class CartController
     {
         $this->cartQuery->addProductToCart($userId, $productId, $quantity);
         header("Location: ?act=client-listgiohang&id=$userId");
-        
     }
 
     // Xóa sản phẩm khỏi giỏ hàng
-    public function removeFromCart($userId, $productId)
-    {
-        $this->cartQuery->removeProductFromCart($userId, $productId);
-        header("Location: ?act=client-listgiohang&id=$userId");
-    }
+    // public function removeFromCart($userId, $productId)
+    // {
+    //     $this->cartQuery->removeProductFromCart($userId, $productId);
+    //     header("Location: ?act=client-listgiohang&id=$userId");
+    // }
 
     // Cập nhật số lượng sản phẩm trong giỏ
-    public function updateCart($userId, $productId, $quantity)
+    public function updateCart($item_id, $quantity)
     {
+        //var_dump($quantity);
+        //var_dump($item_id);
         if ($quantity > 0) {
-            $this->cartQuery->updateQuantity($userId, $productId, $quantity);
-        } else {
-            $this->cartQuery->removeProductFromCart($userId, $productId);
+            $update = $this->cartQuery->updateQuantity($item_id, $quantity);
+            if ($update == 'ok') {
+                $userId = $_SESSION['user_id'];
+                //var_dump($userId);
+                header("Location: ?act=client-listgiohang&id=$userId");  // Quay lại giỏ hàng
+            }
+            // } else {
+            //     $this->cartQuery->removeProductFromCart($item_id, $quantity);
+            // }
+            //header("Location: ?act=client-listgiohang&id=$userId");  // Quay lại giỏ hàng
         }
-        header("Location: ?act=client-listgiohang&id=$userId");  // Quay lại giỏ hàng
     }
 
 }
 
-}
+
 ?>
 

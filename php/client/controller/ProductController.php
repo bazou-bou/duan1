@@ -30,9 +30,7 @@ class ProductController
         // Gọi dữ liệu sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
-        // var_dump($danhSachHot);
         include "view/viewclient/home.php";
-        
     }
 
 
@@ -127,6 +125,8 @@ class ProductController
     {
         // Làm sạch từ khóa tìm kiếm
         $search = addslashes(trim($search));
+        $DanhSachCategory = $this->productQuery->allCatories();
+
     
         // Tìm kiếm sản phẩm
         $searchResult = $this->productQuery->searchProduct($search);
@@ -157,9 +157,11 @@ class ProductController
     public function showCategory($category)
     {
         $category = $category;
+        $DanhSachCategory = $this->productQuery->allCatories();
+
 
         $DanhSachobject = $this->productQuery->all();
-        $DanhSachCategory = $this->productQuery->findCategory($category);
+        $DanhSachOneCategory = $this->productQuery->findCategory($category);
         include "view/use/category.php";
     }
 
@@ -219,10 +221,9 @@ class ProductController
 
         session_unset();
         session_destroy();
-        
 
 
-        echo "<script>window.location.href = '?act=client-list';</script>";
+        echo "<script>window.location.href = '?act=client-login';</script>";
         exit();
     }
 }

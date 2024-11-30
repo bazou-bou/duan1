@@ -48,7 +48,7 @@
 
     <!-- slideshow -->
     <div class="slider">
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/slideshow.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/slideshow.php'; ?>
     </div>
 
     <main>
@@ -62,7 +62,7 @@
                         <ul class="list-unstyled">
                             <?php foreach ($DanhSachCategory as $category) { ?>
                                 <li>
-                                    <img src="<?php echo htmlspecialchars($category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>" class="category-image me-3 img-fluid" style="max-width: 50px; max-height: 50px;">
+                                    <img src="<?php echo htmlspecialchars(BASE_URL . $category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>" class="category-image me-3 img-fluid" style="max-width: 50px; max-height: 50px;">
                                     <a href="?act=client-category&category=<?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>">
                                         <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>
                                     </a>

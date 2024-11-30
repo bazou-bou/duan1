@@ -75,7 +75,7 @@
                             </a>
                         </div>
                         <div class="showcase-img">
-                            <a href="#"><img src="<?php echo htmlspecialchars($category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"></a>
+                            <a href="#"><img src="<?php echo htmlspecialchars(BASE_URL . $category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"></a>
                         </div>
                     </div>
                 </div>

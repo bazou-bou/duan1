@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 25, 2024 at 10:52 AM
+-- Generation Time: Nov 27, 2024 at 08:25 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -33,6 +33,14 @@ CREATE TABLE `banners` (
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `banners`
+--
+
+INSERT INTO `banners` (`id`, `image_path`, `title`, `status`) VALUES
+(1, 'upload/Banner-uiux.jpg', 'banner1', 1),
+(2, 'upload/Banner-uiux-6.jpg', 'wesvrervdsc', 1);
 
 -- --------------------------------------------------------
 
@@ -68,6 +76,7 @@ CREATE TABLE `cart_items` (
 CREATE TABLE `categories` (
   `category_id` int NOT NULL,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `img` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   `status` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
@@ -75,10 +84,10 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`category_id`, `name`, `status`) VALUES
-(1, 'Giày nam', 1),
-(2, 'Giày nữ', 1),
-(3, 'Giày trẻ em', 1);
+INSERT INTO `categories` (`category_id`, `name`, `img`, `status`) VALUES
+(1, 'Giày nam', NULL, 0),
+(2, 'Giày nữ', NULL, 1),
+(3, 'Giày trẻ em', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -105,7 +114,8 @@ INSERT INTO `comments` (`comment_id`, `product_id`, `user_id`, `username`, `cont
 (8, 1, NULL, 'Anonymous', '\'rftgfaedfeq\'', '2024-11-19 19:15:30', 1),
 (12, 1, 3, 'tung25', '\'ìuyuhfjvbnlwekfhjb\'', '2024-11-20 01:29:28', 0),
 (13, 1, 3, 'tung25', '\'tungfjnnuiogijnbg ọighih\'', '2024-11-20 01:30:05', 1),
-(14, 1, 3, 'tung25', '\'tungfjnnuiogijnbg ọighih\'', '2024-11-20 01:58:11', 1);
+(14, 1, 3, 'tung25', '\'tungfjnnuiogijnbg ọighih\'', '2024-11-20 01:58:11', 1),
+(15, 4, 3, 'tung25', '\'dmm\'', '2024-11-25 21:32:55', 0);
 
 -- --------------------------------------------------------
 
@@ -165,10 +175,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `stock`, `img`, `views`, `status`, `category_id`) VALUES
-(1, 'Giày 1', 'Giày tốt', '5000000.00', 12, 'upload/imgshoeA3.jpg', 335, 1, 1),
-(2, 'Giày 2', 'Giày tốt giá tốt', '3256543.00', 11, 'upload/shoeA1.jpg', 14, 1, 1),
-(3, 'Giày 3', 'Giày tốt', '4742456.00', 13, 'upload/shoeA2.jpg', 82, 0, 3),
-(4, 'Giày 4', 'mb hb', '1487529.00', 34, 'upload/shoeL2.jpg', 82, 1, 2);
+(1, 'Giày 1', 'Giày tốt', '5000000.00', 12, 'upload/imgshoeA3.jpg', 336, 1, 1),
+(2, 'Giày 2', 'Giày tốt giá tốt', '3256543.00', 11, 'upload/shoeA1.jpg', 15, 1, 1),
+(3, 'Giày 3', 'Giày tốt', '4742456.00', 13, 'upload/shoeA2.jpg', 83, 0, 3),
+(4, 'Giày 4', 'mb hb', '1487529.00', 34, 'upload/shoeL2.jpg', 86, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -193,7 +203,7 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `role`, `status
 (2, 'admin', '123456', 'dafd', 0, 1),
 (3, 'tung25', '2508', 'adsfd', 1, 1),
 (4, '', '', '', NULL, 1),
-(21, 'bou2005', '123456', 'giaabaoo0510@gmail.com', NULL, 1),
+(21, 'bou2005', '123456', 'giaabaoo0510@gmail.com', NULL, 0),
 (22, 'trantung25', '2508', 'trantungvn8@gmail.com', NULL, 0),
 (23, 'm.chi005', '2508', 'steamlo2k5@gmail.com', NULL, 0);
 
@@ -311,7 +321,7 @@ ALTER TABLE `variant_product`
 -- AUTO_INCREMENT for table `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `carts`
@@ -335,7 +345,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `orders`

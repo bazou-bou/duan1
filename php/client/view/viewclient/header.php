@@ -58,7 +58,7 @@
                     <ul>
                         <li><a href="index.php?act=taikhoan" class="title hidden-xs">Tài khoản</a></li>
                         <li class="hidden-xs">|</li>
-                        <li><a href="index.php?act=dangnhap_form" class="title hidden-xs">Đăng nhập</a></li>
+                        <li><a href="index.php?act=client-login" class="title hidden-xs">Đăng nhập</a></li>
                         <li><a href="favorite-list.html"><i class="fa fa-heart"></i></a></li>
                         <li><a href="index.php?act=giohang" class="title"><i class="fa fa-shopping-cart"></i>   <sup class="cart-quantity">1</sup></a>
                         </li>
