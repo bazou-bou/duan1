@@ -51,6 +51,17 @@ class CartController
         }
     }
 
+
+
+    public function showproduct($id)
+    {
+        // $cartItems = $this->cartQuery->getCartByUser($userId);
+        $cartItems = $this->cartQuery->getCartByUser($id);
+        // include "views/cart/listgiohang.php";  // Hiển thị giỏ hàng
+
+        include "view/use/paypage.php";
+    }
+
 }
 
 

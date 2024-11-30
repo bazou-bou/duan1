@@ -80,3 +80,14 @@ class Banner{
     public function __construct() {}
     public function __destruct() {}
 }
+
+
+class Pay{
+    public $name_custom;
+    public $address;
+    public $sdt;
+
+    public function __construct() {}
+    public function __destruct() {}
+    
+}

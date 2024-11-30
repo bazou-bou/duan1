@@ -363,4 +363,75 @@ class ProductQuery
             return [];
         }
     }
+
+    public function pay($id, Pay $product)
+{
+    try {
+        // Start a transaction to ensure both queries are executed atomically
+        $this->pdo->beginTransaction();
+
+        // Prepare the first SQL query to insert the order into `orders`
+        $sql1 = "INSERT INTO `orders` (`user_id`, `total`, `status`, `sdt`, `name_custom`, `address`)
+                 SELECT 
+                     c.`user_id`, 
+                     SUM(p.`price` * ci.`quantity`), 
+                     'pending', 
+                     :sdt, 
+                     :name_custom, 
+                     :address
+                 FROM `carts` c
+                 JOIN `cart_items` ci ON c.`cart_id` = ci.`cart_id`
+                 JOIN `products` p ON ci.`product_id` = p.`product_id`
+                 WHERE c.`user_id` = :user_id
+                 GROUP BY c.`user_id`";
+
+        // Prepare the statement and bind parameters
+        $stmt1 = $this->pdo->prepare($sql1);
+        $stmt1->bindParam(':sdt', $product->sdt);
+        $stmt1->bindParam(':name_custom', $product->name_custom);
+        $stmt1->bindParam(':address', $product->address);
+        $stmt1->bindParam(':user_id', $id, PDO::PARAM_INT);
+        $stmt1->execute();
+
+        // Get the last inserted order ID
+        $order_id = $this->pdo->lastInsertId();
+
+        // Prepare the second SQL query to insert items into `order_items`
+        $sql2 = "INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `order_img`, `order_date`, `order_price`, `address`, `name_custom`, `sdt`)
+                 SELECT 
+                     :order_id, 
+                     ci.`product_id`, 
+                     ci.`quantity`, 
+                     p.`img`, 
+                     CURDATE(), 
+                     p.`price`, 
+                     :address, 
+                     :name_custom, 
+                     :sdt
+                 FROM `cart_items` ci
+                 JOIN `products` p ON ci.`product_id` = p.`product_id`
+                 WHERE ci.`cart_id` IN (SELECT `cart_id` FROM `carts` WHERE `user_id` = :user_id)";
+
+        // Prepare the statement and bind parameters
+        $stmt2 = $this->pdo->prepare($sql2);
+        $stmt2->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt2->bindParam(':address', $product->address);
+        $stmt2->bindParam(':name_custom', $product->name_custom);
+        $stmt2->bindParam(':sdt', $product->sdt);
+        $stmt2->bindParam(':user_id', $id, PDO::PARAM_INT);
+        $stmt2->execute();
+
+        // Commit the transaction
+        $this->pdo->commit();
+
+        return "ok";
+    } catch (Exception $error) {
+        // Rollback the transaction in case of an error
+        $this->pdo->rollBack();
+
+        error_log("Lỗi chức năng thanh toán ở query: " . $error->getMessage());
+        return "error";
+    }
+}
+
 }
