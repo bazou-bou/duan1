@@ -1,3 +1,10 @@
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/style.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/owl.carousel.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/owl.theme.default.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
 
 <!-- /. header-section-->
 <!-- page-header -->
@@ -7,7 +14,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="page-breadcrumb">
                     <ol class="breadcrumb">
-                        <li><a href="index.php">Trang chủ</a></li>
+                        <li><a href="?act=client-list">Trang chủ</a></li>
                         <li>Tin tức</li>
                     </ol>
                 </div>
@@ -37,7 +44,7 @@
                         <div class="post-content">
                             <p>Etiased lorem sapiuis pharetra edexin fringliam acpurus semrbi non magna id ipsmm...
                             </p>
-                            <a href="index.php?act=tintuc_chitiet" class="btn-link"><center>ĐỌC THÊM </center></a>
+                            <a href="?act=tintuc_chitiet" class="btn-link"><center>ĐỌC THÊM </center></a>
                         </div>
                     </div>
                 </div>

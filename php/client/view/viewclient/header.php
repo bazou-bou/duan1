@@ -149,10 +149,10 @@ a {
                                 <li class="active"><a href="?act=client-home">Trang chủ</a></li>
                                 <li><a href="?act=client-list">Sản phẩm</a>
                                 </li>
-                                <li><a href="?act=about">Giới thiệu</a>
+                                <li><a href="?act=gioithieu">Giới thiệu</a>
                                 </li>
-                                <li><a href="?act=news">Tin tức</a> </li>
-                                <li><a href="?act=contact">Liên hệ</a>
+                                <li><a href="?act=tintuc_list">Tin tức</a> </li>
+                                <li><a href="?act=lienhe">Liên hệ</a>
                                 </li>
                             </ul>
                         </div>

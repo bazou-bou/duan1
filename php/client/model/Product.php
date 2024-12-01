@@ -139,3 +139,45 @@ class OrderItemCl
         
     }
 }
+
+class Contact
+{
+    public $contact_id;
+    public $contact_name;
+    public $contact_email;
+    public $contact_phone;
+    public $contact_mess;
+    public $created_at;
+    public $contact_status;
+    
+    public function __construct()
+    {
+        
+    }
+
+    public function __destruct()
+    {
+        
+    }
+}
+
+class News{
+    public $new_id;
+    public $user_id;
+    public $title;
+    public $content;
+    public $new_img;
+    public $view;
+    public $status;
+    public $created_at;
+
+    public function __construct()
+    {
+        
+    }
+
+    public function __destruct()
+    {
+        
+    } 
+}
