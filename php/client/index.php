@@ -164,6 +164,18 @@ switch ($act) {
                 exit();
             }
             break;
+
+
+        case "client_order":
+            $productCtrl = new ProductController();
+            $id = $userId = $_SESSION['user_id'];
+            $productCtrl->listOrderCl($id);
+            break;
+
+        case "client_orderitem":
+            $productCtrl = new ProductController();
+            $productCtrl->listOrderItem($id);
+            break;
         
 
 
