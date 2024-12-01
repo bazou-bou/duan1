@@ -150,9 +150,9 @@ switch ($act) {
     case "gioithieu":
         include './view/viewClient/gioithieu.php';
         break;
-    case "tintuc_list":
-        include './view/viewClient/tintuc_list.php';
-        break;
+    // case "tintuc_list":
+    //     include './view/viewClient/tintuc_list.php';
+    //     break;
     case "tintuc_chitiet":
         include './view/viewClient/tintuc_chitiet.php';
         break;
@@ -195,7 +195,10 @@ switch ($act) {
         break;
 
 
-
+        case "client-news":
+            $newCtrl = new ProductController();
+            $newCtrl->showNewList();
+            break;
 
 
 

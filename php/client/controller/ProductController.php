@@ -282,4 +282,11 @@ class ProductController
 
         include "view/use/orderitem.php";
     }
+
+    public function showNewList()
+{
+    $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
+    include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
+}
+
 }

@@ -444,4 +444,69 @@ class ProductController
         }
     }
 
+    public function showNewList()
+    {
+        $newList = $this->productQuery->allNew();  // Gọi phương thức lấy tất cả contact từ model
+        include "view/news/news_list.php";  // Gọi view hiển thị danh sách contact
+    }
+
+    public function showNewDelete($id)
+    {
+        if ($id !== "") {
+            $dataDeleted = $this->productQuery->deleteNew($id);  // Xóa Contact theo ID
+            if ($dataDeleted == "ok") {
+                header("Location: ?act=news-list");
+                exit();
+            }
+        } else {
+            echo "Lỗi: Không tìm thấy ID của contact.";
+        }
+    }
+
+    // Khái báo phương thức showCreate() để xử lý trường hợp người dùng truy cập trang tạo mới
+    public function showCreateNew()
+    {
+        $loi_ten = $loi_anh  = $loi_content = $loi_view  = $baoThanhCong = "";
+        $dsnewCtr = $this->productQuery->allNew();
+
+        if (isset($_POST["submitForm"])) {
+            $new = new News();
+            $new->title = $_POST["title"] ?? '';
+            $new->content = $_POST["content"] ?? '';
+            // $new->new_img = $_POST["new_img"] ?? '';
+            $new->view = $_POST["view"] ?? '';
+            $new->created_at = $_POST["category"] ?? '';
+            $new->status = $_POST["status"] ?? '';
+
+            // Validation
+            if ($new->title === "") $loi_ten = "Hãy nhập tiêu đề!!";
+            if ($new->content === "") $loi_content = "bài viết không để trống!!";
+            // if ($new->view === "") $loi_view = "Hãy nhập mô tả giày đi!!";
+            // if ($new->status === "") $loi_status = "Hãy nhập số lượng giày đi!!";
+
+
+            // File upload
+            $thanSo01 = $_FILES['fileUpload']['tmp_name'];
+            $thanSo02 = "../upload/" . $_FILES['fileUpload']['name'];
+            if (move_uploaded_file($thanSo01, $thanSo02)) {
+                $new->new_img = "upload/" . $_FILES['fileUpload']['name'];
+                $loi_anh = "";
+            } else {
+                $loi_anh = "Không upload lên đc";
+            }
+
+            // If no errors, insert product
+            if ($loi_ten === "" && $loi_anh === "" && $loi_content === "" && $loi_view === "" ) {
+                $baoThanhCong = "Bạn đã cập nhật thành công";
+                $dataCreated = $this->productQuery->insertNew($new);
+                if ($dataCreated == "ok") {
+                    header("Location: ?act=news_create");
+                    exit();
+                }
+            }
+        }
+
+        include "view/news/news_create.php";
+    }
+
 }

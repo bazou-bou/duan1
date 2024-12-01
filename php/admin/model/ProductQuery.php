@@ -621,4 +621,85 @@ class ProductQuery
         }
     }
     
-}
+
+public function allNew()
+    {
+        try {
+            $sql = "SELECT * FROM `news`";
+            $data = $this->pdo->query($sql)->fetchAll();
+
+            $news = [];
+            foreach ($data as $row) {
+                $new = new News();
+                $new->new_id = $row["new_id"];
+                // $new->user_id = $row["user_id"];
+                $new->title = $row["title"];
+                $new->content = $row["content"];
+                $new->new_img = $row["new_img"];
+                $new->view = $row["view"];
+                $new->status = $row["status"];
+                $new->created_at = $row["created_at"];
+                $news[] = $new;
+            }
+            return $news;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+    public function findNew($new_id)
+    {
+        try {
+            $sql = "SELECT * FROM `news` WHERE `new_id` = :new_id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':new_id' => $new_id]);
+            $row = $stmt->fetch();
+    
+            if ($row) {
+                $new = new News();
+                $new->new_id = $row["new_id"];
+                // $new->user_id = $row["user_id"];
+                $new->title = $row["title"];
+                $new->content = $row["content"];
+                $new->new_img = $row["new_img"];
+                $new->view = $row["view"];
+                $new->status = $row["status"];
+                $new->created_at = $row["created_at"];
+                return $new;
+            }
+            return null;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+    public function deleteNew($id)
+    {
+        try {
+            $sql = "DELETE FROM `news` WHERE `new_id` = $id";
+            $data = $this->pdo->exec($sql);
+            if ($data === 1) {
+                return "ok";
+            }
+            return $data;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+    public function insertNew(News $new)
+    {
+        try {
+            $sql = "INSERT INTO `news` (`new_id`, `title`, `content`, `new_img`, `view`, `status`, `created_at`) 
+            VALUES (NULL, '$new->title', '$new->content', '$new->new_img', '$new->view', '$new->status', '$new->created_at');";
+            $data = $this->pdo->exec($sql);
+            // $data = 1 nếu thực hiện thành công
+
+            if ($data === 1) {
+                return "ok";
+            }
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+    }

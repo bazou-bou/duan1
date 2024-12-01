@@ -151,7 +151,7 @@ a {
                                 </li>
                                 <li><a href="?act=gioithieu">Giới thiệu</a>
                                 </li>
-                                <li><a href="?act=tintuc_list">Tin tức</a> </li>
+                                <li><a href="?act=client-news">Tin tức</a> </li>
                                 <li><a href="?act=lienhe">Liên hệ</a>
                                 </li>
                             </ul>
