@@ -2,12 +2,12 @@
 
 
 $isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đăng nhập
-$_SESSION["quantity"] =1;
+$_SESSION["quantity"] = 1;
 if (isset($_POST["quantity"])) {
     $_SESSION["quantity"] = intval($_POST["quantity"]); // Chuyển đổi sang số nguyên
 }
 
-var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
+//var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
 ?>
 
 
@@ -29,14 +29,27 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
 
     <style>
+        .img-comment {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
 
+        .product_style1 {
+            font-size: 30px;
+
+        }
+
+        .product_style2 {
+            font-size: 20px;
+        }
     </style>
 
 </head>
 
 <body>
     <header>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/header.php'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
 
     <main>
@@ -62,22 +75,22 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
 
                 <!-- Product Details Section -->
                 <div class="col-md-6">
-                    <h3 class="card-title"><?= htmlspecialchars($DanhSachOne->name) ?></h3>
+                    <h3 class="mb-3 product_style1"><?= htmlspecialchars($DanhSachOne->name) ?></h3>
                     <div class="d-flex align-items-center mb-3">
-                        <div class="stars">
+                        <div class="stars product_style2">
                             <span class="fa fa-star text-warning"></span>
                             <span class="fa fa-star text-warning"></span>
                             <span class="fa fa-star text-warning"></span>
                             <span class="fa fa-star text-secondary"></span>
                             <span class="fa fa-star text-secondary"></span>
                         </div>
-                        <span class="ms-2"><?= htmlspecialchars($DanhSachOne->views) ?> reviews</span>
+                        <span class="ms-2 product_style2"><?= htmlspecialchars($DanhSachOne->views) ?> reviews</span>
                     </div>
-                    <h4 class="price">Giá bán: <span><?= number_format($DanhSachOne->price, 0, ',', '.') ?> vnd</span></h4>
+                    <h4 class="price product_style2">Giá bán: <span><?= number_format($DanhSachOne->price, 0, ',', '.') ?> vnd</span></h4>
 
                     <!-- Color Options -->
-                    <div class="d-flex align-items-center mt-3">
-                        <h5 class="fs-5">Màu sắc:</h5>
+                    <div class="d-flex align-items-center mt-3 product_style2">
+                        <h2 class="fs-5">Màu sắc:</h2>
                         <?php
                         foreach ($images as $image) {
                             echo "<img src='../../img/shoes/adidas/$image.jpg' class='color-option ms-2' data-img='../../img/shoes/adidas/$image.jpg' onclick='changeMainImage(this)' alt='$image'>";
@@ -86,27 +99,27 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
                     </div>
 
                     <!-- Quantity Selection -->
-                    <div class="d-flex align-items-center mt-3">
-                        <h5 class="fs-5">Số lượng:</h5>
+                    <div class="d-flex align-items-center mt-3 ">
+                        <h2 class="fs-5 product_style2">Số lượng:</h2>
                         <div class="input-group">
                             <button class="btn btn-sm px-2 no-border" type="button" id="button-decrement">-</button>
                             <form method="POST" action="" enctype="multipart/form-data">
-                            <input type="number" id="quantity" name="quantity" class="form-control text-center form-control-sm no-border no-spinner" value="1" min="1">
-                            <!-- <button type="submit">Gửi</button> -->
-                            
-                            <button class="btn btn-sm px-2 no-border" type="button" id="button-increment">+</button>
+                                <input type="number" id="quantity" name="quantity" class="form-control text-center form-control-sm no-border no-spinner" value="1" min="1">
+                                <!-- <button type="submit">Gửi</button> -->
+
+                                <button class="btn btn-sm px-2 no-border" type="button" id="button-increment">+</button>
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="mt-3">
-                    <button class="btn btn-success me-2" type="submit" id="addToCartButton" hre>
-                    <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" type="submit">Thêm vào giỏ hàng</a>
-                    </button>
+                    <div class="mt-3 http://localhost/shopBanGiay/php/client/index.php?act=client-detail&id=2">
+                        <button class="btn btn-success me-2" type="submit" id="addToCartButton" hre>
+                            <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" type="submit">Thêm vào giỏ hàng</a>
+                        </button>
 
-                    <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
+                        <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
                     </div>
-</form>
+                    </form>
                     <!-- Description -->
                     <div class="mt-3">
                         <p><?= htmlspecialchars($DanhSachOne->description) ?></p>
@@ -133,7 +146,7 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
                                 foreach ($commentsToShow as $comment) { ?>
                                     <div class="comment mt-4 p-3 border rounded">
                                         <div class="d-flex align-items-start">
-                                            <img src="http://localhost/shopBanGiay/img/avata02.jpg" alt="" class="rounded-circle" width="40" height="40">
+                                            <img src="http://localhost/shopBanGiay/img/avata02.jpg" alt="" class="rounded-circle img-comment" width="40" height="40">
                                             <div class="ms-3">
                                                 <h4 class="mb-1"><?= htmlspecialchars($comment->username) ?></h4>
                                                 <span class="text-muted"><?= date('d-m-Y', strtotime($comment->comment_date)) ?></span>
@@ -152,17 +165,6 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
                                     <label for="message">Bình luận</label>
                                     <textarea name="msg" id="msg" cols="30" rows="5" class="form-control"></textarea>
                                     <span class="text-danger" id="loi_comment"><?= htmlspecialchars($loi_comment) ?></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Tên</label>
-                                    <input type="text" name="username" id="username" class="form-control">
-                                    <span class="text-danger" id="loi_name"> <?= htmlspecialchars($loi_name) ?> </span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="email" id="email" class="form-control">
-                                    <span class="text-danger" id="loi_email"> <?= htmlspecialchars($loi_email) ?> </span>
                                 </div>
                                 <div class="form-inline">
                                     <input type="checkbox" name="check" id="checkbx" class="mr-1">
@@ -240,7 +242,7 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
 
         //prevents
         document.getElementById('postComment').addEventListener('click', function(event) {
-            let name = document.getElementById('username').value;   
+            let name = document.getElementById('username').value;
             let email = document.getElementById('email').value;
             let comment = document.getElementById('msg').value;
             let loi_comment = document.getElementById('loi_comment');
@@ -267,7 +269,7 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
             // Kiểm tra đăng nhập
 
 
-            if (name == '' || email == '' || comment == '' ) {
+            if (name == '' || email == '' || comment == '') {
                 return false;
             }
         });
@@ -296,17 +298,17 @@ var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
         });
 
 
-        
-    document.getElementById("addToCartButton").addEventListener("click", function () {
-        // Gửi form bằng JavaScript
-        document.getElementById("addToCartForm").submit();
 
-        // Chuyển trang sau khi gửi form
-        window.location.href = "?act=client-list"; // Thay URL bằng trang bạn muốn chuyển đến
-    });
+        document.getElementById("addToCartButton").addEventListener("click", function() {
+            // Gửi form bằng JavaScript
+            document.getElementById("addToCartForm").submit();
+
+            // Chuyển trang sau khi gửi form
+            window.location.href = "?act=client-list"; // Thay URL bằng trang bạn muốn chuyển đến
+        });
     </script>
 
-    
+
 </body>
 
 </html>

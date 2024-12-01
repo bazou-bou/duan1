@@ -24,7 +24,20 @@ class ProductController
     {
         // Hiển thị file view tương ứng. Hiển thị file list.php
         $DanhSachobject = $this->productQuery->all();
-        
+
+        $DanhSachCategory = $this->productQuery->allCatories();
+        //var_dump($DanhSachCategory);
+        // Gọi dữ liệu sản phẩm hot
+        $hotProductsResult = $this->productQuery->getHotProducts();
+        $danhSachHot = $hotProductsResult['products'] ?? [];
+        include "view/use/list.php";
+    }
+
+    public function showHome()
+    {
+        // Hiển thị file view tương ứng. Hiển thị file list.php
+        $DanhSachobject = $this->productQuery->all();
+
         $DanhSachCategory = $this->productQuery->allCatories();
         //var_dump($DanhSachCategory);
         // Gọi dữ liệu sản phẩm hot
@@ -32,8 +45,6 @@ class ProductController
         $danhSachHot = $hotProductsResult['products'] ?? [];
         include "view/viewclient/home.php";
     }
-
-
 
     public function showDetail($id)
     {
@@ -57,24 +68,6 @@ class ProductController
                 $loi_comment = "Bình luận không được để trống.";
             }
 
-            // Kiểm tra xem username đã nhập chưa
-            $loi_name = "";
-            if (empty($_POST['username'])) {
-                $loi_name = "Tên nhập chưa.";
-            }
-
-            // Kiểm tra xem email đã nhập chưa
-            $loi_email = "";
-            if (empty($_POST['email'])) {
-                $loi_email = "Email nhập chưa.";
-            }
-
-            // Kiểm tra xem email đúng đ��nh dạng chưa
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $loi_email = "Email nhập không đúng đ��nh dạng.";
-            }
-
             // Nếu không có lỗi, kiểm tra trạng thái đăng nhập
             if ($loi_comment == "" || $loi_name == "" || $loi_email == "") {
                 // Kiểm tra xem người dùng đã đăng nhập chưa
@@ -82,7 +75,6 @@ class ProductController
                     // Người dùng đã đăng nhập
                     $userId = $_SESSION['user_id']; // Lấy ID người dùng từ session
                     $username = $_SESSION['username']; // Lấy tên người dùng từ session
-                    $email = $_SESSION['email']; // Lấy email người dùng từ session
 
                     // Thêm bình luận vào cơ sở dữ liệu
                     $comment = new Comments();
@@ -127,27 +119,27 @@ class ProductController
         $search = addslashes(trim($search));
         $DanhSachCategory = $this->productQuery->allCatories();
 
-    
+
         // Tìm kiếm sản phẩm
         $searchResult = $this->productQuery->searchProduct($search);
         $danhSachSearch = $searchResult['products'] ?? [];
         $soLuongSearch = $searchResult['count'] ?? 0;
-    
+
         $message = null;
         if (empty($danhSachSearch)) {
             $message = "Không tìm thấy sản phẩm nào phù hợp với từ khóa '$search'.";
         } else {
             $message = "Tìm thấy $soLuongSearch sản phẩm phù hợp với từ khóa '$search'.";
         }
-    
+
         // Lấy danh sách sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
-    
+
         // Gửi dữ liệu tới view
         include "view/use/searchProduct.php";
     }
-    
+
 
 
 
@@ -206,7 +198,8 @@ class ProductController
         }
         include "view/login/dangky.php";
     }
-    public function listUser() {
+    public function listUser()
+    {
         // Lấy danh sách người dùng từ Query
         $dsUser = $this->productQuery->allUser();
 
@@ -226,6 +219,7 @@ class ProductController
         echo "<script>window.location.href = '?act=client-login';</script>";
         exit();
     }
+
 
 
 
@@ -276,6 +270,7 @@ class ProductController
 
     public function listOrderCl($id)
     {
+
         $DanhSachobject = $this->productQuery->clientOrder($id);
 
         include "view/use/order.php";
@@ -287,4 +282,5 @@ class ProductController
 
         include "view/use/orderitem.php";
     }
+
 }
