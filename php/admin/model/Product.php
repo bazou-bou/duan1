@@ -111,3 +111,10 @@ class Banner{
     public function __construct() {}
     public function __destruct() {}
 }
+class topUser{
+    public $username;
+    public $total_orders;
+    public $total_spent;
+    public function __construct() {}
+    public function __destruct() {}
+}

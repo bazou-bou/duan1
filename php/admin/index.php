@@ -74,6 +74,11 @@ switch ($act) {
         $productCtrl->toggleStatus($id, $table, $field = "product_id");
         break;
 
+    case "admin-thongke":
+        $productCtrl = new ProductController();
+        $productCtrl->showThongke();
+        break;
+
     case "users-list":
         // Hiển thị trang chi tiết và xử lý logic
         $productCtrl = new ProductController();

@@ -29,3 +29,26 @@
 .container-table {
   margin-top: 20px;
 }
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background-color: #343a40;
+  padding-top: 20px;
+}
+
+.sidebar .nav-link {
+  color: white;
+}
+
+/* Tạo không gian cho nội dung bên phải */
+.main-content {
+  margin-left: 250px;
+}
+
+/* Đảm bảo nội dung không bị che khuất bởi sidebar */
+.container {
+  margin-top: 20px;
+}

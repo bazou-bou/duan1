@@ -252,8 +252,7 @@ class ProductController
         if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "" && $loi_sdt_danhmuc === "") {
             $baoThanhCong = "Bạn đã tạo đơn hàng thành công";
             $dataCreated = $this->productQuery->pay($id, $product);
-            var_dump($dataCreated);
-            die;
+            
             
             // Check if the payment was processed successfully
             if ($dataCreated == "ok") {

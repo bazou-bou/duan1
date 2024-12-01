@@ -39,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php var_dump($DanhSachComment);
+                            <?php
                             foreach ($DanhSachComment as $key => $comment) { ?>
                                 <tr>
                                     <td scope="row"><?php echo $comment->comment_id; ?></td>

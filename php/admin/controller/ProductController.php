@@ -26,7 +26,7 @@ class ProductController
         $DanhSachobject = $this->productQuery->all();
         include "view/product/list.php";
     }
-    
+
 
 
 
@@ -215,13 +215,13 @@ class ProductController
             }
 
             $thanSo01 = $_FILES['fileUpload']['tmp_name']; //Bộ nhớ tạm đang lưu trữ file
-                $thanSo02 = "../upload/" . $_FILES['fileUpload']['name']; // Đường dẫn để chuyển file từ bộ nhớ tạm vào
-                if (move_uploaded_file($thanSo01, $thanSo02)) {
-                    $product->img = "upload/" . $_FILES['fileUpload']['name'];
-                    $loi_anh = "";
-                } else {
-                    $loi_anh = "Không uplod lên đc";
-                }
+            $thanSo02 = "../upload/" . $_FILES['fileUpload']['name']; // Đường dẫn để chuyển file từ bộ nhớ tạm vào
+            if (move_uploaded_file($thanSo01, $thanSo02)) {
+                $product->img = "upload/" . $_FILES['fileUpload']['name'];
+                $loi_anh = "";
+            } else {
+                $loi_anh = "Không uplod lên đc";
+            }
 
 
             if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "") {
@@ -282,7 +282,23 @@ class ProductController
         }
     }
 
-  
+    public function showThongke()
+    {
+        $DanhSachUsers = $this->productQuery->allUser();
+        $donHang = $this->productQuery->donHang();
+        $totalUsers = $this->productQuery->totalUsers();
+        $topKhachHang = $this->productQuery->topKhachHang();
+        $doanhSoTheoNam=$this->productQuery->revenueByYear();
+        $donHangTheoNam=$this->productQuery->locDonHangTheoNam();
+
+
+        $doanhThu = $this->productQuery->doanhthu();
+        // var_dump($donHangTheoNam);
+        // echo "<br>";
+        // var_dump($doanhSoTheoNam);
+
+        include "view/product/thongke.php";
+    }
 
     public function listOrder()
     {

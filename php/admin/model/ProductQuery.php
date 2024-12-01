@@ -167,7 +167,7 @@ class ProductQuery
                 $product->img = $value["img"];
                 $product->views = $value["views"];
                 $product->category = $value["category_name"];
-                $product->status=$value["status"];
+                $product->status = $value["status"];
 
                 array_push($danhSach, $product);
             }
@@ -262,7 +262,7 @@ class ProductQuery
                 $comment->username = $value["username"];
                 $comment->content = $value["content"];
                 $comment->comment_date = $value["comment_date"];
-                $comment->status=$value["status"];
+                $comment->status = $value["status"];
                 $dsComment[] = $comment;
             }
             return $dsComment;
@@ -272,35 +272,169 @@ class ProductQuery
         }
     }
 
-    public function unban($user_id)
+    public function doanhthu()
     {
         try {
-            $sql = "UPDATE `users` SET `status` = '1' WHERE `user_id` = $user_id";
-            $data = $this->pdo->exec($sql);
-            if ($data === 1) {
-                return "ok";
-            }
-        } catch (Exception $error) {
+            $sql = "SELECT SUM(o.total) AS total_revenue FROM orders o";
+            $data = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (\Throwable $th) {
             //throw $th;
-            echo "L��i " . $error->getMessage() . "<br>";
-            echo "Không banned thành công";
+        }
+    }
+    public function donHang()
+    {
+        try {
+            $sql = "SELECT COUNT(order_id) AS total_orders FROM orders";
+            $result = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+
+            // Trả về tổng số người dùng
+            return $result['total_orders'];
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 
-    public function ban($user_id)
+    public function topKhachHang()
     {
         try {
-            $sql = "UPDATE `users` SET `status` = '0' WHERE `user_id` = $user_id";
-            $data = $this->pdo->exec($sql);
-            if ($data === 1) {
-                return "ok";
+            $sql = "SELECT u.username, COUNT(o.order_id) AS total_orders, SUM(o.total) AS total_spent 
+                    FROM orders o 
+                    JOIN users u ON o.user_id = u.user_id 
+                    GROUP BY u.user_id 
+                    ORDER BY total_spent DESC";
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);  // Đây là mảng các mảng, không phải đối tượng
+
+            $topUsers = [];
+            foreach ($data as $value) {
+                $user = new topUser();
+                $user->username = $value["username"];
+                $user->total_orders = $value["total_orders"];
+                $user->total_spent = $value["total_spent"];
+                array_push($topUsers, $user);  // Thêm đối tượng vào mảng
             }
-        } catch (Exception $error) {
-            //throw $th;
-            echo "L��i " . $error->getMessage() . "<br>";
-            echo "Không banned thành công";
+            return $topUsers;  // Đảm bảo đây là mảng các đối tượng topUser
+        } catch (\Throwable $th) {
+            // Error handling here
         }
     }
+    public function totalUsers()
+    {
+        try {
+            // Truy vấn SQL để đếm số lượng người dùng
+            $sql = "SELECT COUNT(*) AS total_users FROM users";
+            $result = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+
+            // Trả về tổng số người dùng
+            return $result['total_users'];
+        } catch (\Throwable $th) {
+            // Xử lý lỗi
+            return 0;
+        }
+    }
+
+    public function revenueByMonth()
+    {
+        try {
+            $sql = "SELECT
+                        MONTH(o.order_date) AS month,
+                        YEAR(o.order_date) AS year,
+                        SUM(o.total) AS total_revenue
+                    FROM orders o
+                    WHERE o.order_date >= CURDATE() - INTERVAL 12 MONTH
+                    GROUP BY YEAR(o.order_date), MONTH(o.order_date)
+                    ORDER BY YEAR(o.order_date) DESC, MONTH(o.order_date) DESC";
+
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (\Throwable $th) {
+            // Xử lý lỗi
+            return [];
+        }
+    }
+
+    public function revenueByYear()
+    {
+        try {
+            $sql = "SELECT 
+                        YEAR(order_date) AS year,
+                        MONTH(order_date) AS month,
+                        SUM(order_price * quantity) AS total_revenue,
+                        SUM(quantity) AS total_quantity
+                    FROM 
+                        order_items
+                    GROUP BY 
+                        YEAR(order_date), MONTH(order_date)
+                    ORDER BY 
+                        YEAR(order_date) DESC, MONTH(order_date) DESC
+                    ";
+
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (\Throwable $th) {
+            // Xử lý listring
+            return [];
+        }
+    }
+
+    public function locDonHangTheoNam()
+    {
+        try {
+            $sql = "SELECT 
+                        YEAR(order_date) AS year,
+                        MONTH(order_date) AS month,
+                        COUNT(*) AS total_orders,  -- Đếm số lượng đơn hàng
+                        SUM(order_price * quantity) AS total_revenue,
+                        SUM(quantity) AS total_quantity
+                    FROM 
+                        order_items
+                    GROUP BY 
+                        YEAR(order_date), MONTH(order_date)
+                    ORDER BY 
+                        YEAR(order_date) DESC, MONTH(order_date) DESC";
+
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (\Throwable $th) {
+            // Xử lý lỗi
+            echo "Error: " . $th->getMessage();
+        }
+    }
+
+    public function locTheoNgay($startDate, $endDate)
+    {
+        try {
+            $sql = "
+                SELECT 
+                    YEAR(oi.order_date) AS year,
+                    MONTH(oi.order_date) AS month,
+                    SUM(oi.total) AS total_revenue
+                FROM 
+                    order_items oi
+                JOIN 
+                    orders o ON oi.order_id = o.order_id
+                WHERE 
+                    oi.order_date BETWEEN '$startDate' AND '$endDate'
+                GROUP BY 
+                    YEAR(oi.order_date), MONTH(oi.order_date)
+                ORDER BY 
+                    YEAR(oi.order_date) DESC, MONTH(oi.order_date) DESC
+            ";
+
+            // Truy vấn và lấy kết quả
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (\Throwable $th) {
+            // Xử lý lỗi
+            echo "Error: " . $th->getMessage();
+        }
+    }
+
+
 
     public function allCatories()
     {
@@ -543,7 +677,7 @@ class ProductQuery
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':id' => $id]);
             $row = $stmt->fetch();
-    
+
             if ($row) {
                 $banner = new Banner();
                 $banner->id = $row['id'];
@@ -557,5 +691,4 @@ class ProductQuery
             echo "ERROR: " . $e->getMessage();
         }
     }
-    
 }
