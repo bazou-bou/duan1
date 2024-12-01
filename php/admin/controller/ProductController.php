@@ -424,4 +424,24 @@ class ProductController
             echo "Lỗi: Không tìm thấy ID của banner.";
         }
     }
+
+    public function showContactList()
+    {
+        $contactList = $this->productQuery->allContact();  // Gọi phương thức lấy tất cả contact từ model
+        include "view/contact/contact_list.php";  // Gọi view hiển thị danh sách contact
+    }
+
+    public function showContactDelete($id)
+    {
+        if ($id !== "") {
+            $dataDeleted = $this->productQuery->deleteContact($id);  // Xóa Contact theo ID
+            if ($dataDeleted == "ok") {
+                header("Location: ?act=contact-list");
+                exit();
+            }
+        } else {
+            echo "Lỗi: Không tìm thấy ID của contact.";
+        }
+    }
+
 }

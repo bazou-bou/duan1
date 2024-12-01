@@ -224,49 +224,49 @@ class ProductController
 
 
     public function createPay($id)
-{
-    $loi_ten_danhmuc = "";
-    $loi_tranthai_danhmuc = "";
-    $loi_sdt_danhmuc = ""; // Separate error message for phone number
-    $baoThanhCong = "";
+    {
+        $loi_ten_danhmuc = "";
+        $loi_tranthai_danhmuc = "";
+        $loi_sdt_danhmuc = ""; // Separate error message for phone number
+        $baoThanhCong = "";
 
-    if (isset($_POST["submitForm"])) {
-        // Sanitize input data to prevent XSS or unwanted data
-        $product = new Pay();
-        $product->name_custom = trim(htmlspecialchars($_POST["name_custom"])); // Sanitize name
-        $product->address = trim(htmlspecialchars($_POST["address"])); // Sanitize address
-        $product->sdt = trim(htmlspecialchars($_POST["sdt"])); // Sanitize phone number
+        if (isset($_POST["submitForm"])) {
+            // Sanitize input data to prevent XSS or unwanted data
+            $product = new Pay();
+            $product->name_custom = trim(htmlspecialchars($_POST["name_custom"])); // Sanitize name
+            $product->address = trim(htmlspecialchars($_POST["address"])); // Sanitize address
+            $product->sdt = trim(htmlspecialchars($_POST["sdt"])); // Sanitize phone number
 
-        // Input validation
-        if ($product->name_custom === "") {
-            $loi_ten_danhmuc = "Hãy nhập tên người nhận";
-        }
-        if ($product->address === "") {
-            $loi_tranthai_danhmuc = "Hãy nhập địa chỉ người nhận";
-        }
-        if ($product->sdt === "") {
-            $loi_sdt_danhmuc = "Nhập số điện thoại người nhận";
-        }
-        
-        // If no errors, process payment
-        if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "" && $loi_sdt_danhmuc === "") {
-            $baoThanhCong = "Bạn đã tạo đơn hàng thành công";
-            $dataCreated = $this->productQuery->pay($id, $product);
-            
-            // Check if the payment was processed successfully
-            if ($dataCreated == "ok") {
-                // Redirect to ?act=client_order
-                header("Location: ?act=client_order"); 
-                exit; // Stop the script execution after redirection
+            // Input validation
+            if ($product->name_custom === "") {
+                $loi_ten_danhmuc = "Hãy nhập tên người nhận";
+            }
+            if ($product->address === "") {
+                $loi_tranthai_danhmuc = "Hãy nhập địa chỉ người nhận";
+            }
+            if ($product->sdt === "") {
+                $loi_sdt_danhmuc = "Nhập số điện thoại người nhận";
+            }
+
+            // If no errors, process payment
+            if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "" && $loi_sdt_danhmuc === "") {
+                $baoThanhCong = "Bạn đã tạo đơn hàng thành công";
+                $dataCreated = $this->productQuery->pay($id, $product);
+
+                // Check if the payment was processed successfully
+                if ($dataCreated == "ok") {
+                    // Redirect to ?act=client_order
+                    header("Location: ?act=client_order");
+                    exit; // Stop the script execution after redirection
+                }
             }
         }
+
+        // Include the payment page view
+        include "view/use/paypage.php";
     }
 
-    // Include the payment page view
-    include "view/use/paypage.php";
-}
 
-    
 
     public function listOrderCl($id)
     {
@@ -282,5 +282,4 @@ class ProductController
 
         include "view/use/orderitem.php";
     }
-
 }

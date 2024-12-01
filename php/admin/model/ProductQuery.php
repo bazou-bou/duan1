@@ -557,5 +557,68 @@ class ProductQuery
             echo "ERROR: " . $e->getMessage();
         }
     }
+
+    public function allContact()
+    {
+        try {
+            $sql = "SELECT * FROM `contact`";
+            $data = $this->pdo->query($sql)->fetchAll();
+
+            $contacts = [];
+            foreach ($data as $row) {
+                $contact = new Contact();
+                $contact->contact_id = $row["contact_id"];
+                $contact->contact_name = $row["contact_name"];
+                $contact->contact_email = $row["contact_email"];
+                $contact->contact_phone = $row["contact_phone"];
+                $contact->contact_mess = $row["contact_mess"];
+                $contact->created_at = $row['created_at'];
+                $contact->contact_status = $row["contact_status"];
+                $contacts[] = $contact;
+            }
+            return $contacts;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+     public function findContact($contact_id)
+    {
+        try {
+            $sql = "SELECT * FROM `contacts` WHERE `contact_id` = :contact_id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':contact_id' => $contact_id]);
+            $row = $stmt->fetch();
+    
+            if ($row) {
+                $contact = new Contact();
+                $contact->contact_id = $row['contact_id'];
+                $contact->contact_name = $row['contact_name'];
+                $contact->contact_email = $row['contact_email'];
+                $contact->contact_phone = $row["contact_phone"];
+                $contact->contact_mess = $row['contact_mess'];
+                $contact->created_at = $row['created_at'];
+                $contact->contact_status = $row['contact_status'];
+                return $contact;
+            }
+            return null;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
+
+    public function deleteContact($id)
+    {
+        try {
+            $sql = "DELETE FROM `contact` WHERE `contact_id` = $id";
+            $data = $this->pdo->exec($sql);
+            if ($data === 1) {
+                return "ok";
+            }
+            return $data;
+        } catch (Exception $e) {
+            echo "ERROR: " . $e->getMessage();
+        }
+    }
     
 }
