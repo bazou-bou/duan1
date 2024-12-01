@@ -9,6 +9,7 @@ class Product
     public $img;
     public $views;
     public $category_id;
+    public $category;
     public $status;
 
     public function __construct() {}
