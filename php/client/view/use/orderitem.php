@@ -123,9 +123,9 @@
                     <p><strong>Trạng thái: </strong>
                         <?php
                         if (isset($DanhSachobject[0]->status)) {
-                            if ($DanhSachobject[0]->status == 0) {
+                            if ($DanhSachobject[0]->status == 1) {
                                 echo "Đang giao";
-                            } elseif ($DanhSachobject[0]->status == 1) {
+                            } elseif ($DanhSachobject[0]->status == 0) {
                                 echo "Đã giao thành công";
                             } else {
                                 echo "Trạng thái không xác định";
