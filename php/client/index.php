@@ -148,6 +148,40 @@ switch ($act) {
         break;
 
 
+    case "client_pay":
+        $cartCtrl = new CartController();
+        $cartCtrl->showproduct($id);
+        break;
+
+    case "client_paypage":
+        $productCtrl = new ProductController();
+        $userId = $_SESSION['user_id']; // Get user ID from session
+
+        try {
+            // Call the createPay method to process the payment
+            $productCtrl->createPay($userId);
+        } catch (Exception $e) {
+            // Handle error if there's any issue with payment creation
+            error_log("Payment processing error: " . $e->getMessage());
+            // Optionally show an error message to the user or redirect
+            header("Location: /error"); // Example redirect in case of error
+            exit();
+        }
+        break;
+
+
+    case "client_order":
+        $productCtrl = new ProductController();
+        $id = $userId = $_SESSION['user_id'];
+        $productCtrl->listOrderCl($id);
+        break;
+
+    case "client_orderitem":
+        $productCtrl = new ProductController();
+        $productCtrl->listOrderItem($id);
+        break;
+
+
 
 
 

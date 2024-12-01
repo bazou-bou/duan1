@@ -295,5 +295,9 @@
   #sidebar a:hover {
     color: #ff6347;
   }
+
+  .form-floating {
+    height: 100px;
+  }
   
   

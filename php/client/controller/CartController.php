@@ -31,23 +31,23 @@ class CartController
                                     window.location.href = '?act=client-login'; // Chuyển hướng tới trang đăng nhập
                                   </script>";
                 exit(); // Dừng chương trình để đảm bảo không có gì khác xảy ra sau khi chuyển hướng
-            }else{
-            // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng hay chưa
-            $cartItem = $this->cartQuery->getCartByUserAndProduct($userId, $productId);
-
-            if ($cartItem) {
-                // Nếu tồn tại, tăng số lượng
-                $newQuantity = $cartItem->quantity + $quantity;
-                $this->cartQuery->updateQuantity($cartItem->item_id, $newQuantity);
             } else {
-                // Nếu chưa, thêm mới sản phẩm với số lượng mặc định
-                $this->cartQuery->addProductToCart($userId, $productId, $quantity);
-            }
+                // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng hay chưa
+                $cartItem = $this->cartQuery->getCartByUserAndProduct($userId, $productId);
 
-            // Chuyển hướng về giỏ hàng
-            header("Location: ?act=client-listgiohang&id=$userId");
-            exit;
-        }
+                if ($cartItem) {
+                    // Nếu tồn tại, tăng số lượng
+                    $newQuantity = $cartItem->quantity + $quantity;
+                    $this->cartQuery->updateQuantity($cartItem->item_id, $newQuantity);
+                } else {
+                    // Nếu chưa, thêm mới sản phẩm với số lượng mặc định
+                    $this->cartQuery->addProductToCart($userId, $productId, $quantity);
+                }
+
+                // Chuyển hướng về giỏ hàng
+                header("Location: ?act=client-listgiohang&id=$userId");
+                exit;
+            }
         } catch (Exception $e) {
             // Xử lý lỗi nếu có
             echo "Lỗi khi thêm sản phẩm vào giỏ hàng: " . $e->getMessage();
@@ -79,5 +79,16 @@ class CartController
             // }
             //header("Location: ?act=client-listgiohang&id=$userId");  // Quay lại giỏ hàng
         }
+    }
+
+
+
+    public function showproduct($id)
+    {
+        // $cartItems = $this->cartQuery->getCartByUser($userId);
+        $cartItems = $this->cartQuery->getCartByUser($id);
+        // include "views/cart/listgiohang.php";  // Hiển thị giỏ hàng
+
+        include "view/use/paypage.php";
     }
 }

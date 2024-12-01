@@ -1,3 +1,11 @@
+<!-- Giả sử ID người dùng là $userId -->
+
+...
+<!-- Nút thanh toán -->
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -122,7 +130,7 @@
                             </td>
                             <td class="text-danger fs-5"><?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</td>
                             <td class="text-center">
-                                <a href="?act=remove-item&item_id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
+                                <a href="?act=remove-listgiohang&id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
                                 <a href="?act=client-detail&id=<?= $item->product_id ?>" class="btn btn-primary btn-sm">Chi Tiết</a>
                             </td>
                         </tr>
@@ -135,7 +143,7 @@
                 </tbody>
             </table>
             <div class="text-end">
-                <button type="submit" class="btn btn-checkout btn-lg">Thanh Toán</button>
+                    <a href="?act=client_pay&id=<?= $_SESSION['user_id'] ?>" class="btn btn-checkout btn-lg">Thanh Toán</a>
             </div>
         <?php } else { ?>
             <div class="alert alert-warning text-center">Giỏ hàng của bạn đang trống!</div>

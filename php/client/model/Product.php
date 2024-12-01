@@ -80,3 +80,62 @@ class Banner{
     public function __construct() {}
     public function __destruct() {}
 }
+
+
+class Pay{
+    public $name_custom;
+    public $address;
+    public $sdt;
+
+    public function __construct() {}
+    public function __destruct() {}
+    
+}
+
+
+class OrderCl{
+    public $order_id;
+    public $total;
+    public $status;
+    public $address;
+    // public $username ;
+    public $sdt;
+    public $name_custom;
+
+    public function __construct()
+    {
+        
+    }
+    public function __destruct()
+    {
+        
+    }
+}
+
+class OrderItemCl
+{
+    public $order_item_id;
+    public $order_id ;
+    public $product_id ;
+    public $quantity;
+    public $order_img;
+    public $order_date;
+    // public $order_price;
+    public $address;
+    public $name_custom;
+    public $sdt;
+    public $product_name;
+    public $product_price;
+    public $product_img;
+    public $status;
+
+    public function __construct()
+    {
+        
+    }
+
+    public function __destruct()
+    {
+        
+    }
+}

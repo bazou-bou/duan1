@@ -67,14 +67,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/styleindex.css">
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
     <style>
+        /* Cô lập Bootstrap 3 */
+        .bootstrap3-section .form-control {
+            /* Giao diện Bootstrap 3 */
+            border-radius: 4px;
+        }
+
+        /* Cô lập Bootstrap 5 */
+        .bootstrap5-section .form-control {
+            /* Giao diện Bootstrap 5 */
+            border-radius: 0;
+        }
     </style>
+
+
     <title>Website Bán Giày Converse</title>
 </head>
 
 <body>
     <header>
 
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
 
 
     </header>
@@ -97,19 +110,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </div>
                                 <form method="POST" enctype="multipart/form-data">
-                                    <div class="row gy-3 gy-md-4 overflow-hidden">
-                                        <div class="col-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" id="loginName" name="loginName" class="form-control border-0 border-bottom rounded-0" placeholder="name@example.com" required>
-                                                <label for="name" class="form-label">Tên đăng nhập</label>
-                                            </div>
+                                    <div class="row gy-3 gy-md-4 overflow-hidden ">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" id="loginName" name="loginName" class="form-control" placeholder=" " required>
+                                            <label for="loginName">Tên đăng nhập</label>
                                         </div>
-                                        <div class="col-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" id="loginPassword" name="loginPassword" class="form-control border-0 border-bottom rounded-0" placeholder="Password" required>
-                                                <label for="password" class="form-label">Mật khẩu <span class="text-danger">**</span></label>
-                                            </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input type="password" id="loginPassword" name="loginPassword" class="form-control" placeholder=" " required>
+                                            <label for="loginPassword">Mật khẩu</label>
                                         </div>
+
                                         <div class="col-12">
                                             <div class="row justify-content-between">
                                                 <div class="col-6">

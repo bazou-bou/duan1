@@ -59,7 +59,7 @@
 
 <body>
     <header>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view//html/header.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
     <main>
         <!-- Registration 3 - Bootstrap Brain Component -->
@@ -84,19 +84,19 @@
                                     <div class="row gy-3 gy-md-4 overflow-hidden">
                                         <div class="col-12">
                                             <div class="form-floating mb-3">
-                                                <input type="text" name="username" id="username" class="username form-control border-0 border-bottom rounded-0" value="<?= htmlspecialchars($product->username ?? '') ?>" placeholder="name@example.com" required>
+                                                <input type="text" name="username" id="username" class="username form-control border-0 border-bottom rounded-0" value="<?= htmlspecialchars($product->username ?? '') ?>"  required>
                                                 <label for="name" class="form-label">Tên đăng nhập:</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating mb-3">
-                                                <input type="email" name="email" id="email" class="email form-control border-0 border-bottom rounded-0" value="<?= htmlspecialchars($product->email ?? '') ?>" placeholder="name@example.com" required>
+                                                <input type="email" name="email" id="email" class="email form-control border-0 border-bottom rounded-0" value="<?= htmlspecialchars($product->email ?? '') ?>"  required>
                                                 <label for="email" class="form-label">Email:</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating mb-3">
-                                                <input type="password" name="password" id="password" class="password form-control border-0 border-bottom rounded-0" placeholder="Password" required>
+                                                <input type="password" name="password" id="password" class="password form-control border-0 border-bottom rounded-0"  required>
                                                 <label for="password" class="form-label">Mật khẩu <span class="text-danger">**</span>:</label>
                                             </div>
                                         </div>
