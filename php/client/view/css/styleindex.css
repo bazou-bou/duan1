@@ -164,44 +164,46 @@
   }
   
   /* Add to Cart button (hidden by default) */
-  .product-action-link {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    z-index: 10;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-  }
-  
-  /* Show the Add to Cart button on hover */
-  .product-item:hover .product-action-link {
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  /* Styling for Add to Cart button */
-  .cart-btn {
-    background-color: #000;
-    color: #fff;
-    border: none;
-    padding: 12px 16px;
-    font-size: 18px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-  }
-  
-  /* Hover effect for Add to Cart button */
-  .cart-btn:hover {
-    background-color: #fff;
-    color: #000;
-    transform: scale(1.1);
-    border: 1px solid #000;
-  }
+.product-action-link {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Show the Add to Cart button on hover */
+.product-item:hover .product-action-link {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Nút Mua Ngay */
+.buy-now-btn {
+  background-color: blue; /* Nền xám nhẹ */
+  color: #000;
+  border: none;
+  padding: 8px 16px; /* Kích thước nút */
+  font-size: 14px; /* Kích thước font */
+  border-radius: 12px; /* Bo tròn nhẹ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect cho nút */
+.buy-now-btn:hover {
+  background-color: #fff;
+  color: #000;
+  transform: scale(1.1);
+  border: 1px solid #000;
+}
+
+
   
   /* Styling for product details */
   .product-title {
@@ -292,6 +294,10 @@
   
   #sidebar a:hover {
     color: #ff6347;
+  }
+
+  .form-floating {
+    height: 100px;
   }
   
   

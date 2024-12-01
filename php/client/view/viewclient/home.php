@@ -1,65 +1,64 @@
+<?php
+include_once("model/ProductQuery.php");
+
+$productQuery = new ProductQuery();
+$bannerList = $productQuery->allBanner();
+
+
+$isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đăng nhập
+$_SESSION["quantity"] = 1;
+?>
+
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
-<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/style.css">
-<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/bootstrap.min.css">
-<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/owl.carousel.css">
-<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/owl.theme.default.css">
-<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+
+
+
+<style>
+    .carousel-inner .item img {
+        height: 500px;
+        /* Chiều cao cố định cho ảnh */
+        object-fit: cover;
+        /* Đảm bảo ảnh bao phủ toàn bộ khung mà không bị biến dạng */
+        width: 100%;
+        /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của carousel */
+    }
+</style>
+
+
 
 <!--  -->
 <!-- slider -->
 <div class="slider">
-    <div class="owl-carousel owl-one owl-theme">
-        <div class="item">
-            <div class="slider-img">
-                <img src="../viewclient/images/banner_cvs.webp" alt="">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 col-md-8 col-sm-6 col-xs-12">
-                        <div class="slider-captions">
-                            <a href="cart.html" class="btn btn-primary btn-lg hidden-xs">Buy Now</a>
-                        </div>
-                    </div>
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Các chỉ dẫn (Indicators) -->
+        <ol class="carousel-indicators">
+            <?php foreach ($bannerList as $index => $banner) { ?>
+                <li data-target="#myCarousel" data-slide-to="<?= $index ?>" class="<?= $index === 0 ? 'active' : '' ?>"></li>
+            <?php } ?>
+        </ol>
+
+        <!-- Nội dung slideshow -->
+        <div class="carousel-inner" role="listbox">
+            <?php foreach ($bannerList as $index => $banner) { ?>
+                <div class="item <?= $index === 0 ? 'active' : '' ?>">
+                    <img src="<?= htmlspecialchars(BASE_URL . $banner->image_path) ?>" class="img-responsive center-block img-rounded img-thumbnail " alt="Slide <?= $index + 1 ?>">
+
                 </div>
-            </div>
+            <?php } ?>
         </div>
-        <div class="item">
-            <div class="slider-img"><img src="../viewclient/images/slider_2.jpg" alt=""></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 col-md-8 col-sm-6 col-xs-12">
-                        <div class="slider-captions">
-                            <h1 class="slider-title">Google Pixel 2</h1>
-                            <p class="hidden-xs">The latest Qualcomm Snapdragon 835 processor | Water-resistant metal unibody | Up to 7 hours of battery.</p>
-                            <p class="slider-price">$ 938.10</p>
-                            <a href="cart.html" class="btn btn-primary btn-lg hidden-xs">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="slider-img"><img src="../viewclient/images/slider_3.jpg" alt=""></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 col-md-8 col-sm-6 col-xs-12">
-                        <div class="slider-captions">
-                            <div class="brand-img">
-                                <img src="../viewclient/images/apple_logo.png" alt="">
-                            </div>
-                            <h1 class="slider-title">iphone 8 plus </h1>
-                            <p class="hidden-xs">5.5 inch Retina HD Display | 12MP wide-angle cameras
-                                <br> | 64 GB &amp; 256 GB ROM Memory
-                            </p>
-                            <p class="slider-price">$759.64</p>
-                            <a href="cart.html" class="btn btn-primary btn-lg hidden-xs">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        <!-- Các điều khiển trước/sau -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
+
 </div>
 <!-- /.slider -->
 <!-- mobile showcase -->
@@ -95,23 +94,29 @@
                     <h3 class="head-title">Sản phẩm mới nhất</h3>
                 </div>
                 <div class="box-body">
-                    <div class="row">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                         <?php foreach ($DanhSachobject as $product) { ?>
                             <!-- product -->
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="col mb-4">
                                 <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
-                                    <div class="product-block">
-                                        <div class="product-img"><img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" alt=""></div>
-                                        <div class="product-content">
-                                            <h5><a href="#" class="product-title"><?= htmlspecialchars($product->name) ?></a></h5>
-                                            <div class="product-meta"><a href="#" class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</a>
-                                                <!-- <a href="#" class="discounted-price">$1400</a>
-                                        <span class="offer-price">20%off</span> -->
+                                    <div class="card product-item">
+                                        <div class="product-thumb">
+                                            <!-- Hình ảnh sản phẩm -->
+                                            <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($product->name) ?>">
+                                            <div class="product-action-link">
+                                                <button class="btn cart-btn">
+                                                    <i class="bi bi-cart-plus"></i>
+                                                </button>
                                             </div>
-                                            <div class="shopping-btn">
-                                                <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                                <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- Tên sản phẩm -->
+                                            <h5 class="product-title"><?= htmlspecialchars($product->name) ?></h5>
+                                            <!-- Giá sản phẩm -->
+                                            <p class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="stretched-link">Xem Chi Tiết</a>
                                         </div>
                                     </div>
                                 </a>
@@ -140,106 +145,41 @@
             </div>
         </div>
     </div>
-    
+
     <div class="product-carousel">
         <div class="box-body">
-            <div class="row">
-
+            <div class="row ">
                 <div class="owl-carousel owl-two owl-theme">
-                    
-                <?= var_dump($danhSachHot) ?>
-
                     <!-- product -->
                     <?php
-                    $limitedProducts = array_slice($danhSachHot, 0, 5);
-                    foreach ($limitedProducts as $product) { ?>
-                        <?php if (is_object($product)) { ?>
-
-                            <div class="item">
-                                <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id ?? '') ?>">
-
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="product-block">
-                                            <div class="product-img"><img src="<?= htmlspecialchars(BASE_URL . ($product->img ?? 'default-image.jpg')) ?>" alt=""></div>
-                                            <div class="product-content">
-                                                <h5><a href="#" class="product-title"><?= htmlspecialchars($products->name) ?></a></h5>
-                                                <div class="product-meta"><a href="#" class="product-price"><?= number_format($products->price, 0, ',', '.') ?></a>
-                                                    <!-- <a href="#" class="discounted-price">$2000</a>
-                                        <span class="offer-price">20%off</span> -->
-                                                </div>
-                                                <div class="shopping-btn">
-                                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                                    <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id ?? '') ?>" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                                </div>
+                    foreach ($danhSachHot as $product) { ?>
+                        <div class="item col mb-4">
+                                <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
+                                    <div class="card product-item">
+                                        <div class="product-thumb">
+                                            <!-- Hình ảnh sản phẩm -->
+                                            <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($product->name) ?>">
+                                            <div class="product-action-link">
+                                                <button class="btn cart-btn">
+                                                    <i class="bi bi-cart-plus"></i>
+                                                </button>
                                             </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- Tên sản phẩm -->
+                                            <h5 class="product-title"><?= htmlspecialchars($product->name) ?></h5>
+                                            <!-- Giá sản phẩm -->
+                                            <p class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="stretched-link">Xem Chi Tiết</a>
                                         </div>
                                     </div>
                                 </a>
                             </div>
-                        <?php } ?>
                     <?php } ?>
                     <!-- /.product -->
                 </div>
-                <!-- product -->
-                <!-- <div class="item">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="product-block">
-                            <div class="product-img"><img src="../viewclient/images/product_img_6.png" alt=""></div>
-                            <div class="product-content">
-                                <h5><a href="#" class="product-title">Apple iPhone 7 <strong>(256 GB, Black)</strong> </a></h5>
-                                <div class="product-meta"><a href="#" class="product-price">$1400</a>
-                                    <a href="#" class="discounted-price"><strike>$1800</strike></a>
-                                    <span class="offer-price">20%off</span>
-                                </div>
-                                <div class="shopping-btn">
-                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                    <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- /.product -->
-                <!-- product -->
-                <!-- <div class="item">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="product-block">
-                            <div class="product-img"><img src="../viewclient/images/product_img_7.png" alt=""></div>
-                            <div class="product-content">
-                                <h5><a href="#" class="product-title">Apple iPhone 6S <strong>(32GB, Gold)</strong> </a></h5>
-                                <div class="product-meta"><a href="#" class="product-price">$1300</a>
-                                    <a href="#" class="discounted-price"><strike>$2000</strike></a>
-                                    <span class="offer-price">20%off</span>
-                                </div>
-                                <div class="shopping-btn">
-                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                    <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- /.product -->
-                <!-- product -->
-                <!-- <div class="item">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="product-block">
-                            <div class="product-img"><img src="../viewclient/images/product_img_8.png" alt=""></div>
-                            <div class="product-content">
-                                <h5><a href="#" class="product-title">Apple iPhone X <strong>(64 GB, Grey)</strong></a></h5>
-                                <div class="product-meta"><a href="#" class="product-price">$1200</a>
-                                    <a href="#" class="discounted-price"><strike>$2000</strike></a>
-                                    <span class="offer-price">20%off</span>
-                                </div>
-                                <div class="shopping-btn">
-                                    <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                    <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.product -->
-                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -396,3 +336,17 @@
     </div>
 </div>
 <!-- /.features -->
+
+
+<script>
+    $(document).ready(function() {
+        $(".owl-carousel").owlCarousel({
+            items: 4, // Số lượng sản phẩm hiển thị
+            margin: 10, // Khoảng cách giữa các sản phẩm
+            loop: true, // Lặp lại carousel
+            autoplay: true, // Tự động chuyển
+            autoplayTimeout: 3000, // Thời gian chuyển giữa các sản phẩm
+            nav: true, // Hiển thị nút điều hướng (trái/phải)
+        });
+    });
+</script>

@@ -1,11 +1,13 @@
 <?php
 class CartController
 {
+    private $productQuery;
     private $cartQuery;
 
     public function __construct()
     {
         $this->cartQuery = new CartQuery();
+        $this->productQuery = new ProductQuery();
     }
 
     // Hiển thị giỏ hàng của người dùng
@@ -19,11 +21,39 @@ class CartController
     }
 
     // Thêm sản phẩm vào giỏ hàng
-    public function addToCart($userId, $productId, $quantity)
+    public function addToCart($userId, $productId, $quantity = 1)
     {
-        $this->cartQuery->addProductToCart($userId, $productId, $quantity);
-        header("Location: ?act=client-listgiohang&id=$userId");
+        try {
+            if ($userId == null) {
+                // Người dùng chưa đăng nhập, hiển thị thông báo và chuyển hướng
+                echo "<script type='text/javascript'>
+                                    alert('Bạn cần đăng nhập để mua hàng.');
+                                    window.location.href = '?act=client-login'; // Chuyển hướng tới trang đăng nhập
+                                  </script>";
+                exit(); // Dừng chương trình để đảm bảo không có gì khác xảy ra sau khi chuyển hướng
+            } else {
+                // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng hay chưa
+                $cartItem = $this->cartQuery->getCartByUserAndProduct($userId, $productId);
+
+                if ($cartItem) {
+                    // Nếu tồn tại, tăng số lượng
+                    $newQuantity = $cartItem->quantity + $quantity;
+                    $this->cartQuery->updateQuantity($cartItem->item_id, $newQuantity);
+                } else {
+                    // Nếu chưa, thêm mới sản phẩm với số lượng mặc định
+                    $this->cartQuery->addProductToCart($userId, $productId, $quantity);
+                }
+
+                // Chuyển hướng về giỏ hàng
+                header("Location: ?act=client-listgiohang&id=$userId");
+                exit;
+            }
+        } catch (Exception $e) {
+            // Xử lý lỗi nếu có
+            echo "Lỗi khi thêm sản phẩm vào giỏ hàng: " . $e->getMessage();
+        }
     }
+
 
     // Xóa sản phẩm khỏi giỏ hàng
     // public function removeFromCart($userId, $productId)
@@ -61,9 +91,4 @@ class CartController
 
         include "view/use/paypage.php";
     }
-
 }
-
-
-?>
-
