@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($userFound->status == '1') {
             if ($userFound->role == 1) {
-                header("Location: http://localhost/shopBanGiay/php/admin/?act=products-list");
+                header("Location: http://localhost/shopBanGiay/php/admin/?act=products-home");
                 exit; // Dừng script ngay sau khi chuyển hướng
             } else {
                 header("Location: ?act=client-list");
