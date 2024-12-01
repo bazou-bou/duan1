@@ -109,3 +109,24 @@ class Contact
 
     public function __destruct() {}
 }
+
+class News{
+    public $new_id;
+    // public $user_id;
+    public $title;
+    public $content;
+    public $new_img;
+    public $view;
+    public $status;
+    public $created_at;
+
+    public function __construct()
+    {
+        
+    }
+
+    public function __destruct()
+    {
+        
+    } 
+}
