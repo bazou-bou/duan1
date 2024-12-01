@@ -22,7 +22,6 @@
     <main>
         <div class="main-content">
             <div class="container">
-
                 <!-- Thống kê chính -->
                 <div class="container-table">
                     <div class="row text-center mt-3">
@@ -99,7 +98,7 @@
                         <div class="col-md-8">
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <h5 class="card-title">Biểu Đồ Doanh Thu</h5>
+                                    <h5 class="card-title">Biểu Đồ Doanh Thu và Đơn Hàng</h5>
                                     <canvas id="revenueChart" style="height: 300px;"></canvas>
                                 </div>
                             </div>
@@ -137,82 +136,125 @@
     <!-- Chart.js (dành cho biểu đồ) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Dữ liệu từ PHP
-        const doanhSoTheoNam = <?php echo json_encode($doanhSoTheoNam); ?>;
-        const donHangTheoNam = <?php echo json_encode($donHangTheoNam); ?>;
-        console.table(donHangTheoNam);
+    // Dữ liệu từ PHP (sẵn có)
+    const doanhSoTheoNam = <?php echo json_encode($doanhSoTheoNam); ?>;
+    const donHangTheoNam = <?php echo json_encode($donHangTheoNam); ?>;
 
-        // Tạo các mảng labels (tháng), doanh thu và số lượng đơn hàng
-        const months= doanhSoTheoNam.map(item => `${item.month}/${item.year}`).reverse(); // Đảo ngược thứ tự các tháng
-        const revenues = doanhSoTheoNam.map(item => parseInt(item.total_revenue)).reverse(); // Đảo ngược dữ liệu doanh thu
-        const orders = donHangTheoNam.map(item => parseInt(item.total_orders)).reverse(); // Thêm số lượng đơn hàng
+    // Tạo các mảng labels (tháng), doanh thu và số lượng đơn hàng
+    const months = doanhSoTheoNam.map(item => `${item.month}/${item.year}`).reverse();
+    const revenues = doanhSoTheoNam.map(item => parseInt(item.total_revenue)).reverse();
+    const orders = donHangTheoNam.map(item => parseInt(item.total_orders)).reverse();
 
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-        const revenueChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: months, // Các tháng
-                datasets: [{
-                        label: 'Doanh Thu',
-                        data: revenues, // Dữ liệu doanh thu
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderWidth: 2
-                    },
-                    {
-                        label: 'Số Đơn Hàng',
-                        data: orders, // Dữ liệu số đơn hàng
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderWidth: 2,
-                        yAxisID: 'y2' // Trục phụ cho số đơn hàng
-                    }
-                ]
+    // Chuyển dữ liệu ra biểu đồ
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    let revenueChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: months, 
+            datasets: [
+                {
+                    label: 'Doanh Thu',
+                    data: revenues, 
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Số Đơn Hàng',
+                    data: orders, 
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 2,
+                    yAxisID: 'y2'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top'
+            scales: {
+                y: {
+                    beginAtZero: true, 
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString();
+                        }
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true, // Trục chính cho doanh thu
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString(); // Định dạng số với dấu phân cách hàng nghìn
-                            }
-                        }
-                    },
-                    y2: {
-                        beginAtZero: true, // Trục phụ cho số đơn hàng
-                        position: 'right', // Đặt trục phụ ở bên phải
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString(); // Định dạng số với dấu phân cách hàng nghìn
-                            }
+                y2: {
+                    beginAtZero: true, 
+                    position: 'right',
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString();
                         }
                     }
                 }
             }
-        });
+        }
+    });
 
+    // Lọc theo khoảng thời gian
+    function filterQuick(period) {
+        const date = new Date();
+        let startDate = '';
+        let endDate = '';
 
-        // Hàm ẩn/hiện biểu đồ doanh thu
-        document.getElementById('toggleRevenueBtn').addEventListener('click', function() {
-            const dataset = revenueChart.data.datasets.find(ds => ds.label === 'Doanh Thu');
-            dataset.hidden = !dataset.hidden; // Ẩn/hiện doanh thu
-            revenueChart.update(); // Cập nhật biểu đồ
-        });
+        if (period === '6months') {
+            startDate = new Date();
+            startDate.setMonth(date.getMonth() - 6);
+        } else if (period === '1month') {
+            startDate = new Date();
+            startDate.setMonth(date.getMonth() - 1);
+        } else if (period === '1year') {
+            startDate = new Date();
+            startDate.setFullYear(date.getFullYear() - 1);
+        }
 
-        // Hàm ẩn/hiện biểu đồ đơn hàng
-        document.getElementById('toggleOrdersBtn').addEventListener('click', function() {
-            const dataset = revenueChart.data.datasets.find(ds => ds.label === 'Số Đơn Hàng');
-            dataset.hidden = !dataset.hidden; // Ẩn/hiện đơn hàng
-            revenueChart.update(); // Cập nhật biểu đồ
-        });
-    </script>
+        document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+        document.getElementById('endDate').value = date.toISOString().split('T')[0];
+    }
+
+    // Hàm lọc dữ liệu theo ngày
+    function filterData() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        // Chuyển đổi startDate và endDate thành dạng Date
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        // Lọc dữ liệu doanh thu và đơn hàng dựa trên khoảng thời gian
+        const filteredMonths = [];
+        const filteredRevenues = [];
+        const filteredOrders = [];
+        
+        for (let i = 0; i < months.length; i++) {
+            const monthYear = months[i].split('/');
+            const month = parseInt(monthYear[0]);
+            const year = parseInt(monthYear[1]);
+            const currentMonthDate = new Date(year, month - 1);
+
+            // Kiểm tra nếu tháng nằm trong khoảng ngày lọc
+            if (currentMonthDate >= start && currentMonthDate <= end) {
+                filteredMonths.push(months[i]);
+                filteredRevenues.push(revenues[i]);
+                filteredOrders.push(orders[i]);
+            }
+        }
+
+        // Cập nhật lại biểu đồ với dữ liệu đã lọc
+        revenueChart.data.labels = filteredMonths;
+        revenueChart.data.datasets[0].data = filteredRevenues;
+        revenueChart.data.datasets[1].data = filteredOrders;
+        revenueChart.update();
+    }
+</script>
+
 </body>
 
 </html>
