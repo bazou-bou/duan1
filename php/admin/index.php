@@ -157,6 +157,36 @@ switch ($act) {
         $bannerCtrl->showBannerDelete($id);
         break;
 
+    case "contact-list":
+        // Show the list of contact
+        $contactCtrl = new ProductController();
+        $contactCtrl->showContactList();
+        break;
+
+    case "contact-delete":
+        // Delete the contact
+        $contactCtrl = new ProductController();
+        $contactCtrl->showContactDelete($id);
+        break;
+
+    case "news-list":
+        // Show the list of news
+        $newCtrl = new ProductController();
+        $newCtrl->showNewList();
+        break;
+        
+    case "news-create":
+        // Show the list of news
+        $newCtrl = new ProductController();
+        $newCtrl->showCreateNew();
+        break;
+
+    case "new-delete":
+        // Delete the news
+        $newCtrl = new ProductController();
+        $newCtrl->showNewDelete($id);
+        break;
+
     default:
         // Hiển thị "trang 404 fage not found" nếu giá trị "act" không nằm trong danh sách phía trên.
         include "view/404.php";

@@ -1,3 +1,37 @@
+<?php
+// Kết nối cơ sở dữ liệu
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=duan1', 'root', '051025');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage();
+    exit();
+}
+
+// Kiểm tra nếu có dữ liệu POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset($_POST['status'])) {
+    $order_id = $_POST['order_id'];
+    $new_status = $_POST['status'];
+
+    // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
+    $sql = "UPDATE orders SET status = :status WHERE order_id = :order_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':status', $new_status, PDO::PARAM_INT);
+    $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+
+    // Thực thi câu lệnh SQL
+    if ($stmt->execute()) {
+        $chuyen = $DanhSachobject[0]->order_id;
+        // Sau khi cập nhật thành công, chuyển hướng người dùng về trang chi tiết đơn hàng hoặc trang danh sách đơn hàng
+        header("Location: ?act=order_item&id= $chuyen");
+        exit();
+    } else {
+        echo "Có lỗi xảy ra khi cập nhật trạng thái đơn hàng.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,44 +144,71 @@
                 </div>
 
                 <div class="order-summary">
-                    <h3>Tổng tiền:
-                        <?php
-                        $total_price = 0;
-                        foreach ($DanhSachobject as $item) {
-                            $total_price += $item->product_price * $item->quantity;
-                        }
-                        echo number_format($total_price, 0, ',', '.') . " VNĐ";
-                        ?>
-                    </h3>
-                    <p><strong>Trạng thái: </strong>
-                        <?php
-                        if (isset($DanhSachobject[0]->status)) {
-                            if ($DanhSachobject[0]->status == 0) {
-                                echo "Đang giao";
-                            } elseif ($DanhSachobject[0]->status == 1) {
-                                echo "Đã giao thành công";
-                            } else {
-                                echo "Trạng thái không xác định";
-                            }
-                        } else {
-                            echo "Chưa cập nhật";
-                        }
-                        ?>
+    <h3>Tổng tiền:
+        <?php
+        $total_price = 0;
+        foreach ($DanhSachobject as $item) {
+            $total_price += $item->product_price * $item->quantity;
+        }
+        echo number_format($total_price, 0, ',', '.') . " VNĐ";
+        ?>
+    </h3>
+    <p><strong>Trạng thái: </strong>
+        <?php
+        $current_status = isset($DanhSachobject[0]->status) ? $DanhSachobject[0]->status : 0;
+        switch ($current_status) {
+            case 0:
+                echo "Chờ xác nhận";
+                break;
+            case 1:
+                echo "Đang chuẩn bị hàng";
+                break;
+            case 2:
+                echo "Đang giao";
+                break;
+            case 3:
+                echo "Đã thanh toán";
+                break;
+            case 4:
+                echo "Đã giao thành công";
+                break;
+            case 5:
+                echo "Đã hủy";
+                break;
+            default:
+                echo "Trạng thái không xác định";
+        }
+        ?>
+    </p>
 
-                        <button></button>
-                    </p>
-                    <p><strong>Ngày đặt hàng: </strong>
-                        <?php
-                        if (isset($DanhSachobject[0]->order_date) && !empty($DanhSachobject[0]->order_date)) {
-                            // Chuyển đổi ngày thành định dạng đẹp hơn (ví dụ: ngày/tháng/năm)
-                            $orderDate = new DateTime($DanhSachobject[0]->order_date);
-                            echo $orderDate->format('d/m/Y H:i'); // Định dạng: ngày/tháng/năm giờ:phút
-                        } else {
-                            echo 'Chưa có thông tin';
-                        }
-                        ?>
-                    </p>
-                </div>
+    <form action='?act=order_item&id=<?= $DanhSachobject[0]->order_id ?>' method="POST">
+        <input type="hidden" name="order_id" value="<?php echo $DanhSachobject[0]->order_id; ?>">
+        
+        <label for="status">Chọn trạng thái mới:</label>
+        <select name="status" id="status" class="form-select" required>
+            <option value="0" <?php if ($current_status == 0) echo "selected"; ?>>Chờ xác nhận</option>
+            <option value="1" <?php if ($current_status == 1) echo "selected"; ?>>Đang chuẩn bị hàng</option>
+            <option value="2" <?php if ($current_status == 2) echo "selected"; ?>>Đang giao</option>
+            <option value="3" <?php if ($current_status == 3) echo "selected"; ?>>Đã thanh toán</option>
+            <option value="4" <?php if ($current_status == 4) echo "selected"; ?>>Đã giao thành công</option>
+            <option value="5" <?php if ($current_status == 5) echo "selected"; ?>>Đã hủy</option>
+        </select>
+        
+        <button type="submit" class="btn btn-success mt-2">Cập nhật trạng thái</button>
+    </form>
+
+    <p><strong>Ngày đặt hàng: </strong>
+        <?php
+        if (isset($DanhSachobject[0]->order_date) && !empty($DanhSachobject[0]->order_date)) {
+            $orderDate = new DateTime($DanhSachobject[0]->order_date);
+            echo $orderDate->format('d/m/Y H:i');
+        } else {
+            echo 'Chưa có thông tin';
+        }
+        ?>
+    </p>
+</div>
+
             </div>
 
 

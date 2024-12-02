@@ -147,6 +147,19 @@ switch ($act) {
         }
         break;
 
+    case "gioithieu":
+        include './view/viewClient/gioithieu.php';
+        break;
+    // case "tintuc_list":
+    //     include './view/viewClient/tintuc_list.php';
+    //     break;
+    case "tintuc_chitiet":
+        include './view/viewClient/tintuc_chitiet.php';
+        break;
+    case "lienhe":
+        include './view/viewClient/lienhe.php';
+        break;
+
 
     case "client_pay":
         $cartCtrl = new CartController();
@@ -182,7 +195,15 @@ switch ($act) {
         break;
 
 
+        case "client-news":
+            $newCtrl = new ProductController();
+            $newCtrl->showNewList();
+            break;
 
+        case "client-deletecart":
+            $newCtrl = new ProductController();
+            $newCtrl->deleteCartItem($id);
+            break;
 
 
 

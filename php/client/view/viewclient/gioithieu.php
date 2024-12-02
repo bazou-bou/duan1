@@ -1,3 +1,11 @@
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/style.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/owl.carousel.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/owl.theme.default.css">
+<link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+
 <!-- page-header -->
 <div class="page-header">
     <div class="container">
@@ -5,7 +13,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="page-breadcrumb">
                     <ol class="breadcrumb">
-                        <li><a href="index.php">Trang chủ</a></li>
+                        <li><a href="?act=client-list">Trang chủ</a></li>
                         <li>Giới thiệu</li>
                     </ol>
                 </div>
@@ -22,14 +30,14 @@
                 <div class="box">
                     <!-- about description -->
                     <div class="box-head">
-                        <h2 class="head-title">Chào mừng đến với MobileStore </h2>
+                        <h2 class="head-title">Chào mừng đến với Shop BTL </h2>
                     </div>
                     <div class="box-body">
-                        <p class="lead">MobileStore là một trang web bán điện thoại trực tuyến do công ty MobileStore
+                        <p class="lead">Shop BTL là một trang web bán giày trực tuyến do Converse
                             tạo ra và chi phối. Để có thể tạo được sự thuận tiện đến khách hàng khi mua sản phẩm thì
                             ngoài các chi nhánh chúng tôi còn mở ra một trang web bán hàng trực tuyến. Trang web có tất
                             cả
-                            các sản phẩm diện thoại của công ty chúng tôi. Khách hàng có thể thoải mái lựa chọn phù hợp
+                            các mẫu giày của công ty chúng tôi. Khách hàng có thể thoải mái lựa chọn phù hợp
                             với như cầu
                             của mình.</p>
                     </div>
@@ -44,51 +52,9 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="box">
                     <div class="box-head">
-                        <h2 class="head-title">MobileStore là một công ty lớn với </h2>
+                        <h2 class="head-title">Shop BTL là một công ty lớn với </h2>
                     </div>
-                    <div class="box-body">
-                        <div class="row">
-                            <!-- counter-block -->
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                <div class="counter-block">
-                                    <div class="counter-icon">
-                                        <img src="view/images/mobile_icon.png" alt="">
-                                    </div>
-                                    <div class="counter-content">
-                                        <h3 class="counter-text">1,00,000 <sup>+</sup></h3>
-                                        <h4>Sản phẩm</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.counter-block -->
-                            <!-- counter-block -->
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                <div class="counter-block">
-                                    <div class="counter-icon">
-                                        <img src="view/images/user_icon.png" alt="">
-                                    </div>
-                                    <div class="counter-content">
-                                        <h3 class="counter-text">80,000 <sup>+</sup></h3>
-                                        <h4>Khách hàng</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.counter-block -->
-                            <!-- counter-block -->
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                <div class="counter-block">
-                                    <div class="counter-icon">
-                                        <img src="view/images/location_icon.png" alt="">
-                                    </div>
-                                    <div class="counter-content">
-                                        <h3 class="counter-text">100 <sup>+</sup></h3>
-                                        <h4>Chi nhánh</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.counter-block -->
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -137,7 +103,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="box">
                     <div class="box-head">
-                        <h2 class="head-title">Thời gian phát triển MobileStore</h2>
+                        <h2 class="head-title">Thời gian phát triển Shop BTL</h2>
                     </div>
                     <div class="box-body">
                         <div class="row">
@@ -151,7 +117,7 @@
                                         </div>
                                         <div class="tl-body">
                                             <h4>Lịch sử</h4>
-                                            <p>Xây dựng ý tưởng mở công ty MobileStore. Tìm kiếm nguồn vốn, nguồn nhân
+                                            <p>Xây dựng ý tưởng mở công ty Shop BTL. Tìm kiếm nguồn vốn, nguồn nhân
                                                 lực, quản lý, ... </p>
                                         </div>
                                     </div>
@@ -166,7 +132,7 @@
                                         </div>
                                         <div class="tl-body">
                                             <h4>Lịch sử</h4>
-                                            <p>Công ty MobileStore được thành lập. Tiếp tục khó khắn trong việc tìm kiếm
+                                            <p>Công ty Shop BTL được thành lập. Tiếp tục khó khắn trong việc tìm kiếm
                                                 khách hàng.</p>
                                         </div>
                                     </div>
@@ -196,8 +162,8 @@
                                         </div>
                                         <div class="tl-body">
                                             <h4>Lịch sử</h4>
-                                            <p>Công ty MobileStore đã phát triển mạnh. Mở thêm nhiều chi nhánh và trang
-                                                web MobileStore để phục vụ nhiều khách hàng hơn.</p>
+                                            <p>Công ty Shop BTL đã phát triển mạnh. Mở thêm nhiều chi nhánh và trang
+                                                web Shop BTL để phục vụ nhiều khách hàng hơn.</p>
                                         </div>
                                     </div>
                                 </li>
@@ -222,20 +188,21 @@
                         <div class="row">
 
                             <div class="testimonial-carousel">
+
                                 <div class="owl-carousel owl-three owl-theme">
-                                    <!-- testimonial-block -->
+
                                     <div class="item">
                                         <div class="testimonial-block">
                                             <div class="testimonial-content">
                                                 <p class="testimonial-text">“Tôi thật sự thích công ty này, họ luôn mang
                                                     đến cho tôi sự thuận tiện khi tôi mua sản phẩm của họ.”</p>
                                                 <h4>Henry Odom</h4>
-                                                <span class="text-default">(Ahemedabad)</span>
+                                                <span class="text-default"></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /.testimonial-block -->
-                                    <!-- testimonial-block -->
+
+
                                     <div class="item">
                                         <div class="testimonial-block">
                                             <div class="testimonial-content">
@@ -247,20 +214,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /.testimonial-block -->
-                                    <!-- testimonial-block -->
-                                    <div class="item">
-                                        <div class="testimonial-block">
-                                            <div class="testimonial-content">
-                                                <p class="testimonial-text">“Công ty có khá nhiều loại sản phẩm khác
-                                                    nhau. Giá cả lại rất phù hợp. Tôi rất thích công ty này.”</p>
-                                                <h4>Henry Odom</h4>
-                                                <span class="text-default">(Ahemedabad)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.testimonial-block -->
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -270,3 +226,106 @@
     </div>
 </div>
 <!-- testimonial -->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- footer-company-links -->
+            <!-- footer-contact links -->
+            <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="footer-widget">
+                    <h3 class="footer-title">Thông tin hỗ trợ</h3>
+                    <div class="contact-info">
+                        <span class="contact-icon"><i class="fa fa-map-marker"></i></span>
+                        <span class="contact-text">Phường Linh Trung, Thủ Đức<br>Thành phố Hồ Chí Minh, Việt Nam - 1955</span>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-icon"><i class="fa fa-phone"></i></span>
+                        <span class="contact-text">+084-123-4567 / 89</span>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-icon"><i class="fa fa-envelope"></i></span>
+                        <span class="contact-text">nhom12@ltweb.com</span>
+                    </div>
+                </div>
+            </div>
+            <!-- /.footer-useful-links -->
+            <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="footer-widget">
+                    <h3 class="footer-title">Tiện ích</h3>
+                    <ul class="arrow">
+                        <li><a href="index.html">Home </a></li>
+                        <li><a href="product-list.html">Mobie</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog-default.html">Blog</a></li>
+                        <li><a href="contact-us.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.footer-useful-links -->
+            <!-- footer-policy-list-links -->
+            <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="footer-widget">
+                    <h3 class="footer-title">Chính sách</h3>
+                    <ul class="arrow">
+                        <li><a href="#">Thanh toán</a></li>
+                        <li><a href="#">Hủy, trả hàng</a></li>
+                        <li><a href="#">Giao hàng và vận chuyển</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.footer-policy-list-links -->
+            <!-- footer-social links -->
+            <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="footer-widget">
+                    <h3 class="footer-title">Liên lạc với chúng tôi</h3>
+                    <div class="ft-social">
+                        <span><a href="#" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a></span>
+                        <span><a href="#" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a></span>
+                        <span><a href="#" class="btn-social btn-googleplus"><i class="fa fa-google-plus"></i></a></span>
+                        <span><a href="#" class=" btn-social btn-pinterest"><i class="fa fa-pinterest-p"></i></a></span>
+                        <span><a href="#" class=" btn-social btn-instagram"><i class="fa fa-instagram"></i></a></span>
+                    </div>
+                </div>
+            </div>
+            <!-- /.footer-social links -->
+        </div>
+    </div>
+    <!-- tiny-footer -->
+    <div class="tiny-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="payment-method alignleft">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-cc-paypal fa-2x"></i></a></li>
+                            <li><a href="#"><i class="fa fa-cc-mastercard  fa-2x"></i></a></li>
+                            <li><a href="#"><i class="fa fa-cc-visa fa-2x"></i></a></li>
+                            <li><a href="#"><i class="fa fa-cc-discover fa-2x"></i></a></li>
+                        </ul>
+                    </div>
+                    <p class="alignright">Copyright © All Rights Reserved 2020 Template Design by
+                        <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 21</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- /. tiny-footer -->
+    </div>
+</div>
+
+<script src="../viewclient/js/jquery.min.js" type="text/javascript"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../viewclient/js//bootstrap.min.js" type="text/javascript"></script>
+<!-- <script src="../viewclient/js/bootstrap.min.js" type="text/javascript"></script> -->
+<script src="../viewclient/js/menumaker.js" type="text/javascript"></script>
+<script type="text/javascript" src="../viewclient/js/jquery.sticky.js"></script>
+<script type="text/javascript" src="../viewclient/js/sticky-header.js"></script>
+<script type="text/javascript" src="../viewclient/js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="../viewclient/js/multiple-carousel.js"></script>
+</body>
+
+
+<!-- Mirrored from easetemplate.com/free-website-templates/mobistore/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:40:40 GMT -->
+
+</html>

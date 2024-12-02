@@ -42,7 +42,7 @@ class ProductQuery
                 $product->category = $value["category_name"];
                 $product->status = $value["status"];
                 if ($product->status == 1) {
-                $danhSach[] = $product;
+                    $danhSach[] = $product;
                 }
             }
 
@@ -93,10 +93,10 @@ class ProductQuery
             $sql = "SELECT p.*, c.name AS category_name FROM products p
                     LEFT JOIN categories c ON p.category_id = c.category_id
                     ORDER BY p.views DESC";
-            
+
             // Thực hiện truy vấn
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-    
+
             $danhSach = [];
             foreach ($data as $value) {
                 $product = new Product();
@@ -110,10 +110,10 @@ class ProductQuery
                 $product->category = $value["category_name"];
                 $product->status = $value["status"];
                 if ($product->status == 1) {
-                $danhSach[] = $product;
+                    $danhSach[] = $product;
                 }
             }
-    
+
             // Trả về danh sách sản phẩm
             return [
                 'products' => $danhSach,
@@ -126,7 +126,7 @@ class ProductQuery
             ];
         }
     }
-    
+
     public function allCatories()
     {
         try {
@@ -138,7 +138,7 @@ class ProductQuery
                 $product = new categories();
                 $product->category_id = $value["category_id"];
                 $product->name = $value["name"];
-                $product->img=$value["img"];
+                $product->img = $value["img"];
                 $product->status = $value["status"];
                 if ($product->status == 1) {
                     $dsCtr[] = $product;
@@ -151,7 +151,7 @@ class ProductQuery
             echo "Lỗi danh sách danh mục";
         }
     }
-    
+
 
 
     // Thêm mới bình luận public function addComment($comment)
@@ -160,23 +160,23 @@ class ProductQuery
         try {
             // Escape ký tự đặc biệt trong content để tránh SQL Injection
             $content = $this->pdo->quote($comment->content);
-    
+
             // Kiểm tra nếu username không có (trong trường hợp người dùng chưa đăng nhập)
             if (empty($comment->username)) {
                 // Đặt username mặc định là 'Anonymous' hoặc lấy từ session
                 $comment->username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Anonymous';
             }
-    
+
             // Nếu chưa đăng nhập, user_id sẽ là NULL
             $comment->user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : NULL;
-    
+
             // Xây dựng câu lệnh SQL với cột comment_date thay vì date
             $sql = "INSERT INTO comments (product_id, user_id, username, content, comment_date)
                     VALUES (:product_id, :user_id, :username, :content, :date)";
-    
+
             // Chuẩn bị câu lệnh SQL
             $stmt = $this->pdo->prepare($sql);
-    
+
             // Thực thi câu lệnh SQL với tham số đã chuẩn bị
             $stmt->execute([
                 ':product_id' => $comment->product_id,
@@ -185,7 +185,7 @@ class ProductQuery
                 ':content' => $content,
                 ':date' => $comment->comment_date // Dùng comment_date thay vì date
             ]);
-    
+
             echo "Bình luận đã được thêm thành công!";
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage();
@@ -194,7 +194,8 @@ class ProductQuery
     }
 
     //tìn bình luận theo id sản phẩm 
-    public function findComment($id){
+    public function findComment($id)
+    {
         try {
             $sql = "SELECT * FROM comments WHERE product_id = $id";
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -205,12 +206,11 @@ class ProductQuery
                 $comment->user_id = $value["user_id"];
                 $comment->username = $value["username"];
                 $comment->content = $value["content"];
-                $comment->comment_date = $value["comment_date"]; 
-                $comment->status=$value["status"];
+                $comment->comment_date = $value["comment_date"];
+                $comment->status = $value["status"];
                 if ($comment->status == 1) {
                     $danhSach[] = $comment;
-                    }
-
+                }
             }
             return $danhSach;
         } catch (Exception $error) {
@@ -218,9 +218,9 @@ class ProductQuery
             echo "Tiền bình luận thất bại";
         }
     }
-    
-    
-    
+
+
+
 
 
 
@@ -233,7 +233,7 @@ class ProductQuery
                     LEFT JOIN categories c ON p.category_id = c.category_id 
                     WHERE p.name LIKE '%{$searchName}%'";
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-    
+
             $danhSach = [];
             foreach ($data as $value) {
                 $product = new Product();
@@ -247,10 +247,10 @@ class ProductQuery
                 $product->category = $value["category_name"];
                 $product->status = $value["status"];
                 if ($product->status == 1) {
-                $danhSach[] = $product;
+                    $danhSach[] = $product;
                 }
             }
-    
+
             // Trả về danh sách sản phẩm và số lượng
             return [
                 'products' => $danhSach,
@@ -265,7 +265,7 @@ class ProductQuery
             ];
         }
     }
-    
+
 
     // Tìm sản phẩm theo danh mục
     public function findCategory($category)
@@ -315,7 +315,8 @@ class ProductQuery
 
     // Lấy tất cả người dùng
 
-    public function allUser() {
+    public function allUser()
+    {
         try {
             $sql = "SELECT * FROM users";
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -340,20 +341,21 @@ class ProductQuery
         }
     }
 
-    public function allBanner() {
+    public function allBanner()
+    {
         try {
             $sql = "SELECT * FROM `banners`";
             $data = $this->pdo->query($sql)->fetchAll();
 
             $banners = [];
             foreach ($data as $value) {
-                $banner = new Banner(); 
+                $banner = new Banner();
                 $banner->id = $value["id"];
                 $banner->image_path = $value["image_path"];
                 $banner->title = $value["title"];
                 $banner->status = $value["status"];
                 if ($banner->status == 1) {
-                $banners[] = $banner;
+                    $banners[] = $banner;
                 }
             }
 
@@ -365,17 +367,17 @@ class ProductQuery
     }
 
     public function pay($id, Pay $product)
-{
-    try {
-        // Start a transaction to ensure both queries are executed atomically
-        $this->pdo->beginTransaction();
+    {
+        try {
+            // Start a transaction to ensure both queries are executed atomically
+            $this->pdo->beginTransaction();
 
-        // Prepare the first SQL query to insert the order into `orders`
-        $sql1 = "INSERT INTO `orders` (`user_id`, `total`, `status`, `sdt`, `name_custom`, `address`)
+            // Prepare the first SQL query to insert the order into `orders`
+            $sql1 = "INSERT INTO `orders` (`user_id`, `total`, `status`, `sdt`, `name_custom`, `address`)
                  SELECT 
                      c.`user_id`, 
                      SUM(p.`price` * ci.`quantity`), 
-                     1, 
+                     0, 
                      :sdt, 
                      :name_custom, 
                      :address
@@ -385,19 +387,19 @@ class ProductQuery
                  WHERE c.`user_id` = :user_id
                  GROUP BY c.`user_id`";
 
-        // Prepare the statement and bind parameters
-        $stmt1 = $this->pdo->prepare($sql1);
-        $stmt1->bindParam(':sdt', $product->sdt);
-        $stmt1->bindParam(':name_custom', $product->name_custom);
-        $stmt1->bindParam(':address', $product->address);
-        $stmt1->bindParam(':user_id', $id, PDO::PARAM_INT);
-        $stmt1->execute();
+            // Prepare the statement and bind parameters
+            $stmt1 = $this->pdo->prepare($sql1);
+            $stmt1->bindParam(':sdt', $product->sdt);
+            $stmt1->bindParam(':name_custom', $product->name_custom);
+            $stmt1->bindParam(':address', $product->address);
+            $stmt1->bindParam(':user_id', $id, PDO::PARAM_INT);
+            $stmt1->execute();
 
-        // Get the last inserted order ID
-        $order_id = $this->pdo->lastInsertId();
+            // Get the last inserted order ID
+            $order_id = $this->pdo->lastInsertId();
 
-        // Prepare the second SQL query to insert items into `order_items`
-        $sql2 = "INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `order_img`, `order_date`, `order_price`, `address`, `name_custom`, `sdt`)
+            // Prepare the second SQL query to insert items into `order_items`
+            $sql2 = "INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `order_img`, `order_date`, `order_price`, `address`, `name_custom`, `sdt`)
                  SELECT 
                      :order_id, 
                      ci.`product_id`, 
@@ -412,30 +414,30 @@ class ProductQuery
                  JOIN `products` p ON ci.`product_id` = p.`product_id`
                  WHERE ci.`cart_id` IN (SELECT `cart_id` FROM `carts` WHERE `user_id` = :user_id)";
 
-        // Prepare the statement and bind parameters
-        $stmt2 = $this->pdo->prepare($sql2);
-        $stmt2->bindParam(':order_id', $order_id, PDO::PARAM_INT);
-        $stmt2->bindParam(':address', $product->address);
-        $stmt2->bindParam(':name_custom', $product->name_custom);
-        $stmt2->bindParam(':sdt', $product->sdt);
-        $stmt2->bindParam(':user_id', $id, PDO::PARAM_INT);
-        $stmt2->execute();
+            // Prepare the statement and bind parameters
+            $stmt2 = $this->pdo->prepare($sql2);
+            $stmt2->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+            $stmt2->bindParam(':address', $product->address);
+            $stmt2->bindParam(':name_custom', $product->name_custom);
+            $stmt2->bindParam(':sdt', $product->sdt);
+            $stmt2->bindParam(':user_id', $id, PDO::PARAM_INT);
+            $stmt2->execute();
 
-        // Commit the transaction
-        $this->pdo->commit();
+            // Commit the transaction
+            $this->pdo->commit();
 
-        return "ok";
-    } catch (Exception $error) {
-        // Rollback the transaction in case of an error
-        $this->pdo->rollBack();
+            return "ok";
+        } catch (Exception $error) {
+            // Rollback the transaction in case of an error
+            $this->pdo->rollBack();
 
-        error_log("Lỗi chức năng thanh toán ở query: " . $error->getMessage());
-        return "error";
+            error_log("Lỗi chức năng thanh toán ở query: " . $error->getMessage());
+            return "error";
+        }
     }
-}
 
 
-public function clientOrder($id)
+    public function clientOrder($id)
     {
         try {
             $sql = "SELECT 
@@ -519,5 +521,88 @@ WHERE o.user_id = $id";
         }
     }
 
+    public function allNewCl()
+    {
+        try {
+            $sql = "SELECT * FROM `news`";
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+            $news = [];
+            foreach ($data as $value) {
+                if ($value["status"] == 1) { // Chỉ lấy tin có status = 1
+                    $new = new News();
+                    $new->new_id = $value["new_id"];
+                    $new->title = $value["title"];
+                    $new->content = $value["content"];
+                    $new->new_img = $value["new_img"];
+                    $new->view = $value["view"];
+                    $new->status = $value["status"];
+                    $new->created_at = $value["created_at"];
+                    $news[] = $new;
+                }
+            }
+            return $news; // Trả về danh sách tin tức
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Tìm tất cả thất bại";
+            return []; // Trả về mảng rỗng nếu có lỗi
+        }
+    }
+
+  public function deleteCart($id) {
+    try {
+        // Sử dụng câu lệnh SQL an toàn
+        $sql = "DELETE ci
+                FROM cart_items ci
+                INNER JOIN carts c ON ci.cart_id = c.cart_id
+                WHERE c.user_id = :user_id";
+
+        // Chuẩn bị câu lệnh
+        $stmt = $this->pdo->prepare($sql);
+
+        // Liên kết tham số
+        $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
+
+        // Thực thi câu lệnh
+        $stmt->execute();
+
+        // Kiểm tra số dòng bị ảnh hưởng
+        if ($stmt->rowCount() > 0) {
+            return "Xóa thành công";
+        } else {
+            return "Không có sản phẩm nào để xóa";
+        }
+    } catch (Exception $error) {
+        echo "Lỗi " . $error->getMessage() . "<br>";
+        return "Xóa thất bại";
+    }
+}
+
+public function deleteCartitem($id){
+    try {
+        // Sử dụng câu lệnh SQL an toàn với tham số placeholder
+        $sql = "DELETE FROM `cart_items` WHERE `item_id` = :item_id";
+
+        // Chuẩn bị câu lệnh
+        $stmt = $this->pdo->prepare($sql);
+
+        // Liên kết tham số với giá trị thực tế của $id
+        $stmt->bindParam(':item_id', $id, PDO::PARAM_INT);
+
+        // Thực thi câu lệnh
+        $stmt->execute();
+
+        // Kiểm tra số dòng bị ảnh hưởng
+        if ($stmt->rowCount() > 0) {
+            return "Xóa thành công";
+        } else {
+            return "Không có sản phẩm nào để xóa";
+        }
+    } catch (Exception $error) {
+        // Xử lý lỗi nếu có
+        echo "Lỗi " . $error->getMessage() . "<br>";
+        return "Xóa thất bại";
+    }
+}
 
 }
