@@ -17,28 +17,22 @@ class Product
 }
 
 class categories
-{   
+{
     public $category_id;
     public $name;
     public $status;
     public $img;
 
-    public function __construct()
-    {
-        
-    }
-    public function __destruct()
-    {
-        
-    }
+    public function __construct() {}
+    public function __destruct() {}
 }
 
 class User
 {
     public $user_id;
-    public $username ;
+    public $username;
     public $password;
-    public $email ;
+    public $email;
     public $role;
     public $status;
 
@@ -55,21 +49,15 @@ class Oder
     public $name_custom;
     public $address;
 
-    public function __construct()
-    {
-        
-    }
-    public function __destruct()
-    {
-        
-    }
+    public function __construct() {}
+    public function __destruct() {}
 }
 
 class OrderItem
 {
     public $order_item_id;
-    public $order_id ;
-    public $product_id ;
+    public $order_id;
+    public $product_id;
     public $quantity;
     public $order_img;
     public $order_date;
@@ -82,17 +70,12 @@ class OrderItem
     public $product_img;
     public $status;
 
-    public function __construct()
-    {
-        
-    }
+    public function __construct() {}
 
-    public function __destruct()
-    {
-        
-    }
+    public function __destruct() {}
 }
-class Comments{
+class Comments
+{
     public $comment_id;
     public $product_id;
     public $user_id;
@@ -103,7 +86,8 @@ class Comments{
     public function __construct() {}
     public function __destruct() {}
 }
-class Banner{
+class Banner
+{
     public $id;
     public $image_path;
     public $title;
@@ -117,4 +101,40 @@ class topUser{
     public $total_spent;
     public function __construct() {}
     public function __destruct() {}
+}
+
+class Contact
+{
+    public $contact_id;
+    public $contact_name;
+    public $contact_email;
+    public $contact_phone;
+    public $contact_mess;
+    public $created_at;
+    public $contact_status;
+
+    public function __construct() {}
+
+    public function __destruct() {}
+}
+
+class News{
+    public $new_id;
+    // public $user_id;
+    public $title;
+    public $content;
+    public $new_img;
+    public $view;
+    public $status;
+    public $created_at;
+
+    public function __construct()
+    {
+        
+    }
+
+    public function __destruct()
+    {
+        
+    } 
 }

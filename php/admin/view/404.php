@@ -14,7 +14,7 @@
 
     <!-- Khu vực link điều hướng -->
     <div>
-        Đường dẫn không tồn tại. Mời bạn quay về trang chủ. <a href="?act=product-list">Click Here</a>
+        Đường dẫn không tồn tại. Mời bạn quay về trang chủ. <a href="?act=products-list">Click Here</a>
     </div>
 
 
