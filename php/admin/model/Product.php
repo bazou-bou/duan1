@@ -9,6 +9,7 @@ class Product
     public $img;
     public $views;
     public $category_id;
+    public $category;
     public $status;
 
     public function __construct() {}
@@ -91,6 +92,13 @@ class Banner
     public $image_path;
     public $title;
     public $status;
+    public function __construct() {}
+    public function __destruct() {}
+}
+class topUser{
+    public $username;
+    public $total_orders;
+    public $total_spent;
     public function __construct() {}
     public function __destruct() {}
 }

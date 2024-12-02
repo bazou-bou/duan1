@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 27, 2024 at 08:25 AM
+-- Generation Time: Dec 01, 2024 at 05:06 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -40,7 +40,8 @@ CREATE TABLE `banners` (
 
 INSERT INTO `banners` (`id`, `image_path`, `title`, `status`) VALUES
 (1, 'upload/Banner-uiux.jpg', 'banner1', 1),
-(2, 'upload/Banner-uiux-6.jpg', 'wesvrervdsc', 1);
+(2, 'upload/Banner-uiux-6.jpg', 'wesvrervdsc', 1),
+(4, 'upload/412949799_18216870532270880_6448690469242135409_n.jpg', 'xinh', 1);
 
 -- --------------------------------------------------------
 
@@ -53,6 +54,14 @@ CREATE TABLE `carts` (
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`cart_id`, `user_id`) VALUES
+(4, 3),
+(5, 23);
+
 -- --------------------------------------------------------
 
 --
@@ -64,8 +73,19 @@ CREATE TABLE `cart_items` (
   `cart_id` int NOT NULL,
   `product_id` int NOT NULL,
   `quantity` int NOT NULL,
-  `card_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL
+  `card_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Dumping data for table `cart_items`
+--
+
+INSERT INTO `cart_items` (`item_id`, `cart_id`, `product_id`, `quantity`, `card_img`) VALUES
+(5, 4, 1, 123, NULL),
+(6, 5, 2, 20, NULL),
+(7, 5, 1, 4, NULL),
+(8, 5, 3, 2, NULL),
+(9, 5, 4, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -85,9 +105,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`category_id`, `name`, `img`, `status`) VALUES
-(1, 'Giày nam', NULL, 0),
-(2, 'Giày nữ', NULL, 1),
-(3, 'Giày trẻ em', NULL, 1);
+(1, 'Giày nam', 'upload/giay_nam.jpg', 1),
+(2, 'Giày nữ', 'upload/giay_nu.png', 1),
+(3, 'Giày trẻ em', 'upload/shoe3.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +135,10 @@ INSERT INTO `comments` (`comment_id`, `product_id`, `user_id`, `username`, `cont
 (12, 1, 3, 'tung25', '\'ìuyuhfjvbnlwekfhjb\'', '2024-11-20 01:29:28', 0),
 (13, 1, 3, 'tung25', '\'tungfjnnuiogijnbg ọighih\'', '2024-11-20 01:30:05', 1),
 (14, 1, 3, 'tung25', '\'tungfjnnuiogijnbg ọighih\'', '2024-11-20 01:58:11', 1),
-(15, 4, 3, 'tung25', '\'dmm\'', '2024-11-25 21:32:55', 0);
+(15, 4, 3, 'tung25', '\'dmm\'', '2024-11-25 21:32:55', 0),
+(16, 1, 23, 'm.chi005', '\'ưelghdfgljdslfkj\'', '2024-11-30 05:01:40', 1),
+(17, 1, 23, 'm.chi005', '\'ưelghdfgljdslfkj\'', '2024-11-30 05:02:36', 1),
+(18, 1, 23, 'm.chi005', '\'haha\'', '2024-11-30 05:02:42', 1);
 
 -- --------------------------------------------------------
 
@@ -132,6 +155,15 @@ CREATE TABLE `orders` (
   `name_custom` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `total`, `status`, `sdt`, `name_custom`, `address`) VALUES
+(6, 23, '99078359.00', '1', 344122842, 'Trần Thanh Tùng', 'Thái Bình city'),
+(7, 23, '99078359.00', '1', 344122842, 'Tùng dz', 'Thái Bình'),
+(8, 23, '99078359.00', '1', 344122842, 'Tùng dz', 'Thái Bình');
 
 -- --------------------------------------------------------
 
@@ -152,6 +184,23 @@ CREATE TABLE `order_items` (
   `sdt` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `quantity`, `order_img`, `order_date`, `order_price`, `address`, `name_custom`, `sdt`) VALUES
+(7, 6, 2, 20, 'upload/shoeA1.jpg', '2022-01-01', 3256543, 'Thái Bình city', 'Trần Thanh Tùng', 344122842),
+(8, 6, 1, 4, 'upload/imgshoeA3.jpg', '2022-02-01', 5000000, 'Thái Bình city', 'Trần Thanh Tùng', 344122842),
+(9, 6, 3, 2, 'upload/shoeA2.jpg', '2022-01-01', 4742456, 'Thái Bình city', 'Trần Thanh Tùng', 344122842),
+(14, 7, 2, 20, 'upload/shoeA1.jpg', '2023-12-01', 3256543, 'Thái Bình', 'Tùng dz', 344122842),
+(15, 7, 1, 4, 'upload/shoeL3.jpg', '2023-12-01', 5000000, 'Thái Bình', 'Tùng dz', 344122842),
+(16, 7, 3, 2, 'upload/shoeA2.jpg', '2023-12-01', 4742456, 'Thái Bình', 'Tùng dz', 344122842),
+(17, 7, 4, 3, 'upload/shoeL2.jpg', '2023-12-01', 1487529, 'Thái Bình', 'Tùng dz', 344122842),
+(21, 8, 2, 20, 'upload/shoeA1.jpg', '2024-12-01', 3256543, 'Thái Bình', 'Tùng dz', 344122842),
+(22, 8, 1, 4, 'upload/shoeL3.jpg', '2024-12-01', 5000000, 'Thái Bình', 'Tùng dz', 344122842),
+(23, 8, 3, 2, 'upload/shoeA2.jpg', '2024-12-01', 4742456, 'Thái Bình', 'Tùng dz', 344122842),
+(24, 8, 4, 3, 'upload/shoeL2.jpg', '2024-12-01', 1487529, 'Thái Bình', 'Tùng dz', 344122842);
+
 -- --------------------------------------------------------
 
 --
@@ -162,11 +211,11 @@ CREATE TABLE `products` (
   `product_id` int NOT NULL,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
-  `price` decimal(10,2) NOT NULL,
+  `price` int NOT NULL,
   `stock` int NOT NULL,
   `img` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `views` int NOT NULL,
-  `status` int NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
   `category_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
@@ -175,10 +224,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `stock`, `img`, `views`, `status`, `category_id`) VALUES
-(1, 'Giày 1', 'Giày tốt', '5000000.00', 12, 'upload/imgshoeA3.jpg', 336, 1, 1),
-(2, 'Giày 2', 'Giày tốt giá tốt', '3256543.00', 11, 'upload/shoeA1.jpg', 15, 1, 1),
-(3, 'Giày 3', 'Giày tốt', '4742456.00', 13, 'upload/shoeA2.jpg', 83, 0, 3),
-(4, 'Giày 4', 'mb hb', '1487529.00', 34, 'upload/shoeL2.jpg', 86, 1, 2);
+(1, 'Giày 1', 'Giày tốt', 5000000, 12, 'upload/shoeL3.jpg', 426, 1, 2),
+(2, 'Giày 2', 'Giày tốt giá tốt', 3256543, 11, 'upload/shoeA1.jpg', 82, 1, 1),
+(3, 'Giày 3', 'Giày tốt', 4742456, 13, 'upload/shoeA2.jpg', 92, 1, 3),
+(4, 'Giày 4', 'mb hb', 1487529, 34, 'upload/shoeL2.jpg', 98, 1, 2),
+(8, '	SamSung S23 ultra', 'Apple Macbook Air 13 M3 – Thiết kế mỏng nhẹ, hiệu năng vượt trội.RAM 8GB cùng dung lượng lưu trữ 256GB mượt mà.', 25000000, 42562, 'upload/shoeL4.jpg', 24253255, 1, 3),
+(9, '	SamSung S23 ultra', 'Apple Macbook Air 13 M3 – Thiết kế mỏng nhẹ, hiệu năng vượt trội.RAM 8GB cùng dung lượng lưu trữ 256GB mượt mà.', 25000000, 42562, 'upload/shoeL4.jpg', 24253253, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -189,6 +240,7 @@ INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `stock`, `
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `img` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'upload/avata02.jpg',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `role` int DEFAULT NULL,
@@ -199,13 +251,14 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `role`, `status`) VALUES
-(2, 'admin', '123456', 'dafd', 0, 1),
-(3, 'tung25', '2508', 'adsfd', 1, 1),
-(4, '', '', '', NULL, 1),
-(21, 'bou2005', '123456', 'giaabaoo0510@gmail.com', NULL, 0),
-(22, 'trantung25', '2508', 'trantungvn8@gmail.com', NULL, 0),
-(23, 'm.chi005', '2508', 'steamlo2k5@gmail.com', NULL, 0);
+INSERT INTO `users` (`user_id`, `username`, `img`, `password`, `email`, `role`, `status`) VALUES
+(2, 'admin', 'upload/avata02.jpg', '123456', 'dafd', 0, 1),
+(3, 'tung25', 'upload/avata02.jpg', '2508', 'adsfd', 1, 1),
+(4, '', 'upload/avata02.jpg', '', '', NULL, 1),
+(21, 'bou2005', 'upload/avata02.jpg', '123456', 'giaabaoo0510@gmail.com', NULL, 0),
+(22, 'trantung25', 'upload/avata02.jpg', '2508', 'trantungvn8@gmail.com', NULL, 0),
+(23, 'm.chi005', 'upload/avata02.jpg', '2508', 'steamlo2k5@gmail.com', NULL, 1),
+(30, 'Tung_no_pro25', 'upload/avata02.jpg', '2508', 'anhdat0501.2005@gmail.com', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -321,19 +374,19 @@ ALTER TABLE `variant_product`
 -- AUTO_INCREMENT for table `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -345,31 +398,31 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `order_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `order_item_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `product_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `variant`

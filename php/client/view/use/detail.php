@@ -5,6 +5,8 @@ $isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đ�
 $_SESSION["quantity"] = 1;
 if (isset($_POST["quantity"])) {
     $_SESSION["quantity"] = intval($_POST["quantity"]); // Chuyển đổi sang số nguyên
+} else {
+    $_SESSION["quantity"] = 1;
 }
 
 //var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
@@ -84,7 +86,7 @@ if (isset($_POST["quantity"])) {
                             <span class="fa fa-star text-secondary"></span>
                             <span class="fa fa-star text-secondary"></span>
                         </div>
-                        <span class="ms-2 product_style2"><?= htmlspecialchars($DanhSachOne->views) ?> reviews</span>
+                        
                     </div>
                     <h4 class="price product_style2">Giá bán: <span><?= number_format($DanhSachOne->price, 0, ',', '.') ?> vnd</span></h4>
 
@@ -99,27 +101,26 @@ if (isset($_POST["quantity"])) {
                     </div>
 
                     <!-- Quantity Selection -->
-                    <div class="d-flex align-items-center mt-3 ">
-                        <h2 class="fs-5 product_style2">Số lượng:</h2>
+                    <div class="d-flex align-items-center mt-3">
+                        <h2 class="fs-5 product_style2 mb-0 me-2">Số lượng:</h2>
                         <div class="input-group">
                             <button class="btn btn-sm px-2 no-border" type="button" id="button-decrement">-</button>
                             <form method="POST" action="" enctype="multipart/form-data">
-                                <input type="number" id="quantity" name="quantity" class="form-control text-center form-control-sm no-border no-spinner" value="1" min="1">
-                                <!-- <button type="submit">Gửi</button> -->
-
+                                <input type="number" id="quantity" name="quantity" class="form-control text-center form-control-sm no-border no-spinner" value="<?= htmlspecialchars($_SESSION['quantity']) ?>" min="1">
                                 <button class="btn btn-sm px-2 no-border" type="button" id="button-increment">+</button>
+                            </form>
                         </div>
+
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="mt-3 http://localhost/shopBanGiay/php/client/index.php?act=client-detail&id=2">
-                        <button class="btn btn-success me-2" type="submit" id="addToCartButton" hre>
-                            <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" type="submit">Thêm vào giỏ hàng</a>
+                    <div class="d-flex align-items-center mt-3">
+                        <button class="btn btn-success me-2" type="submit" id="addToCartButton">
+                            <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" class="text-white">Thêm vào giỏ hàng</a>
                         </button>
-
                         <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
                     </div>
-                    </form>
+
                     <!-- Description -->
                     <div class="mt-3">
                         <p><?= htmlspecialchars($DanhSachOne->description) ?></p>
@@ -296,6 +297,29 @@ if (isset($_POST["quantity"])) {
                 });
             });
         });
+        // Lắng nghe sự kiện khi thay đổi số lượng sản phẩm
+        document.getElementById('quantity').addEventListener('input', function() {
+            // Tự động submit form khi thay đổi số lượng
+            this.form.submit();
+        });
+        // Giảm số lượng
+        document.getElementById('button-decrement').addEventListener('click', function() {
+            let quantityInput = document.getElementById('quantity');
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 0;
+                quantityInput.form.submit(); // Tự động gửi form khi thay đổi giá trị
+            }
+        });
+
+        // Tăng số lượng
+        document.getElementById('button-increment').addEventListener('click', function() {
+            let quantityInput = document.getElementById('quantity');
+            quantityInput.value = parseInt(quantityInput.value) + 0;
+            quantityInput.form.submit(); // Tự động gửi form khi thay đổi giá trị
+        });
+
+
 
 
 
