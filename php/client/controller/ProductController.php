@@ -253,46 +253,19 @@ class ProductController
                 $baoThanhCong = "Bạn đã tạo đơn hàng thành công";
                 $dataCreated = $this->productQuery->pay($id, $product);
 
-
                 // Check if the payment was processed successfully
                 if ($dataCreated == "ok") {
                     // Redirect to ?act=client_order
+                    $this->productQuery->deleteCart($id);
                     header("Location: ?act=client_order");
                     exit; // Stop the script execution after redirection
-
-                    // Input validation
-                    if ($product->name_custom === "") {
-                        $loi_ten_danhmuc = "Hãy nhập tên người nhận";
-                    }
-                    if ($product->address === "") {
-                        $loi_tranthai_danhmuc = "Hãy nhập địa chỉ người nhận";
-                    }
-                    if ($product->sdt === "") {
-                        $loi_sdt_danhmuc = "Nhập số điện thoại người nhận";
-                    }
-
-                    // If no errors, process payment
-                    if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "" && $loi_sdt_danhmuc === "") {
-                        $baoThanhCong = "Bạn đã tạo đơn hàng thành công";
-                        $dataCreated = $this->productQuery->pay($id, $product);
-
-                        // Check if the payment was processed successfully
-                        if ($dataCreated == "ok") {
-                            // Redirect to ?act=client_order
-                            header("Location: ?act=client_order");
-                            exit; // Stop the script execution after redirection
-                        }
-                    }
                 }
             }
-
-
-            // Include the payment page view
-            include "view/use/paypage.php";
         }
+
+        // Include the payment page view
+        include "view/use/paypage.php";
     }
-
-
 
 
 
@@ -312,8 +285,15 @@ class ProductController
     }
 
     public function showNewList()
-    {
-        $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
-        include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
-    }
+{
+    $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
+    include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
+}
+
+public function deleteCartItem($id){
+    $userId = $_SESSION['user_id'];
+    $this->productQuery->deleteCartitem($id);
+    header("Location: ?act=client-listgiohang&id=$userId");
+}
+
 }

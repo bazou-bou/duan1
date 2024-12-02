@@ -18,71 +18,9 @@ $_SESSION["quantity"] = 1;
         height: 500px;
         /* Chiều cao cố định cho ảnh */
         object-fit: cover;
-        /* Ảnh bao phủ khung */
+        /* Đảm bảo ảnh bao phủ toàn bộ khung mà không bị biến dạng */
         width: 100%;
-        /* Đảm bảo ảnh chiếm toàn bộ chiều rộng */
-        border-radius: 10px;
-        /* Bo góc nhẹ */
-    }
-
-    .product-thumb {
-        position: relative;
-        overflow: hidden;
-        /* Đảm bảo không có phần tử nào vượt ra ngoài khung */
-    }
-
-    .product-thumb .product-name {
-        position: absolute;
-        bottom: 10px;
-        /* Căn từ dưới lên */
-        left: 10px;
-        /* Căn từ trái qua */
-        background: rgba(128, 128, 128, 0.7);
-        /* Nền xám với độ mờ nhẹ */
-        color: #000;
-        /* Chữ màu đen */
-        padding: 5px 10px;
-        /* Thêm khoảng cách bên trong */
-        border-radius: 5px;
-        /* Bo góc nhẹ */
-        font-size: 14px;
-        /* Kích thước chữ */
-        font-weight: bold;
-        /* Chữ đậm */
-        z-index: 10;
-        /* Hiển thị trên ảnh */
-        text-decoration: none;
-        /* Loại bỏ gạch chân */
-        transition: background 0.3s ease, color 0.3s ease;
-        /* Hiệu ứng khi hover */
-    }
-
-    .product-thumb .product-name:hover {
-        background: rgba(105, 105, 105, 0.9);
-        /* Đậm màu hơn khi hover */
-        color: #fff;
-        /* Chữ đổi thành trắng khi hover */
-    }
-
-    .product-thumb img {
-        border-radius: 10px;
-        /* Bo góc hình ảnh */
-        object-fit: cover;
-        /* Ảnh bao phủ khung */
-        width: 100%;
-        height: 100%;
-        /* Đảm bảo ảnh luôn vừa khung */
-    }
-
-    .card-footer a.stretched-link {
-        color: #007bff;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .card-footer a.stretched-link:hover {
-        color: #0056b3;
-        text-decoration: underline;
+        /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của carousel */
     }
 </style>
 
@@ -126,22 +64,23 @@ $_SESSION["quantity"] = 1;
 <!-- mobile showcase -->
 <div class="space-medium">
     <div class="container">
-        <div class="row owl-carousel owl-two owl-theme">
+        <div class="row">
             <?php
             $limitedCategories = array_slice($DanhSachCategory, 0, 4);
             foreach ($limitedCategories as $category) {
             ?>
-                <div class="product-thumb position-relative">
-                    <!-- Hình ảnh sản phẩm -->
-                    <img src="<?= htmlspecialchars(BASE_URL . $category->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($category->name) ?>">
-
-                    <!-- Nền xám, chữ đen, góc dưới trái -->
-                    <a href="?act=client-category&category=<?= htmlspecialchars($category->name) ?>" class="product-name">
-                        <?= htmlspecialchars($category->name) ?>
-                    </a>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="showcase-block">
+                        <div class="display-logo ">
+                            <a href="#">
+                                <h2><?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?></h2>
+                            </a>
+                        </div>
+                        <div class="showcase-img">
+                            <a href="#"><img src="<?php echo htmlspecialchars(BASE_URL . $category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"></a>
+                        </div>
+                    </div>
                 </div>
-
-
             <?php } ?>
 
         </div>

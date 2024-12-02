@@ -28,9 +28,35 @@
                         <div class="card">
                             <div class="card-header">
                                 <strong>Mã đơn hàng:</strong> <?= htmlspecialchars($order->order_id) ?> |
-                                <strong>Trạng thái:</strong> <?php if(htmlspecialchars($order->status)==1){?>
+                                <strong>Trạng thái:</strong>
+                                 <?php if(htmlspecialchars($order->status)==1){?>
                                     Chờ xác nhận
                               <?php  }  ?>
+                              <?php
+                            if (htmlspecialchars($order->status) == 0) {
+                                echo "Chờ xác nhận";
+                            } 
+                            elseif (htmlspecialchars($order->status) == 1) {
+                                echo "Đang chuẩn bị hàng";
+                            } 
+                            elseif (htmlspecialchars($order->status) == 2) {
+                                echo "Đang giao";
+                            } 
+                            elseif (htmlspecialchars($order->status) == 3) {
+                                echo "Đã thanh toán";
+                            } 
+                            
+                            elseif (htmlspecialchars($order->status) == 4) {
+                                echo "Đã giao thành công";
+                            } 
+                            elseif (htmlspecialchars($order->status) == 5) {
+                                echo "Đã Hủy";
+                            } 
+                            else {
+                                echo "Trạng thái không xác định";
+                            }
+                       
+                        ?>
                             </div>
                             <div class="card-body">
                                 <p><strong>Tên khách hàng:</strong> <?= htmlspecialchars($order->name_custom) ?></p>

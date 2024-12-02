@@ -377,7 +377,7 @@ class ProductQuery
                  SELECT 
                      c.`user_id`, 
                      SUM(p.`price` * ci.`quantity`), 
-                     1, 
+                     0, 
                      :sdt, 
                      :name_custom, 
                      :address
@@ -548,4 +548,61 @@ WHERE o.user_id = $id";
             return []; // Trả về mảng rỗng nếu có lỗi
         }
     }
+
+  public function deleteCart($id) {
+    try {
+        // Sử dụng câu lệnh SQL an toàn
+        $sql = "DELETE ci
+                FROM cart_items ci
+                INNER JOIN carts c ON ci.cart_id = c.cart_id
+                WHERE c.user_id = :user_id";
+
+        // Chuẩn bị câu lệnh
+        $stmt = $this->pdo->prepare($sql);
+
+        // Liên kết tham số
+        $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
+
+        // Thực thi câu lệnh
+        $stmt->execute();
+
+        // Kiểm tra số dòng bị ảnh hưởng
+        if ($stmt->rowCount() > 0) {
+            return "Xóa thành công";
+        } else {
+            return "Không có sản phẩm nào để xóa";
+        }
+    } catch (Exception $error) {
+        echo "Lỗi " . $error->getMessage() . "<br>";
+        return "Xóa thất bại";
+    }
+}
+
+public function deleteCartitem($id){
+    try {
+        // Sử dụng câu lệnh SQL an toàn với tham số placeholder
+        $sql = "DELETE FROM `cart_items` WHERE `item_id` = :item_id";
+
+        // Chuẩn bị câu lệnh
+        $stmt = $this->pdo->prepare($sql);
+
+        // Liên kết tham số với giá trị thực tế của $id
+        $stmt->bindParam(':item_id', $id, PDO::PARAM_INT);
+
+        // Thực thi câu lệnh
+        $stmt->execute();
+
+        // Kiểm tra số dòng bị ảnh hưởng
+        if ($stmt->rowCount() > 0) {
+            return "Xóa thành công";
+        } else {
+            return "Không có sản phẩm nào để xóa";
+        }
+    } catch (Exception $error) {
+        // Xử lý lỗi nếu có
+        echo "Lỗi " . $error->getMessage() . "<br>";
+        return "Xóa thất bại";
+    }
+}
+
 }

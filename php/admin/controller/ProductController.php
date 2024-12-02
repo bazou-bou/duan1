@@ -62,6 +62,7 @@ class ProductController
             $product->description = $_POST["description"] ?? '';
             $product->views = $_POST["views"] ?? '';
             $product->category_id = $_POST["category"] ?? '';
+            // $product->status = $_POST["status"] ?? '';
 
             // Validation
             if ($product->name === "") $loi_ten = "Hãy nhập tên giày đi!!";

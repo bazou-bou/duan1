@@ -104,8 +104,11 @@
                 </thead>
                 <tbody>
                     <?php
+                    
                     $totalAmount = 0;
                     foreach ($cartItems as $item) {
+                        if($item->product_name != ""){ 
+                            $check =1;
                         $itemTotal = $item->quantity * $item->product_price;
                         ?>
                         <tr>
@@ -130,11 +133,16 @@
                             </td>
                             <td class="text-danger fs-5"><?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</td>
                             <td class="text-center">
-                                <a href="?act=remove-listgiohang&id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
+                                <a href="?act=client-deletecart&id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
                                 <a href="?act=client-detail&id=<?= $item->product_id ?>" class="btn btn-primary btn-sm">Chi Tiết</a>
                             </td>
                         </tr>
-                    <?php } ?>
+                    <?php }else{
+                        $check = 0;
+                        ?>
+                        <div class="alert alert-warning text-center">Giỏ hàng của bạn đang trống!</div>
+                    <?php }
+                } ?>
                     <tr>
                         <td colspan="6" class="text-end cart-total">Tổng Thanh Toán:</td>
                         <td class="text-danger fs-4" id="total-amount">0 VNĐ</td>
@@ -143,7 +151,11 @@
                 </tbody>
             </table>
             <div class="text-end">
+                <?php if($check !=0 ){?>
+
+                
                     <a href="?act=client_pay&id=<?= $_SESSION['user_id'] ?>" class="btn btn-checkout btn-lg">Thanh Toán</a>
+                <?php  }  ?>
             </div>
         <?php } else { ?>
             <div class="alert alert-warning text-center">Giỏ hàng của bạn đang trống!</div>
