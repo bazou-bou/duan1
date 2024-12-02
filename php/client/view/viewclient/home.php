@@ -64,26 +64,27 @@ $_SESSION["quantity"] = 1;
 <!-- mobile showcase -->
 <div class="space-medium">
     <div class="container">
-        <div class="row">
-            <?php
-            $limitedCategories = array_slice($DanhSachCategory, 0, 4);
-            foreach ($limitedCategories as $category) {
-            ?>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="showcase-block">
-                        <div class="display-logo ">
-                            <a href="#">
-                                <h2><?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?></h2>
-                            </a>
-                        </div>
-                        <div class="showcase-img">
-                            <a href="#"><img src="<?php echo htmlspecialchars(BASE_URL . $category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"></a>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
+    <div class="row">
+    <?php
+    $limitedCategories = array_slice($DanhSachCategory, 0, 4);
+    foreach ($limitedCategories as $category) {
+    ?>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 mb-4">
+            <div class="card h-100">
+                <div class="product-thumb position-relative">
+                    <!-- Hình ảnh sản phẩm -->
+                    <img src="<?= htmlspecialchars(BASE_URL . $category->img) ?>" class="card-img-top img-fluid" alt="<?= htmlspecialchars($category->name) ?>">
 
+                    <!-- Nền xám, chữ đen, góc dưới trái -->
+                    <a href="?act=client-category&category=<?= htmlspecialchars($category->name) ?>" class="product-name bg-light text-dark p-2 position-absolute bottom-0 start-0 w-100 text-center">
+                        <?= htmlspecialchars($category->name) ?>
+                    </a>
+                </div>
+            </div>
         </div>
+    <?php } ?>
+</div>
+
     </div>
 </div>
 <!-- /.mobile showcase -->
@@ -393,7 +394,7 @@ $_SESSION["quantity"] = 1;
                 <div class="footer-widget">
                     <h3 class="footer-title">Liên lạc với chúng tôi</h3>
                     <div class="ft-social">
-                        <span><a href="#" class="btn-social btn-facebook" ><i class="fa fa-facebook"></i></a></span>
+                        <span><a href="#" class="btn-social btn-facebook"><i class="fa fa-facebook"></i></a></span>
                         <span><a href="#" class="btn-social btn-twitter"><i class="fa fa-twitter"></i></a></span>
                         <span><a href="#" class="btn-social btn-googleplus"><i class="fa fa-google-plus"></i></a></span>
                         <span><a href="#" class=" btn-social btn-pinterest"><i class="fa fa-pinterest-p"></i></a></span>
@@ -418,7 +419,8 @@ $_SESSION["quantity"] = 1;
                         </ul>
                     </div>
                     <p class="alignright">Copyright © All Rights Reserved 2020 Template Design by
-                        <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 21</a></p>
+                        <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 21</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -439,6 +441,7 @@ $_SESSION["quantity"] = 1;
 
 
 <!-- Mirrored from easetemplate.com/free-website-templates/mobistore/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:40:40 GMT -->
+
 </html>
 
 

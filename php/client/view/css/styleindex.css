@@ -299,5 +299,16 @@
   .form-floating {
     height: 100px;
   }
+  .product-thumb {
+    overflow: hidden; /* Giữ các phần tử trong khung */
+    position: relative;
+    border-radius: 5px; /* Bo góc */
+}
+
+.product-thumb .product-name {
+    font-size: 14px; /* Kích thước chữ vừa phải */
+    font-weight: bold; /* Chữ đậm */
+    text-decoration: none; /* Loại bỏ gạch chân */
+}
   
   

@@ -46,11 +46,6 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
 
-    <!-- slideshow -->
-    <div class="slider">
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/slideshow.php'; ?>
-    </div>
-
     <main>
         <section id="featured-products" class="my-4">
             <h2 class="text-center mb-4">Sản Phẩm Nổi Bật</h2>
