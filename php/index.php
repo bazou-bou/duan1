@@ -12,9 +12,6 @@
 </head>
 
 <body>
-    <!-- Tiêu đề trang -->
-    <h3>Trang web đang chuyển hướng...</h3>
-    <p>Bạn sẽ được chuyển đến trang người dùng trong vài giây...</p>
 </body>
 
 </html>
