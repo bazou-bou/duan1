@@ -123,11 +123,23 @@
                     <p><strong>Trạng thái: </strong>
                         <?php
                         if (isset($DanhSachobject[0]->status)) {
-                            if ($DanhSachobject[0]->status == 1) {
+                            if ($DanhSachobject[0]->status == 0) {
+                                echo "Chờ xác nhận";
+                            } 
+                            elseif ($DanhSachobject[0]->status == 1) {
+                                echo "Đang chuẩn bị hàng";
+                            } 
+                            elseif ($DanhSachobject[0]->status == 2) {
                                 echo "Đang giao";
-                            } elseif ($DanhSachobject[0]->status == 0) {
+                            } 
+                            elseif ($DanhSachobject[0]->status == 3) {
+                                echo "Đã thanh toán";
+                            } 
+                            
+                            elseif ($DanhSachobject[0]->status == 4) {
                                 echo "Đã giao thành công";
-                            } else {
+                            } 
+                            else {
                                 echo "Trạng thái không xác định";
                             }
                         } else {

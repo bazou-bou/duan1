@@ -256,6 +256,7 @@ class ProductController
                 // Check if the payment was processed successfully
                 if ($dataCreated == "ok") {
                     // Redirect to ?act=client_order
+                    $this->productQuery->deleteCart($id);
                     header("Location: ?act=client_order");
                     exit; // Stop the script execution after redirection
                 }
@@ -287,6 +288,12 @@ class ProductController
 {
     $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
     include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
+}
+
+public function deleteCartItem($id){
+    $userId = $_SESSION['user_id'];
+    $this->productQuery->deleteCartitem($id);
+    header("Location: ?act=client-listgiohang&id=$userId");
 }
 
 }

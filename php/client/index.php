@@ -200,6 +200,11 @@ switch ($act) {
             $newCtrl->showNewList();
             break;
 
+        case "client-deletecart":
+            $newCtrl = new ProductController();
+            $newCtrl->deleteCartItem($id);
+            break;
+
 
 
     default:
