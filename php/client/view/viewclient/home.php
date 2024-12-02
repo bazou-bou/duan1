@@ -65,7 +65,10 @@ $_SESSION["quantity"] = 1;
 <div class="space-medium">
     <div class="container">
         <div class="row">
-            <?php foreach ($DanhSachCategory as $category) { ?>
+            <?php
+            $limitedCategories = array_slice($DanhSachCategory, 0, 4);
+            foreach ($limitedCategories as $category) {
+            ?>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="showcase-block">
                         <div class="display-logo ">
@@ -154,29 +157,29 @@ $_SESSION["quantity"] = 1;
                     <?php
                     foreach ($danhSachHot as $product) { ?>
                         <div class="item col mb-4">
-                                <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
-                                    <div class="card product-item">
-                                        <div class="product-thumb">
-                                            <!-- Hình ảnh sản phẩm -->
-                                            <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($product->name) ?>">
-                                            <div class="product-action-link">
-                                                <button class="btn cart-btn">
-                                                    <i class="bi bi-cart-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <!-- Tên sản phẩm -->
-                                            <h5 class="product-title"><?= htmlspecialchars($product->name) ?></h5>
-                                            <!-- Giá sản phẩm -->
-                                            <p class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="stretched-link">Xem Chi Tiết</a>
+                            <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
+                                <div class="card product-item">
+                                    <div class="product-thumb">
+                                        <!-- Hình ảnh sản phẩm -->
+                                        <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($product->name) ?>">
+                                        <div class="product-action-link">
+                                            <button class="btn cart-btn">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
+                                    <div class="card-body">
+                                        <!-- Tên sản phẩm -->
+                                        <h5 class="product-title"><?= htmlspecialchars($product->name) ?></h5>
+                                        <!-- Giá sản phẩm -->
+                                        <p class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="stretched-link">Xem Chi Tiết</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     <?php } ?>
                     <!-- /.product -->
                 </div>

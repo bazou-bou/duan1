@@ -62,7 +62,7 @@ class ProductController
             $product->description = $_POST["description"] ?? '';
             $product->views = $_POST["views"] ?? '';
             $product->category_id = $_POST["category"] ?? '';
-            $product->status = $_POST["status"] ?? '';
+            // $product->status = $_POST["status"] ?? '';
 
             // Validation
             if ($product->name === "") $loi_ten = "Hãy nhập tên giày đi!!";
@@ -71,7 +71,7 @@ class ProductController
             if ($product->stock === "") $loi_stock = "Hãy nhập số lượng giày đi!!";
             if ($product->views === "") $loi_views = "Hãy nhập lượt xem giày đi!!";
             if ($product->category === "") $loi_category = "Hãy chọn phân loại giày đi!!";
-            if ($product->category === "") $loi_category = "Hãy chọn phân loại giày đi!!";
+            // if ($product->category === "") $loi_category = "Hãy chọn phân loại giày đi!!";
 
             // File upload
             $thanSo01 = $_FILES['fileUpload']['tmp_name'];
@@ -88,7 +88,7 @@ class ProductController
                 $baoThanhCong = "Bạn đã cập nhật thành công";
                 $dataCreated = $this->productQuery->insert($product);
                 if ($dataCreated == "ok") {
-                    header("Location: ?act=product-list");
+                    header("Location: ?act=products-list");
                     exit();
                 }
             }
@@ -132,7 +132,7 @@ class ProductController
                 $product->price = $_POST["price"];
                 $product->description = $_POST["description"];
                 $product->views = $_POST["views"];
-                $product->category_id = $_POST["category"];
+                $product->category_id = $_POST["category_id"];
 
                 if ($_POST["name"] === "") {
                     $loi_ten = "Hãy nhập tên giày đi!!";
@@ -149,7 +149,7 @@ class ProductController
                 if ($_POST["views"] === "") {
                     $loi_views = "Hãy nhập lượt xem giày đi!!";
                 }
-                if ($_POST["category"] === "") {
+                if ($_POST["category_id"] === "") {
                     $loi_category = "Hãy chọn phân loại giày đi!!";
                 }
 
