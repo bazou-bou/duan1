@@ -34,8 +34,7 @@
                                 <th>Tiêu đề</th>
                                 <!-- <th>Bài viết</th> -->
                                 <th>Ảnh</th>
-                                <th>Lượt xem</th>
-                                <th>Thời gian</th>
+                                <th>Bài viết</th>
                                 <th>Trạng thái</th>
                                 <th colspan="2"><a href="?act=news-create" class="btn btn-primary">Thêm mới</a></th>
                             </tr>
@@ -45,15 +44,14 @@
                                 <tr>
                                     <td><?= htmlspecialchars($new->new_id) ?></td>
                                     <td><?= htmlspecialchars($new->title) ?></td>
+                                    
 
                                     <td>
                                         <div class="anh">
                                             <img src="<?= htmlspecialchars(BASE_URL . $new->new_img) ?>" style="width: 100px; height: 100px;" alt="new Image">
                                         </div>
                                     </td>
-                                    <td><?= htmlspecialchars($new->view) ?></td>
-
-                                    <td><?= htmlspecialchars($new->created_at) ?></td>
+                                    <td><?= htmlspecialchars($new->content) ?></td>
 
                                     <td>
                                         <?php if ($new->status == 1) { ?>

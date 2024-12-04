@@ -142,16 +142,13 @@
                                 </td>
 
                                 <td class="tdBtn">
-                                    <!-- Nút Sửa -->
-                                    <a href="?act=contact-update&id=<?= ($contact->contact_id) ?>" class="btn btn-warning btn-xs">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
 
                                     <!-- Nút Xóa -->
                                     <a href="?act=contact-delete&id=<?= $contact->contact_id ?>" onclick="return confirm('Bạn có chắc xóa?')" class="btn btn-danger btn-xs">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
+                                
                             </tr>
                         <?php } ?>
                     </tbody>

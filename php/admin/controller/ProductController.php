@@ -488,7 +488,7 @@ class ProductController
             $new = new News();
             $new->title = $_POST["title"] ?? '';
             $new->content = $_POST["content"] ?? '';
-            // $new->new_img = $_POST["new_img"] ?? '';
+            $new->new_img = $_POST["new_img"] ?? '';
             $new->view = $_POST["view"] ?? '';
             $new->created_at = $_POST["category"] ?? '';
             $new->status = $_POST["status"] ?? '';
@@ -515,7 +515,7 @@ class ProductController
                 $baoThanhCong = "Bạn đã cập nhật thành công";
                 $dataCreated = $this->productQuery->insertNew($new);
                 if ($dataCreated == "ok") {
-                    header("Location: ?act=news_create");
+                    header("Location: ?act=news-create");
                     exit();
                 }
             }
@@ -523,5 +523,75 @@ class ProductController
 
         include "view/news/news_create.php";
     }
+
+    public function showNewUpdate($id)
+{
+    if ($id !== "") {
+        $loi_ten = $loi_anh = $loi_content  = $loi_status = $loi_created_at = $baoThanhCong = "";
+        $new = $this->productQuery->findNew($id);  // Lấy thông tin banner hiện tại
+        $dsnew = $this->productQuery->allNew();  // Lấy danh sách banner
+
+        var_dump($new); // Kiểm tra đối tượng banner
+
+        $oldImagePath = $new->new_img;  // Lưu lại đường dẫn ảnh cũ
+
+        if (isset($_POST["submitForm"])) {
+            // Lấy dữ liệu từ form
+            $new = new News();
+            $new->title = $_POST["title"] ?? '';
+            $new->new_img = $_POST["new_img"] ?? '';
+            $new->content = $_POST["content"] ?? '';
+            // $new->view = $_POST["view"] ?? '';
+            $new->status = $_POST["status"] ?? '';
+            // $new->created_at = $_POST["created_at"] ?? '';
+
+            // Validate các trường dữ liệu
+            if ($new->title === "") {
+                $loi_ten = "Hãy nhập tiêu đề new!";
+            }
+            if ($new->content === "") {
+                $loi_content = "Hãy nhập bài viết!";
+            }
+            
+            if ($new->status === "") {
+                $loi_status = "Hãy chọn trạng thái new!";
+            }
+            if ($new->created_at === "") {
+                $loi_created_at = "Hãy chọn ngày new!";
+            }
+
+            // Nếu có ảnh mới, thực hiện upload
+            if ($_FILES['fileUpload']['name'] != "") {
+                $thanSo01 = $_FILES['fileUpload']['tmp_name']; // Bộ nhớ tạm lưu trữ file
+                $thanSo02 = "../upload/" . $_FILES['fileUpload']['name']; // Đường dẫn lưu file
+
+                if (move_uploaded_file($thanSo01, $thanSo02)) {
+                    $new->new_img = "upload/" . $_FILES['fileUpload']['name']; // Cập nhật đường dẫn ảnh
+                    $loi_anh = "";
+                } else {
+                    $loi_anh = "Không upload được ảnh!";
+                }
+            } else {
+                // Nếu không có ảnh mới, giữ lại ảnh cũ
+                $new->new_img = $oldImagePath;
+            }
+
+            // Nếu không có lỗi, tiến hành cập nhật banner
+            if ($loi_ten === "" && $loi_anh === "" && $loi_content === ""  && $loi_status === "" && $loi_created_at === "") {
+                $baoThanhCong = "Bạn đã cập nhật tin tức thành công!";
+                $dataUpdated = $this->productQuery->updateNew($new, $id);  // Cập nhật vào cơ sở dữ liệu
+
+                if ($dataUpdated == "ok") {
+                    header("Location: ?act=news-list");
+                    exit();
+                }
+            }
+        }
+
+        include "view/news/new_update.php";  // Gọi view để chỉnh sửa banner
+    } else {
+        echo "Lỗi: Không tìm thấy thông tin ID của banner.";
+    }
+}
 
 }
