@@ -27,36 +27,35 @@
 <div class="space-medium">
     <div class="container">
         <div class="row">
-            <div class="isotope">
-                <?php if (!empty($newList)) { ?>
-                    <?php foreach ($newList as $new) { ?>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 post-masonry ">
-                            <div class="post-block">
-                                <!-- post block -->
-                                <h3 class="post-title"><a href="#" class="title"><?= htmlspecialchars($new->title) ?></a></h3>
-                                <div class="meta">
-                                    <span class="meta-date"><?= htmlspecialchars($new->created_at) ?></span>
-                                    <span>|&nbsp; &nbsp;</span>
-                                    <span class="meta-admin">By <a href="#" class="meta-title">Admin</a></span>
-                                </div>
-                                <div class="post-img">
-                                    <a href="#" class="imghover">
-                                        <img src="<?= htmlspecialchars(BASE_URL . $new->new_img) ?>" alt="News Image" class="img-responsive"></a>
-                                </div>
-                                <div class="post-content">
-                                    <p><?= htmlspecialchars(mb_strimwidth($new->content, 0, 100, "...")) ?>
-                                    </p>
-                                    <a href="?act=tintuc_chitiet" class="btn-link">
-                                        <center>ĐỌC THÊM </center>
-                                    </a>
-                                </div>
+            <?php if (!empty($newList)) { ?>
+                <?php foreach ($newList as $new) { ?>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 post-masonry ">
+                        <div class="post-block">
+                            <!-- post block -->
+                            <h3 class="post-title"><a href="?act=tintuc_chitiet" class="title"><?= htmlspecialchars($new->title) ?></a></h3>
+                            <div class="meta">
+                                <span class="meta-date">04/10/2024</span>
+                                <span>|&nbsp; &nbsp;</span>
+                                <span class="meta-admin">By <a href="#" class="meta-title">Admin</a></span>
+                            </div>
+                            <div class="post-img">
+                                <a href="?act=tintuc_chitiet">
+                                    <img src="<?= htmlspecialchars(BASE_URL . $new->new_img) ?>" alt="News Image" class="img-responsive" loading="lazy">
+
+                            </div>
+                            <div class="post-content">
+                                <p><?= htmlspecialchars(mb_strimwidth($new->content, 0, 100, "...")) ?>
+                                </p>
+                                <a href="?act=tintuc_chitiet" class="btn-link">
+                                    <center>ĐỌC THÊM </center>
+                                </a>
                             </div>
                         </div>
-                    <?php } ?>
-                <?php } else { ?>
-                    <p>Không có tin tức nào để hiển thị.</p>
+                    </div>
                 <?php } ?>
-            </div>
+            <?php } else { ?>
+                <p>Không có tin tức nào để hiển thị.</p>
+            <?php } ?>
 
         </div>
         <div class="row">
@@ -102,14 +101,14 @@
                 <div class="footer-widget">
                     <h3 class="footer-title">Tiện ích</h3>
                     <ul class="arrow">
-                    <li class="active"><a href="?act=client-home">Trang chủ</a></li>
-                                <li><a href="?act=client-list">Sản phẩm</a>
-                                </li>
-                                <li><a href="?act=gioithieu">Giới thiệu</a>
-                                </li>
-                                <li><a href="?act=client-news">Tin tức</a> </li>
-                                <li><a href="?act=lienhe">Liên hệ</a>
-                                </li>
+                        <li class="active"><a href="?act=client-home">Trang chủ</a></li>
+                        <li><a href="?act=client-list">Sản phẩm</a>
+                        </li>
+                        <li><a href="?act=gioithieu">Giới thiệu</a>
+                        </li>
+                        <li><a href="?act=client-news">Tin tức</a> </li>
+                        <li><a href="?act=lienhe">Liên hệ</a>
+                        </li>
                     </ul>
                 </div>
             </div>

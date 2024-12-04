@@ -535,9 +535,9 @@ WHERE o.user_id = $id";
                     $new->title = $value["title"];
                     $new->content = $value["content"];
                     $new->new_img = $value["new_img"];
-                    $new->view = $value["view"];
+                    // $new->view = $value["view"];
                     $new->status = $value["status"];
-                    $new->created_at = $value["created_at"];
+                    // $new->created_at = $value["created_at"];
                     $news[] = $new;
                 }
             }

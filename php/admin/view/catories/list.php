@@ -49,11 +49,11 @@
                             <tr>
                                 <td><?= htmlspecialchars($product->category_id) ?></td>
                                 <td><?= htmlspecialchars($product->name) ?></td>
-                                
+
                                 <td>
-                                <div class="anh">
-                                            <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" style="width: 100px; height: 100px;" alt="Product Image">
-                                        </div>
+                                    <div class="anh">
+                                        <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" style="width: 100px; height: 100px;" alt="Product Image">
+                                    </div>
                                 </td>
                                 <td class="tdBtn">
                                     <!-- Nút Sửa -->
@@ -62,23 +62,23 @@
                                     </a>
                                 </td>
                                 <td colspan="1" class="tdBtn">
-                                        <?php if ($product->status == 0): ?>
-                                            <a href="?act=categories-status&id=<?= htmlspecialchars($product->category_id) ?>"
-                                                onclick="return confirm('Bạn có chắc muốn hiển thị danh mục này không?')"
-                                                class="btn btn-success btn-xs">
-                                                <i class="bi bi-unlock-fill"></i> Hiện
-                                            </a>
-                                        <?php elseif ($product->status == 1): ?>
-                                            <a href="?act=categories-status&id=<?= htmlspecialchars($product->category_id) ?>"
-                                                onclick="return confirm('Bạn có chắc muốn ẩn danh mục này không?')"
-                                                class="btn btn-danger btn-xs">
-                                                <i class="bi bi-lock-fill"></i> Ẩn
-                                            </a>
-                                        <?php else: ?>
-                                            <!-- Unknown Status -->
-                                            <span class="text-muted">Unknown Status</span>
-                                        <?php endif; ?>
-                                    </td>
+                                    <?php if ($product->status == 0): ?>
+                                        <a href="?act=categories-status&id=<?= htmlspecialchars($product->category_id) ?>"
+                                            onclick="return confirm('Bạn có chắc muốn hiển thị danh mục này không?')"
+                                            class="btn btn-success btn-xs">
+                                            <i class="bi bi-unlock-fill"></i> Hiện
+                                        </a>
+                                    <?php elseif ($product->status == 1): ?>
+                                        <a href="?act=categories-status&id=<?= htmlspecialchars($product->category_id) ?>"
+                                            onclick="return confirm('Bạn có chắc muốn ẩn danh mục này không?')"
+                                            class="btn btn-danger btn-xs">
+                                            <i class="bi bi-lock-fill"></i> Ẩn
+                                        </a>
+                                    <?php else: ?>
+                                        <!-- Unknown Status -->
+                                        <span class="text-muted">Unknown Status</span>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>

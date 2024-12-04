@@ -163,13 +163,12 @@ class Contact
 
 class News{
     public $new_id;
-    public $user_id;
     public $title;
     public $content;
     public $new_img;
-    public $view;
+    // public $view;
     public $status;
-    public $created_at;
+    // public $created_at;
 
     public function __construct()
     {
