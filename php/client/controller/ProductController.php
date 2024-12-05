@@ -285,15 +285,29 @@ class ProductController
     }
 
     public function showNewList()
-{
-    $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
-    include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
-}
+    {
+        $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
+        include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
+    }
 
-public function deleteCartItem($id){
-    $userId = $_SESSION['user_id'];
-    $this->productQuery->deleteCartitem($id);
-    header("Location: ?act=client-listgiohang&id=$userId");
-}
+    public function showNewDetail($id)
+    {
+        $newDetail = $this->productQuery->findNewCl($id);
+        $newList = $this->productQuery->allNewCl(); 
+        
 
+        // Gọi view để hiển thị chi tiết tin tức
+        include "view/viewclient/tintuc_chitiet.php";
+    }
+
+
+
+
+
+    public function deleteCartItem($id)
+    {
+        $userId = $_SESSION['user_id'];
+        $this->productQuery->deleteCartitem($id);
+        header("Location: ?act=client-listgiohang&id=$userId");
+    }
 }
