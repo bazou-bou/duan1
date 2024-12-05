@@ -633,4 +633,18 @@ WHERE o.user_id = $id";
             return "Xóa thất bại";
         }
     }
+
+    public function createContact(Contact $contact)
+    {
+        try {
+            $sql = "INSERT INTO `contact` (`contact_name`, `contact_email`, `contact_phone`, `contact_mess`) 
+                    VALUES ('{$contact->contact_name}', '{$contact->contact_email}', '{$contact->contact_phone}', '{$contact->contact_mess}')";
+            $this->pdo->exec($sql);
+    
+            return "ok"; // Trả về "ok" nếu thành công
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Thêm mới tài khoản thất bại";
+        }
+    }
 }

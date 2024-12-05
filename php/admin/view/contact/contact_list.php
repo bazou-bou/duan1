@@ -135,11 +135,16 @@
 
                                 <td>
                                     <?php if ($contact->contact_status == 1) { ?>
-                                        <span class="badge bg-success">new</span>
+                                        <a href="?act=toggle-status&id=<?php echo $contact->contact_id; ?>" class="btn btn-success btn-sm">
+                                            <i class="bi bi-eye-slash"></i>
+                                        </a>
                                     <?php } else { ?>
-                                        <span class="badge bg-danger">replied</span>
+                                        <a href="?act=toggle-status&id=<?php echo $contact->contact_id; ?>" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
                                     <?php } ?>
                                 </td>
+
 
                                 <td class="tdBtn">
 
@@ -148,7 +153,7 @@
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
-                                
+
                             </tr>
                         <?php } ?>
                     </tbody>
