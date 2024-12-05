@@ -205,13 +205,15 @@ switch ($act) {
         $productCtrl->showNewDetail($id);
         break;
 
-
-
     case "client-deletecart":
         $newCtrl = new ProductController();
         $newCtrl->deleteCartItem($id);
         break;
 
+    case "client-contact":
+        $productCtrl = new ProductController();
+        $productCtrl->insertContact();
+        break;
 
 
     default:

@@ -528,10 +528,10 @@ class ProductController
 {
     if ($id !== "") {
         $loi_ten = $loi_anh = $loi_content  = $loi_status = $loi_created_at = $baoThanhCong = "";
-        $new = $this->productQuery->findNew($id);  // Lấy thông tin banner hiện tại
-        $dsnew = $this->productQuery->allNew();  // Lấy danh sách banner
+        $new = $this->productQuery->findNew($id);  // Lấy thông tin hiện tại
+        $dsnew = $this->productQuery->allNew();  // Lấy danh sách
 
-        var_dump($new); // Kiểm tra đối tượng banner
+        // var_dump($new); // Kiểm tra đối tượng 
 
         $oldImagePath = $new->new_img;  // Lưu lại đường dẫn ảnh cũ
 
@@ -576,7 +576,7 @@ class ProductController
                 $new->new_img = $oldImagePath;
             }
 
-            // Nếu không có lỗi, tiến hành cập nhật banner
+            // Nếu không có lỗi, tiến hành cập nhật new
             if ($loi_ten === "" && $loi_anh === "" && $loi_content === ""  && $loi_status === "" && $loi_created_at === "") {
                 $baoThanhCong = "Bạn đã cập nhật tin tức thành công!";
                 $dataUpdated = $this->productQuery->updateNew($new, $id);  // Cập nhật vào cơ sở dữ liệu
@@ -588,7 +588,7 @@ class ProductController
             }
         }
 
-        include "view/news/new_update.php";  // Gọi view để chỉnh sửa banner
+        include "view/news/new_update.php"; 
     } else {
         echo "Lỗi: Không tìm thấy thông tin ID của banner.";
     }
