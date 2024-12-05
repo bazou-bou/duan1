@@ -45,13 +45,35 @@
 
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="?act=client-list">Trang chủ</a></li>
+                            <li>Sản Phẩm</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- slideshow -->
+
     
 
     <main>
         <section id="featured-products" class="my-4">
             <!-- <h2 class="text-center mb-4">Sản Phẩm Nổi Bật</h2> -->
+
+
+    <main>
+        <section id="featured-products" class="my-4">
+           
             <div class="row g-4">
 
                 <div class="col-lg-3 col-md-4">
@@ -141,7 +163,7 @@
     </main>
 
     <footer>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/footer.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewclient/footer.php'; ?>
     </footer>
 </body>
 

@@ -236,7 +236,7 @@
                     <h3 class="footer-title">Thông tin hỗ trợ</h3>
                     <div class="contact-info">
                         <span class="contact-icon"><i class="fa fa-map-marker"></i></span>
-                        <span class="contact-text">Phường Linh Trung, Thủ Đức<br>Thành phố Hồ Chí Minh, Việt Nam - 1955</span>
+                        <span class="contact-text">Trịnh Văn Bô<br>Thủ đô Hà Nội, Việt Nam</span>
                     </div>
                     <div class="contact-info">
                         <span class="contact-icon"><i class="fa fa-phone"></i></span>
@@ -253,11 +253,14 @@
                 <div class="footer-widget">
                     <h3 class="footer-title">Tiện ích</h3>
                     <ul class="arrow">
-                        <li><a href="index.html">Home </a></li>
-                        <li><a href="product-list.html">Mobie</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="blog-default.html">Blog</a></li>
-                        <li><a href="contact-us.html">Contact</a></li>
+                    <li class="active"><a href="?act=client-home">Trang chủ</a></li>
+                                <li><a href="?act=client-list">Sản phẩm</a>
+                                </li>
+                                <li><a href="?act=gioithieu">Giới thiệu</a>
+                                </li>
+                                <li><a href="?act=client-news">Tin tức</a> </li>
+                                <li><a href="?act=lienhe">Liên hệ</a>
+                                </li>
                     </ul>
                 </div>
             </div>
@@ -305,7 +308,7 @@
                         </ul>
                     </div>
                     <p class="alignright">Copyright © All Rights Reserved 2020 Template Design by
-                        <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 21</a>
+                        <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 12</a>
                     </p>
                 </div>
             </div>
