@@ -195,83 +195,29 @@ $_SESSION["quantity"] = 1;
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="box">
                 <div class="box-head">
-                    <h3 class="head-title">Đang khuyến mãi</h3>
+                    <h3 class="head-title">Tin tức</h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
                         <!-- product -->
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_3.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">Samsung Galaxy Note 8</a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1500</a>
-                                        <a href="#" class="discounted-price"><strike>$2000</strike></a>
-                                        <span class="offer-price">40%off</span>
+                        <div class="related-post-block">
+                            <div class="row">
+                                <?php foreach ($newList as $news) { ?>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="related-post-content">
+                                            <div class="related-img">
+                                                <a href="?act=client-newdetail&id=<?= htmlspecialchars($news->new_id) ?>"><img src="<?= htmlspecialchars(BASE_URL . $news->new_img) ?>" alt="Product Image"></a>
+                                            </div>
+                                            <h4 class="related-title"><a href="?act=client-newdetail&id=<?= htmlspecialchars($news->new_id) ?>"><?= htmlspecialchars($news->title) ?></a></h4>
+                                            <p><?= htmlspecialchars(mb_strimwidth($news->content, 0, 60, "...")) ?></p>
+                                            <a href="?act=client-newdetail&id=<?= htmlspecialchars($news->new_id) ?>" class="btn-link">ĐỌC THÊM</a>
+                                        </div>
                                     </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                         <!-- /.product -->
-                        <!-- product -->
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_4.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">Vivo V5 Plus <strong>(Matte Black)</strong></a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1500</a>
-                                        <a href="#" class="discounted-price"><strike>$2000</strike></a>
-                                        <span class="offer-price">15%off</span>
-                                    </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like">
-                                            <i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.product -->
-                        <!-- product -->
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_1.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">Google Pixel <strong>(128GB, Black)</strong></a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1100</a>
-                                        <a href="#" class="discounted-price"><strike>$1400</strike></a>
-                                        <span class="offer-price">20%off</span>
-                                    </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.product -->
-                        <!-- product -->
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="product-block">
-                                <div class="product-img"><img src="../viewclient/images/product_img_2.png" alt=""></div>
-                                <div class="product-content">
-                                    <h5><a href="#" class="product-title">HTC U Ultra <strong>(64GB, Blue)</strong></a></h5>
-                                    <div class="product-meta"><a href="#" class="product-price">$1200</a>
-                                        <a href="#" class="discounted-price"><strike>$1700</strike></a>
-                                        <span class="offer-price">10%off</span>
-                                    </div>
-                                    <div class="shopping-btn">
-                                        <a href="#" class="product-btn btn-like"><i class="fa fa-heart"></i></a>
-                                        <a href="#" class="product-btn btn-cart"><i class="fa fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.product -->
+
                     </div>
                 </div>
             </div>
@@ -350,11 +296,11 @@ $_SESSION["quantity"] = 1;
                     <h3 class="footer-title">Thông tin hỗ trợ</h3>
                     <div class="contact-info">
                         <span class="contact-icon"><i class="fa fa-map-marker"></i></span>
-                        <span class="contact-text">Trịnh Văn Bô<br>Thủ đô Hà Nội, Việt Nam</span>
+                        <span class="contact-text">Trịnh Văn Bô,<br>Thủ đô Hà Nội, Việt Nam</span>
                     </div>
                     <div class="contact-info">
                         <span class="contact-icon"><i class="fa fa-phone"></i></span>
-                        <span class="contact-text">+084-123-4567 / 89</span>
+                        <span class="contact-text">+084-123-4567</span>
                     </div>
                     <div class="contact-info">
                         <span class="contact-icon"><i class="fa fa-envelope"></i></span>
@@ -367,14 +313,14 @@ $_SESSION["quantity"] = 1;
                 <div class="footer-widget">
                     <h3 class="footer-title">Tiện ích</h3>
                     <ul class="arrow">
-                    <li class="active"><a href="?act=client-home">Trang chủ</a></li>
-                                <li><a href="?act=client-list">Sản phẩm</a>
-                                </li>
-                                <li><a href="?act=gioithieu">Giới thiệu</a>
-                                </li>
-                                <li><a href="?act=client-news">Tin tức</a> </li>
-                                <li><a href="?act=lienhe">Liên hệ</a>
-                                </li>
+                        <li class="active"><a href="?act=client-home">Trang chủ</a></li>
+                        <li><a href="?act=client-list">Sản phẩm</a>
+                        </li>
+                        <li><a href="?act=gioithieu">Giới thiệu</a>
+                        </li>
+                        <li><a href="?act=client-news">Tin tức</a> </li>
+                        <li><a href="?act=lienhe">Liên hệ</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -460,3 +406,63 @@ $_SESSION["quantity"] = 1;
         });
     });
 </script>
+
+<style>
+    /* Giao diện bài viết liên quan */
+    .related-post-content {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 300px;
+        height: 500px;
+    }
+
+    .related-post-content:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Loại bỏ gạch chân cho liên kết trong bài viết liên quan */
+    .related-title a {
+        text-decoration: none;
+        /* Tắt gạch chân */
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        transition: color 0.3s ease;
+        /* Hiệu ứng chuyển đổi màu */
+    }
+
+    .related-title a:hover {
+        color: #007bff;
+        /* Đổi màu khi hover */
+        text-decoration: none;
+        /* Giữ không gạch chân khi hover */
+    }
+
+    .btn-link {
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 14px;
+        color: #fff;
+        background: #007bff;
+        border-radius: 5px;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-link:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+    }
+
+    .post-title {
+        font-weight: 600;
+
+    }
+</style>

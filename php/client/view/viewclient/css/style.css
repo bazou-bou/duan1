@@ -3217,7 +3217,7 @@ h3 {
 Login Form 
 ----------------------------------*/
 .login-input {
-  position: relative;
+  /* position: relative; */
   margin-bottom: -21px;
 }
 

@@ -8,19 +8,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
     <link rel="stylesheet" href="http://localhost/shopBanGiay/php/admin/view/css/styleindex.css">
-    <title>Tạo Mới Sản Phẩm</title>
+    <title>Trang Cập Nhật Banner</title>
     <style>
         .formCreate {
             border: 2px solid #ddd;
-            /* Light border around the form */
             border-radius: 8px;
-            /* Rounded corners */
             padding: 20px;
-            /* Add some padding inside the form */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Shadow effect for a 3D look */
             background-color: #fff;
-            /* White background */
         }
 
         .input-group {
@@ -63,52 +58,61 @@
 </head>
 
 <body>
+
     <header>
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/header.html'; ?>
     </header>
+
     <main class="main-content">
         <div class="container mt-5">
             <form method="post" enctype="multipart/form-data" class="mx-auto formCreate" style="max-width: 800px;">
                 <?php if (!empty($baoThanhCong)) { ?>
-                    <div class="alert alert-success text-center mb-4"><?= htmlspecialchars($baoThanhCong) ?></div>
+                    <div class="alert alert-success text-center"><?= htmlspecialchars($baoThanhCong) ?></div>
                 <?php } ?>
 
-                <h3 class="text-center mb-4">Trang Tạo Mới Tin Tức</h3>
+                <h3 class="text-center mb-4">Trang Cập Nhật Tin Tức</h3>
 
                 <!-- Tiêu đề -->
-                <div class="mb-3 input-group">
-                    <input type="text" name="title" id="title" class="form-control" required value="<?= htmlspecialchars($new->title ?? '') ?>" placeholder=" ">
+                <div class="input-group mb-3">
+                    <input type="text" name="title" id="title" class="form-control" required placeholder=" " value="<?= $new->title ?>">
                     <label for="title" class="input-group-label">Nhập tiêu đề</label>
-                    <div class="text-danger"><?= htmlspecialchars($loi_ten) ?></div>
                 </div>
+                <div class="text-danger"><?= htmlspecialchars($loi_ten) ?></div>
 
-                <!-- Nội dung -->
-                <div class="mb-3 input-group">
-                    <input type="text" name="content" id="content" class="form-control" required value="<?= htmlspecialchars($new->content ?? '') ?>" placeholder=" ">
-                    <label for="content" class="input-group-label">Nhập nội dung</label>
-                    <div class="text-danger"><?= htmlspecialchars($loi_content) ?></div>
+                <h5>Nội dung</h5>
+                <!-- nội dung  -->
+                <div class="mb-3">
+                    <label for="content" class="form-label">Nội dung</label>
+                    <textarea class="form-control" id="content" name="content" rows="5"><?= htmlspecialchars($new->content ?? '') ?></textarea>
+                    <div class="text-danger"><?= htmlspecialchars($loi_content ?? '') ?></div>
                 </div>
-
+                <h5>Ảnh bài viết</h5>
                 <!-- Hình ảnh -->
-                <div class="mb-3" style="padding-bottom: 20px;">
-                    <label for="fileUpload" class="form-label">Nhập hình ảnh</label>
-                    <input type="file" name="fileUpload" id="fileUpload" class="form-control" required>
-                    <div class="text-danger"><?= htmlspecialchars($loi_anh) ?></div>
+                <div class="mb-3">
+                    <?php if (!empty($new->new_img)): ?>
+                        <p><strong>Ảnh hiện tại:</strong></p>
+                        <img src="../<?= htmlspecialchars($new->image_path) ?>" class="preview" alt="new" style="width: 200px; height: 150px;">
+                    <?php endif; ?>
+                    <input type="file" name="fileUpload" id="fileUpload" class="form-control">
+                    <label for="fileUpload" class="input-group-label">Chọn ảnh mới (nếu có)</label>
                 </div>
+                <div class="text-danger"><?= htmlspecialchars($loi_anh) ?></div>
+
+
 
                 <!-- Trạng thái -->
-                <div class="mb-3" style="padding-bottom: 20px;">
-                    <select class="form-select" id="status" name="status" style="height: 40px;">
-                        <option value="" disabled <?= empty($banner->status) ? 'selected' : '' ?> disabled>Trạng thái</option>
-                        <option value="1" class="form-control">Hiển thị</option>
-                        <option value="0" class="form-control">Không hiển thị</option>
+                <div class="mb-3">
+                    <select name="status" class="form-select">
+                        <option value="1" <?= ($new->status == 1) ? 'selected' : '' ?>>Hiển thị</option>
+                        <option value="0" <?= ($new->status == 0) ? 'selected' : '' ?>>Không hiển thị</option>
                     </select>
+                    <div class="text-danger"><?= htmlspecialchars($loi_status) ?></div>
                 </div>
 
-                <!-- Submit form -->
+                <!-- Nút lưu và quay lại -->
                 <div class="text-center">
                     <button type="submit" name="submitForm" class="btn btn-success">Lưu lại</button>
-                    <a href="?act=news-list" class="btn btn-danger">Quay lại</a>
+                    <a href="?act=banner-list" class="btn btn-danger">Quay lại</a>
                 </div>
             </form>
 
@@ -120,6 +124,7 @@
             <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/sidebar.html'; ?>
         </div>
     </main>
+
 </body>
 
 </html>

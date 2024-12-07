@@ -43,6 +43,8 @@ class ProductController
         // Gọi dữ liệu sản phẩm hot
         $hotProductsResult = $this->productQuery->getHotProducts();
         $danhSachHot = $hotProductsResult['products'] ?? [];
+
+        $newList = $this->productQuery->allNewCl();
         include "view/viewclient/home.php";
     }
 
@@ -285,15 +287,64 @@ class ProductController
     }
 
     public function showNewList()
-{
-    $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
-    include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
-}
+    {
+        $newList = $this->productQuery->allNewCl(); // Lấy danh sách tin tức
+        include "view/viewclient/tintuc_list.php"; // Gọi view với biến $newList
+    }
 
-public function deleteCartItem($id){
-    $userId = $_SESSION['user_id'];
-    $this->productQuery->deleteCartitem($id);
-    header("Location: ?act=client-listgiohang&id=$userId");
-}
+    public function showNewDetail($id)
+    {
+        $newDetail = $this->productQuery->findNewCl($id);
+        $newList = $this->productQuery->allNewCl(); 
+        
+        // Gọi view để hiển thị chi tiết tin tức
+        include "view/viewclient/tintuc_chitiet.php";
+    }
 
+    public function deleteCartItem($id)
+    {
+        $userId = $_SESSION['user_id'];
+        $this->productQuery->deleteCartitem($id);
+        header("Location: ?act=client-listgiohang&id=$userId");
+    }
+
+    public function insertContact()
+    {
+
+        $loi_ten = "";
+        $loi_email = "";
+        $loi_sđt = "";
+        $loi_mess = "";
+        $baoThanhCong = "";
+
+        if (isset($_POST["submitForm"])) {
+            $contact = new Contact();
+            $contact->contact_name = $_POST["contact_name"];
+            $contact->contact_email = $_POST["contact_email"];
+            $contact->contact_phone = $_POST["contact_phone"];
+            $contact->contact_mess = $_POST["contact_mess"]; 
+
+            if ($_POST["contact_name"] === "") {
+                $loi_ten = "Hãy nhập uesername";
+            }
+            if ($_POST["contact_email"] === "") {
+                $loi_email = "Hãy nhập email của bạn";
+            }
+            if ($_POST["contact_phone"] === "") {
+                $loi_sđt = "Hãy nhập số điện thoại của bạn";
+            }
+            if ($_POST["contact_mess"] === "") {
+                $loi_mess = "Hãy nhập phản hồi của bạn";
+            }
+
+            if ($loi_ten === "" && $loi_email === ""  && $loi_sđt === ""  && $loi_mess === "") {
+                $baoThanhCong = "Bạn đã gửi phản hồi thành công.";
+                $dataCreated = $this->productQuery->createContact($contact);
+                if ($dataCreated == "ok") {
+                    $_SESSION['baoThanhCong'] = $baoThanhCong;
+                }
+            }
+        }
+        include "view/viewclient/lienhe.php";
+    }
 }
