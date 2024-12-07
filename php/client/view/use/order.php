@@ -65,51 +65,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
         <?php } else { ?>
 
             <div class="row">
-                <?php foreach ($DanhSachobject as $order) { 
-                    // Kiểm tra nếu trạng thái đơn hàng là đã hủy
-                    $isCanceled = $order->status == 5 ? 'canceled' : '';
-                ?>
-                    <div class="col-12 mb-4">
-                        <div class="card shadow-sm <?= $isCanceled ?>">
-                            <div class="card-header bg-primary text-white">
-                                <strong>Mã đơn hàng:</strong> <?= htmlspecialchars($order->order_id) ?> |
-                                <strong>Trạng thái:</strong> 
-                                <?php
-                                    switch (htmlspecialchars($order->status)) {
-                                        case 0: echo "Chờ xác nhận"; break;
-                                        case 1: echo "Đang chuẩn bị hàng"; break;
-                                        case 2: echo "Đang giao"; break;
-                                        case 3: echo "Đã thanh toán"; break;
-                                        case 4: echo "Đã giao thành công"; break;
-                                        case 5: echo "Đã Hủy"; break;
-                                        default: echo "Trạng thái không xác định";
-                                    }
-                                ?>
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Tên khách hàng:</strong> <?= htmlspecialchars($order->name_custom) ?></p>
-                                <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($order->address) ?></p>
-                                <p><strong>Số điện thoại:</strong> <?= htmlspecialchars($order->sdt) ?></p>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <p class="mb-0"><strong>Tổng cộng:</strong> <?= number_format($order->total, 0, ',', '.') ?> VNĐ</p>
-                                    <div>
-                                        <a class="btn btn-primary btn-sm" href='?act=client_orderitem&id=<?= $order->order_id ?>'>Chi tiết đơn hàng</a>
+    <?php foreach ($DanhSachobject as $order) { 
+        // Kiểm tra nếu trạng thái đơn hàng là đã hủy
+        $isCanceled = $order->status == 5 ? 'canceled' : '';
+    ?>
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm <?= $isCanceled ?>">
+                <div class="card-header bg-primary text-white">
+                    <strong>Mã đơn hàng:</strong> <?= htmlspecialchars($order->order_id) ?> |
+                    <strong>Trạng thái:</strong> 
+                    <?php
+                        switch (htmlspecialchars($order->status)) {
+                            case 0: echo "Chờ xác nhận"; break;
+                            case 1: echo "Đang chuẩn bị hàng"; break;
+                            case 2: echo "Đang giao"; break;
+                            case 3: echo "Đã thanh toán"; break;
+                            case 4: echo "Đã giao thành công"; break;
+                            case 5: echo "Đã Hủy"; break;
+                            default: echo "Trạng thái không xác định";
+                        }
+                    ?>
+                </div>
+                <div class="card-body">
+                    <p><strong>Tên khách hàng:</strong> <?= htmlspecialchars($order->name_custom) ?></p>
+                    <p><strong>Địa chỉ:</strong> <?= htmlspecialchars($order->address) ?></p>
+                    <p><strong>Số điện thoại:</strong> <?= htmlspecialchars($order->sdt) ?></p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <p class="mb-0"><strong>Tổng cộng:</strong> <?= number_format($order->total, 0, ',', '.') ?> VNĐ</p>
+                        <div>
+                            <a class="btn btn-primary btn-sm" href='?act=client_orderitem&id=<?= $order->order_id ?>'>Chi tiết đơn hàng</a>
 
-                                        <!-- Thêm form để hủy đơn hàng -->
-                                        <?php if ($order->status != 5) { ?>
-                                        <form action="?act=client_order" method="POST" style="display:inline;">
-                                            <input type="hidden" name="order_id" value="<?= $order->order_id ?>">
-                                            <input type="hidden" name="status" value="5"> <!-- Trạng thái "Đã hủy" -->
-                                            <button type="submit" class="btn btn-danger btn-sm ms-2">Hủy</button>
-                                        </form>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Thêm form để hủy đơn hàng, chỉ hiển thị khi đơn hàng có trạng thái "Chờ xác nhận" (status = 0) -->
+                            <?php if ($order->status == 0) { ?>
+                            <form action="?act=client_order" method="POST" style="display:inline;">
+                                <input type="hidden" name="order_id" value="<?= $order->order_id ?>">
+                                <input type="hidden" name="status" value="5"> <!-- Trạng thái "Đã hủy" -->
+                                <button type="submit" class="btn btn-danger btn-sm ms-2">Hủy</button>
+                            </form>
+                            <?php } ?>
                         </div>
                     </div>
-                <?php } ?>
+                </div>
             </div>
+        </div>
+    <?php } ?>
+</div>
+
 
         <?php } ?>
     </main>
