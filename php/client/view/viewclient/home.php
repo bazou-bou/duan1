@@ -64,75 +64,79 @@ $_SESSION["quantity"] = 1;
 <!-- mobile showcase -->
 <div class="space-medium">
     <div class="container">
-        <div class="row">
-            <?php
-            $limitedCategories = array_slice($DanhSachCategory, 0, 4);
-            foreach ($limitedCategories as $category) {
-            ?>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="showcase-block">
-                        <div class="display-logo ">
-                            <a href="#">
-                                <h2><?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?></h2>
-                            </a>
-                        </div>
-                        <div class="showcase-img">
-                            <a href="#"><img src="<?php echo htmlspecialchars(BASE_URL . $category->img, ENT_QUOTES, 'UTF-8'); ?>" alt=" <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"></a>
-                        </div>
+    <div class="row justify-content-center">
+    <?php
+    $limitedCategories = array_slice($DanhSachCategory, 0, 4);
+    foreach ($limitedCategories as $category) {
+    ?>
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card category-card shadow-sm p-3">
+                <div class="d-flex align-items-center">
+                    <div class="category-img me-3">
+                        <a href="#">
+                            <img class="img-fluid rounded-circle" src="<?php echo htmlspecialchars(BASE_URL . $category->img, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>">
+                        </a>
+                    </div>
+                    <div class="category-content">
+                        <a href="#" class="text-decoration-none">
+                            <h6 class="category-title text-primary mb-1">
+                                <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>
+                            </h6>
+                        </a>
                     </div>
                 </div>
-            <?php } ?>
-
+            </div>
         </div>
+    <?php } ?>
+</div>
     </div>
 </div>
 <!-- /.mobile showcase -->
 
 <div class="container">
 
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="box">
-                <div class="box-head">
-                    <h3 class="head-title">Sản phẩm mới nhất</h3>
-                </div>
-                <div class="box-body">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                        <?php foreach ($DanhSachobject as $product) { ?>
-                            <!-- product -->
-                            <div class="col mb-4">
-                                <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
-                                    <div class="card product-item">
-                                        <div class="product-thumb">
-                                            <!-- Hình ảnh sản phẩm -->
-                                            <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($product->name) ?>">
-                                            <div class="product-action-link">
-                                                <button class="btn cart-btn">
-                                                    <i class="bi bi-cart-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <!-- Tên sản phẩm -->
-                                            <h5 class="product-title"><?= htmlspecialchars($product->name) ?></h5>
-                                            <!-- Giá sản phẩm -->
-                                            <p class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="stretched-link">Xem Chi Tiết</a>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="box">
+            <div class="box-head">
+                <h3 class="head-title">Sản phẩm mới nhất</h3>
+            </div>
+            <div class="box-body">
+                <div class="row row-cols-1 row-cols-md-5 g-4">
+                    <?php foreach ($DanhSachobject as $product) { ?>
+                        <!-- product -->
+                        <div class="col mb-4">
+                            <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
+                                <div class="card product-item">
+                                    <div class="product-thumb">
+                                        <!-- Hình ảnh sản phẩm -->
+                                        <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($product->name) ?>">
+                                        <div class="product-action-link">
+                                            <button class="btn cart-btn">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
-                        <?php } ?>
-                        <!-- /.product -->
-                        <!-- product -->
-
-                    </div>
+                                    <div class="card-body">
+                                        <!-- Tên sản phẩm -->
+                                        <h5 class="product-title"><?= htmlspecialchars($product->name) ?></h5>
+                                        <!-- Giá sản phẩm -->
+                                        <p class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="stretched-link">Xem Chi Tiết</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <?php } ?>
+                    <!-- /.product -->
                 </div>
             </div>
         </div>
     </div>
+</div>
+
 
 </div>
 
@@ -191,39 +195,46 @@ $_SESSION["quantity"] = 1;
 <!-- /.seller products -->
 <!-- featured products -->
 <div class="container">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="box">
-                <div class="box-head">
-                    <h3 class="head-title">Tin tức</h3>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <!-- product -->
-                        <div class="related-post-block">
-                            <div class="row">
-                                <?php foreach ($newList as $news) { ?>
-                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                        <div class="related-post-content">
-                                            <div class="related-img">
-                                                <a href="?act=client-newdetail&id=<?= htmlspecialchars($news->new_id) ?>"><img src="<?= htmlspecialchars(BASE_URL . $news->new_img) ?>" alt="Product Image"></a>
-                                            </div>
-                                            <h4 class="related-title"><a href="?act=client-newdetail&id=<?= htmlspecialchars($news->new_id) ?>"><?= htmlspecialchars($news->title) ?></a></h4>
-                                            <p><?= htmlspecialchars(mb_strimwidth($news->content, 0, 60, "...")) ?></p>
-                                            <a href="?act=client-newdetail&id=<?= htmlspecialchars($news->new_id) ?>" class="btn-link">ĐỌC THÊM</a>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-                        <!-- /.product -->
-
-                    </div>
-                </div>
+<div class="row">
+    <hr>
+    <h1>Tin tức</h1>
+    <!-- Tin lớn bên trái -->
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <?php if (!empty($newList[0])) { ?>
+            <div class="featured-news">
+                <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[0]->new_id) ?>">
+                    <img src="<?= htmlspecialchars(BASE_URL . $newList[0]->new_img) ?>" alt="<?= htmlspecialchars($newList[0]->title) ?>" class="img-fluid custom-img">
+                </a>
+                <h3 class="news-title">
+                    <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[0]->new_id) ?>">
+                        <?= htmlspecialchars($newList[0]->title) ?>
+                    </a>
+                </h3>
+                <p class="custom-content"><?= htmlspecialchars(mb_strimwidth($newList[0]->content, 0, 200, "...")) ?></p>
             </div>
-        </div>
+        <?php } ?>
+    </div>
+
+    <!-- Hai tin nhỏ bên phải -->
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <?php for ($i = 1; $i <= 2; $i++) { 
+            if (!empty($newList[$i])) { ?>
+                <div class="small-news mb-4">
+                    <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[$i]->new_id) ?>">
+                        <img src="<?= htmlspecialchars(BASE_URL . $newList[$i]->new_img) ?>" alt="<?= htmlspecialchars($newList[$i]->title) ?>" class="img-fluid mb-2 custom-img">
+                    </a>
+                    <h5 class="news-title">
+                        <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[$i]->new_id) ?>">
+                            <?= htmlspecialchars($newList[$i]->title) ?>
+                        </a>
+                    </h5>
+                </div>
+        <?php } } ?>
     </div>
 </div>
+
+
+
 <!-- /.featured products -->
 <!-- features -->
 <div class="bg-default pdt40 pdb40">
@@ -408,6 +419,73 @@ $_SESSION["quantity"] = 1;
 </script>
 
 <style>
+
+.category-card {
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .category-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-img img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border: 3px solid #f8f9fa;
+    }
+
+    .category-content .category-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .category-content p {
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    .featured-news img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover;
+    height: 250px; /* Chiều cao ảnh tin lớn */
+}
+
+.featured-news .news-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.featured-news p {
+    font-size: 14px;
+    color: #555;
+}
+
+.small-news img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    height: 120px; /* Chiều cao ảnh tin nhỏ */
+}
+
+.small-news .news-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .featured-news img,
+    .small-news img {
+        height: auto;
+    }
+}
+
     /* Giao diện bài viết liên quan */
     .related-post-content {
         background: #fff;
@@ -465,4 +543,27 @@ $_SESSION["quantity"] = 1;
         font-weight: 600;
 
     }
+    .custom-img {
+    height: 300px;  /* Điều chỉnh chiều cao hình ảnh */
+    object-fit: cover;  /* Đảm bảo ảnh không bị méo, cắt xén vừa vặn */
+}
+
+.custom-content {
+    font-size: 16px;  /* Tăng kích thước chữ cho dễ đọc */
+    line-height: 1.5;  /* Tăng khoảng cách giữa các dòng */
+    min-height: 180px;  /* Đảm bảo chiều cao của nội dung đủ dài */
+    overflow: hidden;  /* Giới hạn nội dung tràn ra ngoài */
+}
+
+/* Cải thiện kích thước của tin nhỏ */
+.small-news img {
+    height: 200px;  /* Điều chỉnh chiều cao hình ảnh của các tin nhỏ */
+    object-fit: cover;
+}
+
+.small-news h5 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
 </style>
