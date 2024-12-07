@@ -64,6 +64,13 @@
 
     <!-- slideshow -->
 
+    
+
+    <main>
+        <section id="featured-products" class="my-4">
+            <!-- <h2 class="text-center mb-4">Sản Phẩm Nổi Bật</h2> -->
+
+
     <main>
         <section id="featured-products" class="my-4">
            

@@ -81,8 +81,11 @@
                         </ul>
                     </div>
                     <p class="alignright">Copyright © All Rights Reserved 2020 Template Design by
+             <a href="" target="_blank" class="copyrightlink">nhom 12</a></p>
+
                         <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 12</a>
                     </p>
+
                 </div>
             </div>
         </div>
