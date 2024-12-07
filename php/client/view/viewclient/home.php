@@ -102,7 +102,7 @@ $_SESSION["quantity"] = 1;
                 <h3 class="head-title">Sản phẩm mới nhất</h3>
             </div>
             <div class="box-body">
-                <div class="row row-cols-1 row-cols-md-5 g-4">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4"> <!-- Sửa ở đây để mỗi hàng có 5 sản phẩm -->
                     <?php foreach ($DanhSachobject as $product) { ?>
                         <!-- product -->
                         <div class="col mb-4">
@@ -198,14 +198,14 @@ $_SESSION["quantity"] = 1;
 <div class="row">
     <hr>
     <h1>Tin tức</h1>
-    <!-- Tin lớn bên trái -->
+    <!-- Tin lớn bên trái (bố cục dọc) -->
     <div class="col-lg-6 col-md-6 col-sm-12">
         <?php if (!empty($newList[0])) { ?>
             <div class="featured-news">
                 <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[0]->new_id) ?>">
                     <img src="<?= htmlspecialchars(BASE_URL . $newList[0]->new_img) ?>" alt="<?= htmlspecialchars($newList[0]->title) ?>" class="img-fluid custom-img">
                 </a>
-                <h3 class="news-title">
+                <h3 class="news-title mt-3"> <!-- Thêm mt-3 để tạo khoảng cách giữa ảnh và tiêu đề -->
                     <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[0]->new_id) ?>">
                         <?= htmlspecialchars($newList[0]->title) ?>
                     </a>
@@ -215,23 +215,30 @@ $_SESSION["quantity"] = 1;
         <?php } ?>
     </div>
 
-    <!-- Hai tin nhỏ bên phải -->
+    <!-- Hai tin nhỏ bên phải (bố cục ngang) -->
     <div class="col-lg-6 col-md-6 col-sm-12">
         <?php for ($i = 1; $i <= 2; $i++) { 
             if (!empty($newList[$i])) { ?>
-                <div class="small-news mb-4">
-                    <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[$i]->new_id) ?>">
-                        <img src="<?= htmlspecialchars(BASE_URL . $newList[$i]->new_img) ?>" alt="<?= htmlspecialchars($newList[$i]->title) ?>" class="img-fluid mb-2 custom-img">
+                <div class="small-news mb-4 d-flex">
+                    <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[$i]->new_id) ?>" class="text-decoration-none">
+                        <!-- Đảm bảo hai ảnh có kích thước bằng nhau -->
+                        <img src="<?= htmlspecialchars(BASE_URL . $newList[$i]->new_img) ?>" alt="<?= htmlspecialchars($newList[$i]->title) ?>" class="img-fluid mb-2 custom-img" style="width: 250px; height: 150px; ">
                     </a>
-                    <h5 class="news-title">
-                        <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[$i]->new_id) ?>">
-                            <?= htmlspecialchars($newList[$i]->title) ?>
-                        </a>
-                    </h5>
+                    <div class="ml-3" style="flex-grow: 1;">
+                        <h5 class="news-title mt-2" style="margin-left: 20px;"> <!-- Thêm mt-2 để tạo khoảng cách giữa ảnh và tiêu đề -->
+                            <a href="?act=client-newdetail&id=<?= htmlspecialchars($newList[$i]->new_id) ?>">
+                                <?= htmlspecialchars($newList[$i]->title) ?>
+                            </a>
+                        </h5>
+                        <p style="margin-left: 20px;" class="custom-content"><?= htmlspecialchars(mb_strimwidth($newList[$i]->content, 0, 100, "...")) ?></p>
+
+                    </div>
                 </div>
         <?php } } ?>
     </div>
 </div>
+
+
 
 
 
