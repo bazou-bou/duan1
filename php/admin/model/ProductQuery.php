@@ -717,14 +717,14 @@ class ProductQuery
         }
     }
 
-     public function findContact($contact_id)
+    public function findContact($contact_id)
     {
         try {
             $sql = "SELECT * FROM `contacts` WHERE `contact_id` = :contact_id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':contact_id' => $contact_id]);
             $row = $stmt->fetch();
-    
+
             if ($row) {
                 $contact = new Contact();
                 $contact->contact_id = $row['contact_id'];
@@ -755,9 +755,9 @@ class ProductQuery
             echo "ERROR: " . $e->getMessage();
         }
     }
-    
 
-public function allNew()
+
+    public function allNew()
     {
         try {
             $sql = "SELECT * FROM `news`";
@@ -767,13 +767,10 @@ public function allNew()
             foreach ($data as $row) {
                 $new = new News();
                 $new->new_id = $row["new_id"];
-                // $new->user_id = $row["user_id"];
                 $new->title = $row["title"];
                 $new->content = $row["content"];
                 $new->new_img = $row["new_img"];
-                $new->view = $row["view"];
                 $new->status = $row["status"];
-                $new->created_at = $row["created_at"];
                 $news[] = $new;
             }
             return $news;
@@ -789,17 +786,15 @@ public function allNew()
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':new_id' => $new_id]);
             $row = $stmt->fetch();
-    
+
             if ($row) {
                 $new = new News();
                 $new->new_id = $row["new_id"];
-                // $new->user_id = $row["user_id"];
                 $new->title = $row["title"];
                 $new->content = $row["content"];
                 $new->new_img = $row["new_img"];
-                $new->view = $row["view"];
                 $new->status = $row["status"];
-                $new->created_at = $row["created_at"];
+                
                 return $new;
             }
             return null;
@@ -825,8 +820,8 @@ public function allNew()
     public function insertNew(News $new)
     {
         try {
-            $sql = "INSERT INTO `news` (`new_id`, `title`, `content`, `new_img`, `view`, `status`, `created_at`) 
-            VALUES (NULL, '$new->title', '$new->content', '$new->new_img', '$new->view', '$new->status', '$new->created_at');";
+            $sql = "INSERT INTO `news` (`new_id`, `title`, `content`, `new_img`, `status`) 
+            VALUES (NULL, '$new->title', '$new->content', '$new->new_img', '$new->status');";
             $data = $this->pdo->exec($sql);
             // $data = 1 nếu thực hiện thành công
 
@@ -837,4 +832,18 @@ public function allNew()
             echo "ERROR: " . $e->getMessage();
         }
     }
+
+    public function updateNew(News $new, $id)
+    {
+        try {
+            $sql = "UPDATE `news` SET `title`='$new->title',`content`='$new->content',`new_img`='$new->new_img',`status`='$new->status' WHERE `new_id`=$id";
+            $data = $this->pdo->exec($sql);
+            if ($data === 1 || $data === 0) {
+                return "ok";
+            }
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Cập nhật danh mục thất bại thất bại";
+        }
     }
+}

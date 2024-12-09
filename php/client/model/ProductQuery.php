@@ -535,9 +535,9 @@ WHERE o.user_id = $id";
                     $new->title = $value["title"];
                     $new->content = $value["content"];
                     $new->new_img = $value["new_img"];
-                    $new->view = $value["view"];
+                    // $new->view = $value["view"];
                     $new->status = $value["status"];
-                    $new->created_at = $value["created_at"];
+                    // $new->created_at = $value["created_at"];
                     $news[] = $new;
                 }
             }
@@ -549,60 +549,102 @@ WHERE o.user_id = $id";
         }
     }
 
-  public function deleteCart($id) {
+    public function findNewCl($id)
+{
     try {
-        // Sử dụng câu lệnh SQL an toàn
-        $sql = "DELETE ci
+        $sql = "SELECT * FROM `news` WHERE `new_id` = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]); // Truyền giá trị cho placeholder `:id`
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            $new = new News();
+            $new->new_id = $data["new_id"];
+            $new->title = $data["title"];
+            $new->content = $data["content"];
+            $new->new_img = $data["new_img"];
+            $new->status = $data["status"];
+            return $new;
+        }
+        return null;
+    } catch (Exception $error) {
+        echo "Lỗi: " . $error->getMessage();
+        return null;
+    }
+}
+
+
+
+
+    public function deleteCart($id)
+    {
+        try {
+            // Sử dụng câu lệnh SQL an toàn
+            $sql = "DELETE ci
                 FROM cart_items ci
                 INNER JOIN carts c ON ci.cart_id = c.cart_id
                 WHERE c.user_id = :user_id";
 
-        // Chuẩn bị câu lệnh
-        $stmt = $this->pdo->prepare($sql);
+            // Chuẩn bị câu lệnh
+            $stmt = $this->pdo->prepare($sql);
 
-        // Liên kết tham số
-        $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
+            // Liên kết tham số
+            $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
 
-        // Thực thi câu lệnh
-        $stmt->execute();
+            // Thực thi câu lệnh
+            $stmt->execute();
 
-        // Kiểm tra số dòng bị ảnh hưởng
-        if ($stmt->rowCount() > 0) {
-            return "Xóa thành công";
-        } else {
-            return "Không có sản phẩm nào để xóa";
+            // Kiểm tra số dòng bị ảnh hưởng
+            if ($stmt->rowCount() > 0) {
+                return "Xóa thành công";
+            } else {
+                return "Không có sản phẩm nào để xóa";
+            }
+        } catch (Exception $error) {
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            return "Xóa thất bại";
         }
-    } catch (Exception $error) {
-        echo "Lỗi " . $error->getMessage() . "<br>";
-        return "Xóa thất bại";
     }
-}
 
-public function deleteCartitem($id){
-    try {
-        // Sử dụng câu lệnh SQL an toàn với tham số placeholder
-        $sql = "DELETE FROM `cart_items` WHERE `item_id` = :item_id";
+    public function deleteCartitem($id)
+    {
+        try {
+            // Sử dụng câu lệnh SQL an toàn với tham số placeholder
+            $sql = "DELETE FROM `cart_items` WHERE `item_id` = :item_id";
 
-        // Chuẩn bị câu lệnh
-        $stmt = $this->pdo->prepare($sql);
+            // Chuẩn bị câu lệnh
+            $stmt = $this->pdo->prepare($sql);
 
-        // Liên kết tham số với giá trị thực tế của $id
-        $stmt->bindParam(':item_id', $id, PDO::PARAM_INT);
+            // Liên kết tham số với giá trị thực tế của $id
+            $stmt->bindParam(':item_id', $id, PDO::PARAM_INT);
 
-        // Thực thi câu lệnh
-        $stmt->execute();
+            // Thực thi câu lệnh
+            $stmt->execute();
 
-        // Kiểm tra số dòng bị ảnh hưởng
-        if ($stmt->rowCount() > 0) {
-            return "Xóa thành công";
-        } else {
-            return "Không có sản phẩm nào để xóa";
+            // Kiểm tra số dòng bị ảnh hưởng
+            if ($stmt->rowCount() > 0) {
+                return "Xóa thành công";
+            } else {
+                return "Không có sản phẩm nào để xóa";
+            }
+        } catch (Exception $error) {
+            // Xử lý lỗi nếu có
+            echo "Lỗi " . $error->getMessage() . "<br>";
+            return "Xóa thất bại";
         }
-    } catch (Exception $error) {
-        // Xử lý lỗi nếu có
-        echo "Lỗi " . $error->getMessage() . "<br>";
-        return "Xóa thất bại";
     }
-}
 
+    public function createContact(Contact $contact)
+    {
+        try {
+            $sql = "INSERT INTO `contact` (`contact_name`, `contact_email`, `contact_phone`, `contact_mess`) 
+                    VALUES ('{$contact->contact_name}', '{$contact->contact_email}', '{$contact->contact_phone}', '{$contact->contact_mess}')";
+            $this->pdo->exec($sql);
+    
+            return "ok"; // Trả về "ok" nếu thành công
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Thêm mới tài khoản thất bại";
+        }
+    }
 }

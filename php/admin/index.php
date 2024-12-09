@@ -179,7 +179,7 @@ switch ($act) {
         $newCtrl = new ProductController();
         $newCtrl->showNewList();
         break;
-        
+
     case "news-create":
         // Show the list of news
         $newCtrl = new ProductController();
@@ -190,6 +190,12 @@ switch ($act) {
         // Delete the news
         $newCtrl = new ProductController();
         $newCtrl->showNewDelete($id);
+        break;
+
+    case "new-update":
+        // Show the banner update form
+        $bannerCtrl = new ProductController();
+        $bannerCtrl->showNewUpdate($id);
         break;
 
     default:
