@@ -288,10 +288,8 @@ class ProductQuery
             $sql = "SELECT COUNT(order_id) AS total_orders FROM orders";
             $result = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 
-            // Trả về tổng số người dùng
             return $result['total_orders'];
         } catch (\Throwable $th) {
-            //throw $th;
         }
     }
 

@@ -1,7 +1,4 @@
-<!-- Giả sử ID người dùng là $userId -->
 
-...
-<!-- Nút thanh toán -->
 
 
 
@@ -63,7 +60,6 @@
             background-color: #218838;
         }
 
-        /* Tăng độ rõ ràng cho checkbox */
         .checkbox-custom {
             border: 2px solid #007bff !important;
             border-radius: 3px;
@@ -75,7 +71,6 @@
             background-color: #007bff;
         }
 
-        /* Đồng bộ chiều rộng nút thanh toán với bảng */
         .btn-checkout {
             width: 100%;
         }
@@ -168,7 +163,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Tự động submit form khi thay đổi số lượng
             const quantityInputs = document.querySelectorAll(".update_quantity input[type='number']");
 
             quantityInputs.forEach((input) => {
@@ -180,7 +174,6 @@
                 });
             });
 
-            // Cập nhật tổng thanh toán khi checkbox thay đổi
             const checkboxes = document.querySelectorAll(".select-item");
             const totalAmountElement = document.getElementById("total-amount");
 

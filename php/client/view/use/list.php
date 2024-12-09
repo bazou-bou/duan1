@@ -62,13 +62,11 @@
         </div>
     </div>
 
-    <!-- slideshow -->
 
     
 
     <main>
         <section id="featured-products" class="my-4">
-            <!-- <h2 class="text-center mb-4">Sản Phẩm Nổi Bật</h2> -->
 
 
     <main>
@@ -95,7 +93,6 @@
 
 
 
-                <!-- Featured Products -->
                 <div class="col-lg-9 col-md-8">
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
                         <?php foreach ($DanhSachobject as $product) { ?>
