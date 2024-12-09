@@ -59,7 +59,9 @@
             </div>
         </div>
     </div>
+    <!-- slideshow -->
 
+    
     <main>
         <section id="featured-products" class="my-4">
            
