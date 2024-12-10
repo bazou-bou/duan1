@@ -56,11 +56,9 @@ class ProductQuery
     public function find($id)
     {
         try {
-            // Tăng số lượt xem mỗi khi xem chi tiết sản phẩm
             $sqlUpdateViews = "UPDATE products SET views = views + 1 WHERE product_id = $id";
-            $this->pdo->exec($sqlUpdateViews);  // Thực thi câu lệnh cập nhật
+            $this->pdo->exec($sqlUpdateViews);  
 
-            // Lấy thông tin sản phẩm
             $sql = "SELECT p.*, c.name AS category_name FROM products p
                 LEFT JOIN categories c ON p.category_id = c.category_id
                 WHERE p.product_id = $id";
@@ -74,8 +72,8 @@ class ProductQuery
                 $product->price = $data["price"];
                 $product->stock = $data["stock"];
                 $product->img = $data["img"];
-                $product->views = $data["views"];  // Lượt xem đã được cập nhật
-                $product->category = $data["category_name"];  // Thêm category_name ở đây
+                $product->views = $data["views"]; 
+                $product->category = $data["category_name"];  
                 return $product;
             }
         } catch (Exception $error) {
@@ -154,32 +152,25 @@ class ProductQuery
     public function addComment($comment)
     {
         try {
-            // Escape ký tự đặc biệt trong content để tránh SQL Injection
             $content = $this->pdo->quote($comment->content);
 
-            // Kiểm tra nếu username không có (trong trường hợp người dùng chưa đăng nhập)
             if (empty($comment->username)) {
-                // Đặt username mặc định là 'Anonymous' hoặc lấy từ session
                 $comment->username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Anonymous';
             }
 
-            // Nếu chưa đăng nhập, user_id sẽ là NULL
             $comment->user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : NULL;
 
-            // Xây dựng câu lệnh SQL với cột comment_date thay vì date
             $sql = "INSERT INTO comments (product_id, user_id, username, content, comment_date)
                     VALUES (:product_id, :user_id, :username, :content, :date)";
 
-            // Chuẩn bị câu lệnh SQL
             $stmt = $this->pdo->prepare($sql);
 
-            // Thực thi câu lệnh SQL với tham số đã chuẩn bị
             $stmt->execute([
                 ':product_id' => $comment->product_id,
-                ':user_id' => $comment->user_id, // Chắc chắn có user_id hợp lệ hoặc NULL
+                ':user_id' => $comment->user_id, 
                 ':username' => $comment->username,
                 ':content' => $content,
-                ':date' => $comment->comment_date // Dùng comment_date thay vì date
+                ':date' => $comment->comment_date 
             ]);
 
             echo "Bình luận đã được thêm thành công!";

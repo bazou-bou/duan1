@@ -123,10 +123,22 @@ a {
                                     <a class="nav-link text-black" href="?act=client-listgiohang&id=<?= htmlspecialchars($_SESSION['user_id']) ?>">
                                         <i class="fa fa-shopping-cart cart-icon"></i>
                                     </a>
+                                    
                                 <?php } else { ?>
                                     <a class="nav-link text-black" href="">
                                         <i class="fa fa-shopping-cart cart-icon"></i>
                                     </a>
+                                <?php } ?>
+
+                            </li>
+                            <li>
+                                <?php if (isset($_SESSION['user_id'])) { ?>
+                                    <a class="nav-link text-black" href="?act=client_order">
+                                    <i class="bi bi-bag cart-icon"></i>
+                                    </a>
+                                    
+                                <?php } else { ?>
+                                   
                                 <?php } ?>
 
                             </li>
