@@ -117,6 +117,7 @@
                         <div class="order-item-info">
                             <h4><?php echo $item->product_name; ?></h4>
                             <p><strong>Số lượng: </strong><?php echo $item->quantity; ?></p>
+                            <p><strong>Size: </strong><?php echo $item->variant; ?></p>
                             <p><strong>Giá: </strong><?php echo number_format($item->product_price, 0, ',', '.'); ?> VNĐ</p>
                         </div>
                     </div>

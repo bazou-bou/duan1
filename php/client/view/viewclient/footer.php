@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/styleindex.css">
     <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/chitietsanpham.css">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/style.css">
 <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/viewclient/css/bootstrap.min.css">
@@ -10,8 +9,6 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
 <!-- Liên kết tới Bootstrap Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
-
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
@@ -21,7 +18,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
 <!-- testimonial -->
 <div class="footer">
     <div class="container">
@@ -106,17 +102,14 @@
                     </div>
                     <p class="alignright">Copyright © All Rights Reserved 2020 Template Design by
              <a href="" target="_blank" class="copyrightlink">nhom 12</a></p>
-
                         <a href="https://easetemplate.com/" target="_blank" class="copyrightlink">Nhom 12</a>
                     </p>
-
                 </div>
             </div>
         </div>
         <!-- /. tiny-footer -->
     </div>
 </div>
-
 <script src="../viewclient/js/jquery.min.js" type="text/javascript"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../viewclient/js//bootstrap.min.js" type="text/javascript"></script>
@@ -127,8 +120,3 @@
 <script type="text/javascript" src="../viewclient/js/owl.carousel.min.js"></script>
 <script type="text/javascript" src="../viewclient/js/multiple-carousel.js"></script>
 </body>
-
-
-<!-- Mirrored from easetemplate.com/free-website-templates/mobistore/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 19 Nov 2021 09:40:40 GMT -->
-
-</html>

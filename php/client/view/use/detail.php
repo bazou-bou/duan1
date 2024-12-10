@@ -1,21 +1,39 @@
 <?php
+// session_start();
 
-
-$isLoggedIn = isset($_SESSION['user_id']); 
+// Kiểm tra và sử dụng dữ liệu từ controller
+$isLoggedIn = isset($_SESSION['user_id']);
 $_SESSION["quantity"] = 1;
+
+// Xử lý số lượng
 if (isset($_POST["quantity"])) {
-    $_SESSION["quantity"] = intval($_POST["quantity"]); 
+    $requestedQuantity = intval($_POST["quantity"]);
+    if ($requestedQuantity > $DanhSachOne->stock) {
+        $_SESSION["quantity"] = $DanhSachOne->stock;
+        $error = "Số lượng yêu cầu vượt quá số lượng tồn kho.";
+    } elseif ($requestedQuantity < 1) {
+        $_SESSION["quantity"] = 1;
+        $error = "Số lượng sản phẩm phải lớn hơn hoặc bằng 1.";
+    } else {
+        $_SESSION["quantity"] = $requestedQuantity;
+    }
 } else {
     $_SESSION["quantity"] = 1;
 }
 
+// var_dump($_SESSION["quantity"]);
+
+// Kiểm tra nếu có biến thể được chọn
+if (isset($_POST['variant_name'])) {
+    $_SESSION['variant_name'] = $_POST['variant_name'];  // Lưu tên của biến thể vào session
+}
+// echo ("Biến thể là: ");
+// var_dump( $_SESSION['variant_name']);
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +46,6 @@ if (isset($_POST["quantity"])) {
     <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/chitietsanpham.css">
     <link rel="stylesheet" href="http://localhost/shopBanGiay/php/client/view/css/styleindex.css">
     <link rel="icon" href="../../img/logoweb.png" type="image/png" sizes="128x128">
-
     <style>
         .img-comment {
             width: 50px;
@@ -38,18 +55,19 @@ if (isset($_POST["quantity"])) {
 
         .product_style1 {
             font-size: 30px;
-
         }
 
         .product_style2 {
             font-size: 20px;
         }
+
+        .variant-btn {
+            margin: 5px;
+        }
     </style>
-
 </head>
-
 <body>
-<header>
+    <header>
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
 
@@ -82,19 +100,22 @@ if (isset($_POST["quantity"])) {
                             <span class="fa fa-star text-secondary"></span>
                             <span class="fa fa-star text-secondary"></span>
                         </div>
-                        
                     </div>
                     <h4 class="price product_style2">Giá bán: <span><?= number_format($DanhSachOne->price, 0, ',', '.') ?> vnd</span></h4>
 
-                    <div class="d-flex align-items-center mt-3 product_style2">
-                        <h2 class="fs-5">Màu sắc:</h2>
-                        <?php
-                        foreach ($images as $image) {
-                            echo "<img src='../../img/shoes/adidas/$image.jpg' class='color-option ms-2' data-img='../../img/shoes/adidas/$image.jpg' onclick='changeMainImage(this)' alt='$image'>";
-                        }
-                        ?>
+                    <!-- Các biến thể hiển thị dưới dạng nút bấm -->
+                    <div class="d-flex align-items-center mt-3">
+                        <h2 class="fs-5 product_style2 mb-0 me-2">Biến thể:</h2>
+                        <div class="btn-group" role="group">
+                            <?php foreach ($DanhSachOne->variant as $variant): ?>
+                                <button type="button" class="btn btn-outline-primary variant-btn" data-variant-name="<?= $variant->variant ?>" onclick="selectVariant(this)">
+                                    <?= htmlspecialchars($variant->variant) ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
 
+                    <!-- Số lượng sản phẩm -->
                     <div class="d-flex align-items-center mt-3">
                         <h2 class="fs-5 product_style2 mb-0 me-2">Số lượng:</h2>
                         <div class="input-group">
@@ -104,7 +125,6 @@ if (isset($_POST["quantity"])) {
                                 <button class="btn btn-sm px-2 no-border" type="button" id="button-increment">+</button>
                             </form>
                         </div>
-
                     </div>
 
                     <div class="d-flex align-items-center mt-3">
@@ -119,13 +139,14 @@ if (isset($_POST["quantity"])) {
                     </div>
                 </div>
             </div>
-            <br>
-            <hr>
+
+            <br><hr>
+
             <div class="row mt-5">
                 Đánh giá
             </div>
-            <br>
-            <hr>
+            <br><hr>
+
             <section>
                 <div class="container">
                     <div class="row">
@@ -169,10 +190,7 @@ if (isset($_POST["quantity"])) {
                     </div>
                 </div>
             </section>
-            <br>
-            <hr>
-
-
+            <br><hr>
 
             <div>
                 <h2>Sản phẩm cùng loại</h2>
@@ -206,15 +224,41 @@ if (isset($_POST["quantity"])) {
             </div>
         </div>
     </main>
+
     <footer>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewclient/footer.php'; ?>
-</footer>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/footer.html'; ?>
+    </footer>
 
     <script>
         function changeMainImage(element) {
             document.getElementById('main-img').src = element.getAttribute('data-img');
         }
 
+        
+document.getElementById('button-increment').addEventListener('click', function () {
+    let quantityInput = document.getElementById('quantity');
+    let currentValue = parseInt(quantityInput.value);
+    let maxStock = <?= $DanhSachOne->stock ?>;
+    if (currentValue < maxStock) {
+        quantityInput.value = currentValue + 1;
+        quantityInput.form.submit(); 
+    } else {
+        quantityInput.value = currentValue - 1;
+        alert("Số lượng yêu cầu vượt quá tồn kho.");
+    }
+});
+document.getElementById('quantity').addEventListener('input', function () {
+    let quantityInput = document.getElementById('quantity');
+    let currentValue = parseInt(quantityInput.value);
+    let maxStock = <?= $DanhSachOne->stock ?>; // Lấy số lượng tồn kho từ PHP
+    if (currentValue > maxStock) {
+        quantityInput.value = maxStock; // Giới hạn số lượng nhập không vượt quá tồn kho
+        alert("Số lượng yêu cầu vượt quá tồn kho.");
+    } else if (currentValue < 1) {
+        quantityInput.value = 1; // Không cho phép nhập nhỏ hơn 1
+        alert("Số lượng sản phẩm phải lớn hơn hoặc bằng 1.");
+    }
+});
         document.getElementById('button-decrement').addEventListener('click', function() {
             let quantityInput = document.getElementById('quantity');
             let currentValue = parseInt(quantityInput.value);
@@ -304,9 +348,34 @@ if (isset($_POST["quantity"])) {
 
             window.location.href = "?act=client-list";
         });
+
+
+        function changeMainImage(element) {
+            document.getElementById("main-img").src = element.getAttribute('data-img');
+        }
+
+        function selectVariant(button) {
+            const selectedVariantName = button.innerText; // Lấy tên của biến thể từ nội dung nút bấm
+
+            // Tạo form ẩn để gửi giá trị qua POST
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = ''; // Hoặc trang xử lý của bạn
+
+            // Thêm input để gửi tên của biến thể
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'variant_name';
+            input.value = selectedVariantName;
+            form.appendChild(input);
+
+         
+
+            // Thêm form vào body và gửi đi
+            document.body.appendChild(form);
+            form.submit();
+        }
+        
     </script>
-
-
 </body>
-
 </html>

@@ -1,9 +1,8 @@
 <?php 
 
-<?php
 // If you want to see the POST data when the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    var_dump($_POST["name_custom"]);
+    // var_dump($_POST["name_custom"]);
 }
 ?>
 
@@ -91,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="card-body">
                         <?php
                         $totalAmount = 0; // Biến tổng số tiền
+                        // var_dump($cartItems);
                         foreach ($cartItems as $item) {
                             $itemTotal = $item->quantity * $item->product_price; // Tính tổng của từng sản phẩm
                             $totalAmount += $itemTotal; // Cộng dồn vào tổng
@@ -103,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <p class="fw-bold"><?= htmlspecialchars($item->product_name) ?></p>
                                     <p class="text-danger"><?= number_format($item->product_price, 0, ',', '.') ?> VNĐ</p>
                                     <p>Số lượng: <?= $item->quantity ?></p>
+                                    <p>Size: <?= $item->variant ?></p>
                                     <p class="text-danger"><?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</p>
                                 </div>
                                 <div class="col-3 text-center">

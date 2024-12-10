@@ -52,6 +52,80 @@ class ProductQuery
         }
     }
 
+    public function find_variant($id){
+        // echo "ID: " . $id;  // Kiểm tra giá trị của ID
+
+        try {
+            // Cập nhật lượt xem sản phẩm
+            $sqlUpdateViews = "UPDATE products SET views = views + 1 WHERE product_id = :id";
+            $stmt = $this->pdo->prepare($sqlUpdateViews);
+            $stmt->execute([':id' => $id]);
+
+            
+    
+            // Lấy thông tin sản phẩm và biến thể
+            $sql = "SELECT 
+                p.product_id, 
+                p.name AS product_name, 
+                p.description, 
+                p.price AS product_price, 
+                p.stock AS product_stock, 
+                p.img AS product_image,
+                p.views, 
+                v.variant_id, 
+                v.variant_name AS variant_name
+            FROM 
+                products p 
+            JOIN 
+                variant_product vp ON p.product_id = vp.product_id 
+            JOIN 
+                variant v ON vp.variant_id = v.variant_id 
+            WHERE 
+                p.status = 1
+                AND p.product_id = :id;";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':id' => $id]);
+    
+            // Lấy tất cả các biến thể của sản phẩm
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            
+
+    
+            if (!empty($data)) {
+                // Tạo đối tượng sản phẩm
+                $product = new ProductVariant();
+                $product->product_id = $data[0]["product_id"];
+                $product->name = $data[0]["product_name"];
+                $product->description = $data[0]["description"];
+                $product->price = $data[0]["product_price"];
+                $product->stock = $data[0]["product_stock"];
+                $product->img = $data[0]["product_image"];
+                $product->views = $data[0]["views"];  // Lấy 'views' từ dữ liệu
+    
+                // Lưu các biến thể vào sản phẩm
+                $product->variant = [];
+                foreach ($data as $row) {
+                    $variant = new Variant();
+                    $variant->variant_id = $row["variant_id"];
+                    $variant->variant = $row["variant_name"];
+                    $product->variant[] = $variant;
+                }
+    
+                return $product;
+            } else {
+                echo "Sản phẩm không tồn tại.";
+                
+                return null;
+            }
+        } catch (Exception $error) {
+            echo "Lỗi: " . $error->getMessage() . "<br>";
+            echo "Lỗi truy vấn SQL hoặc kết nối cơ sở dữ liệu.";
+            return null;
+        }
+    }
+    
+
   
     public function find($id)
     {
@@ -349,74 +423,79 @@ class ProductQuery
     }
 
     public function pay($id, Pay $product)
-    {
-        try {
-            // Start a transaction to ensure both queries are executed atomically
-            $this->pdo->beginTransaction();
+{
+    try {
+        // Start a transaction to ensure both queries are executed atomically
+        $this->pdo->beginTransaction();
 
-            // Prepare the first SQL query to insert the order into `orders`
-            $sql1 = "INSERT INTO `orders` (`user_id`, `total`, `status`, `sdt`, `name_custom`, `address`)
-                 SELECT 
-                     c.`user_id`, 
-                     SUM(p.`price` * ci.`quantity`), 
-                     0, 
-                     :sdt, 
-                     :name_custom, 
-                     :address
-                 FROM `carts` c
-                 JOIN `cart_items` ci ON c.`cart_id` = ci.`cart_id`
-                 JOIN `products` p ON ci.`product_id` = p.`product_id`
-                 WHERE c.`user_id` = :user_id
-                 GROUP BY c.`user_id`";
+        // Prepare the first SQL query to insert the order into `orders`
+        $sql1 = "INSERT INTO `orders` (`user_id`, `total`, `status`, `sdt`, `name_custom`, `address`)
+             SELECT 
+                 c.`user_id`, 
+                 SUM(p.`price` * ci.`quantity`), 
+                 0, 
+                 :sdt, 
+                 :name_custom, 
+                 :address
+             FROM `carts` c
+             JOIN `cart_items` ci ON c.`cart_id` = ci.`cart_id`
+             JOIN `products` p ON ci.`product_id` = p.`product_id`
+             WHERE c.`user_id` = :user_id
+             GROUP BY c.`user_id`";
 
-            // Prepare the statement and bind parameters
-            $stmt1 = $this->pdo->prepare($sql1);
-            $stmt1->bindParam(':sdt', $product->sdt);
-            $stmt1->bindParam(':name_custom', $product->name_custom);
-            $stmt1->bindParam(':address', $product->address);
-            $stmt1->bindParam(':user_id', $id, PDO::PARAM_INT);
-            $stmt1->execute();
+        // Prepare the statement and bind parameters
+        $stmt1 = $this->pdo->prepare($sql1);
+        $stmt1->bindParam(':sdt', $product->sdt);
+        $stmt1->bindParam(':name_custom', $product->name_custom);
+        $stmt1->bindParam(':address', $product->address);
+        $stmt1->bindParam(':user_id', $id, PDO::PARAM_INT);
+        $stmt1->execute();
 
-            // Get the last inserted order ID
-            $order_id = $this->pdo->lastInsertId();
+        // Get the last inserted order ID
+        $order_id = $this->pdo->lastInsertId();
 
-            // Prepare the second SQL query to insert items into `order_items`
-            $sql2 = "INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `order_img`, `order_date`, `order_price`, `address`, `name_custom`, `sdt`)
-                 SELECT 
-                     :order_id, 
-                     ci.`product_id`, 
-                     ci.`quantity`, 
-                     p.`img`, 
-                     CURDATE(), 
-                     p.`price`, 
-                     :address, 
-                     :name_custom, 
-                     :sdt
-                 FROM `cart_items` ci
-                 JOIN `products` p ON ci.`product_id` = p.`product_id`
-                 WHERE ci.`cart_id` IN (SELECT `cart_id` FROM `carts` WHERE `user_id` = :user_id)";
+        // Prepare the second SQL query to insert items into `order_items`
+        // We modify this query to handle each item in the cart individually
+        $sql2 = "INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `order_img`, `order_date`, `order_price`, `address`, `name_custom`, `sdt`, `variant`)
+             SELECT 
+                 :order_id, 
+                 ci.`product_id`, 
+                 ci.`quantity`, 
+                 p.`img`, 
+                 CURDATE(), 
+                 p.`price`, 
+                 :address, 
+                 :name_custom, 
+                 :sdt,
+                 ci.`variant`  -- This uses the variant stored in cart_items
+             FROM `cart_items` ci
+             JOIN `products` p ON ci.`product_id` = p.`product_id`
+             WHERE ci.`cart_id` IN (SELECT `cart_id` FROM `carts` WHERE `user_id` = :user_id)";
 
-            // Prepare the statement and bind parameters
-            $stmt2 = $this->pdo->prepare($sql2);
-            $stmt2->bindParam(':order_id', $order_id, PDO::PARAM_INT);
-            $stmt2->bindParam(':address', $product->address);
-            $stmt2->bindParam(':name_custom', $product->name_custom);
-            $stmt2->bindParam(':sdt', $product->sdt);
-            $stmt2->bindParam(':user_id', $id, PDO::PARAM_INT);
-            $stmt2->execute();
+        // Prepare the statement and bind parameters
+        $stmt2 = $this->pdo->prepare($sql2);
+        $stmt2->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt2->bindParam(':address', $product->address);
+        $stmt2->bindParam(':name_custom', $product->name_custom);
+        $stmt2->bindParam(':sdt', $product->sdt);
+        $stmt2->bindParam(':user_id', $id, PDO::PARAM_INT);
+        $stmt2->execute();
 
-            // Commit the transaction
-            $this->pdo->commit();
+        // Commit the transaction
+        $this->pdo->commit();
 
-            return "ok";
-        } catch (Exception $error) {
-            // Rollback the transaction in case of an error
-            $this->pdo->rollBack();
+        return "ok";
+    } catch (Exception $error) {
+        // Rollback the transaction in case of an error
+        $this->pdo->rollBack();
 
-            error_log("Lỗi chức năng thanh toán ở query: " . $error->getMessage());
-            return "error";
-        }
+        error_log("Lỗi chức năng thanh toán ở query: " . $error->getMessage());
+        return "error";
     }
+}
+
+    
+
 
 
     public function clientOrder($id)
@@ -442,7 +521,6 @@ WHERE o.user_id = $id";
                 $product->status = $value["status"];
                 $product->sdt = $value["sdt"];
                 $product->name_custom = $value["name_custom"];
-                // $product->username = $value["username"];
                 $product->address = $value["address"];
                 array_push($dsachOrder, $product);
             }
@@ -463,6 +541,7 @@ WHERE o.user_id = $id";
             oi.quantity, 
             oi.order_date, 
             oi.order_img, 
+            oi.variant, 
             p.name AS product_name, 
             p.price AS product_price, 
             p.img AS product_img 
@@ -493,6 +572,7 @@ WHERE o.user_id = $id";
                 $product->product_price = $value["product_price"];
                 $product->product_img = $value["product_img"];
                 $product->status = $value["status"];
+                $product->variant = $value["variant"];
                 array_push($dsItem, $product);
             }
 
