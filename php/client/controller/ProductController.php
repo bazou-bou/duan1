@@ -85,6 +85,71 @@ class ProductController
 
         include "view/use/detail.php";
     }
+    public function showProductVariant($id)
+    {
+        // Lấy thông tin sản phẩm và biến thể từ phương thức find_variant
+        $DanhSachOne = $this->productQuery->find_variant($id);  
+    
+        // Kiểm tra nếu sản phẩm không tồn tại
+        if (!$DanhSachOne) {
+            echo "Sản phẩm không tồn tại!";
+            exit();
+        }
+    
+        // Lấy danh mục sản phẩm (Nếu có, tùy vào cấu trúc dữ liệu)
+        $danhsachCategory = $this->productQuery->findCategory($DanhSachOne->category);
+    
+        // Lấy các bình luận của sản phẩm
+        $danhSachComment = $this->productQuery->findComment($id);
+    
+        // Các lỗi cần hiển thị khi gửi bình luận
+        $loi_comment = "";
+        $loi_name = "";
+        $loi_email = "";
+    
+        // Kiểm tra khi người dùng gửi bình luận
+        if (isset($_POST['postComment'])) {
+            $loi_comment = "";
+            // Kiểm tra nếu nội dung bình luận trống
+            if (empty($_POST['msg'])) {
+                $loi_comment = "Bình luận không được để trống.";
+            }
+    
+            // Nếu không có lỗi, tiến hành thêm bình luận
+            if ($loi_comment == "" && $loi_name == "" && $loi_email == "") {
+                if (isset($_SESSION['user_id']) && $_SESSION['user_id'] > 0) {
+                    $userId = $_SESSION['user_id']; 
+                    $username = $_SESSION['username'];
+    
+                    // Tạo đối tượng bình luận mới
+                    $comment = new Comments();
+                    $comment->product_id = $id;
+                    $comment->user_id = $userId;
+                    $comment->username = $username;
+                    $comment->content = htmlspecialchars($_POST['msg']);
+                    $comment->comment_date = date('Y-m-d H:i:s');
+    
+                    // Thêm bình luận vào cơ sở dữ liệu
+                    if ($this->productQuery->addComment($comment)) {
+                        echo "Bình luận của bạn đã được gửi thành công!";
+                    } else {
+                        $loi_comment = "Có lỗi xảy ra khi gửi bình luận.";
+                    }
+                } else {
+                    // Nếu người dùng chưa đăng nhập, yêu cầu đăng nhập
+                    echo "<script type='text/javascript'>
+                            alert('Bạn cần đăng nhập để bình luận.');
+                            window.location.href = '?act=client-login'; // Chuyển hướng tới trang đăng nhập
+                          </script>";
+                    exit();
+                }
+            }
+        }
+    
+        // Bao gồm file view để hiển thị thông tin sản phẩm và các biến thể của nó
+        include "view/use/detail.php";
+    }
+    
 
 
 
@@ -196,14 +261,18 @@ class ProductController
         $loi_tranthai_danhmuc = "";
         $loi_sdt_danhmuc = "";
         $baoThanhCong = "";
-
+    
         if (isset($_POST["submitForm"])) {
         
             $product = new Pay();
             $product->name_custom = trim(htmlspecialchars($_POST["name_custom"])); 
             $product->address = trim(htmlspecialchars($_POST["address"])); 
-            $product->sdt = trim(htmlspecialchars($_POST["sdt"])); 
-
+            $product->sdt = trim(htmlspecialchars($_POST["sdt"]));
+    
+            // Lấy variant từ session, mặc định là 37 nếu không có trong session
+            $product->variant = isset($_SESSION['variant_name']) ? $_SESSION['variant_name'] : 37;
+    
+            // Kiểm tra các trường thông tin đã nhập
             if ($product->name_custom === "") {
                 $loi_ten_danhmuc = "Hãy nhập tên người nhận";
             }
@@ -213,21 +282,28 @@ class ProductController
             if ($product->sdt === "") {
                 $loi_sdt_danhmuc = "Nhập số điện thoại người nhận";
             }
-
+    
+            // Nếu tất cả dữ liệu hợp lệ
             if ($loi_ten_danhmuc === "" && $loi_tranthai_danhmuc === "" && $loi_sdt_danhmuc === "") {
                 $baoThanhCong = "Bạn đã tạo đơn hàng thành công";
                 $dataCreated = $this->productQuery->pay($id, $product);
 
+    
+                // Nếu đơn hàng đã được tạo thành công, xóa giỏ hàng và chuyển hướng đến trang đơn hàng
                 if ($dataCreated == "ok") {
                     $this->productQuery->deleteCart($id);
+                    unset($_SESSION['variant_name']); // Reset variant_name trong session
                     header("Location: ?act=client_order");
+
                     exit; 
                 }
             }
         }
-
+    
+        // Bao gồm view cho trang thanh toán
         include "view/use/paypage.php";
     }
+    
 
 
 

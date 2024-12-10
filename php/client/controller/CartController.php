@@ -12,12 +12,13 @@ class CartController
 
     public function showCart($id)
     {
-        $cartItems = $this->cartQuery->getCartByUser($id);
+        $cartItems = $this->cartQuery->getCartvByUser($id);
 
         include "view/use/listgiohang.php";
     }
 
-    public function addToCart($userId, $productId, $quantity = 1)
+    public function addToCart($userId, $productId,$variant, $quantity = 1)
+
     {
         try {
             if ($userId == null) {
@@ -34,9 +35,9 @@ class CartController
                     $newQuantity = $cartItem->quantity + $quantity;
                     $this->cartQuery->updateQuantity($cartItem->item_id, $newQuantity);
                 } else {
-                    $this->cartQuery->addProductToCart($userId, $productId, $quantity);
+                    $this->cartQuery->addProductToCart($userId, $productId, $quantity, $variant);
                 }
-
+                // unset($_SESSION['variant_name']);
                 header("Location: ?act=client-listgiohang&id=$userId");
                 exit;
             }
@@ -73,7 +74,7 @@ class CartController
     public function showproduct($id)
     {
         // $cartItems = $this->cartQuery->getCartByUser($userId);
-        $cartItems = $this->cartQuery->getCartByUser($id);
+        $cartItems = $this->cartQuery->getCartVByUser($id);
         // include "views/cart/listgiohang.php";  // Hiển thị giỏ hàng
 
         include "view/use/paypage.php";

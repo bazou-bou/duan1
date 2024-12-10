@@ -1,4 +1,6 @@
 <?php
+// Include the confix.php file using the relative path
+//php/confix.php -> php/admin/model/ProductQuery.php
 require_once __DIR__ . '/../../confix.php';
 
 
@@ -6,9 +8,11 @@ class ProductQuery
 {
     public $pdo;
 
+    // Constructor: Initializes PDO connection using confix.php
     public function __construct()
     {
         try {
+            // Use the DatabaseConfig class defined in confix.php
             $databaseConfig = new DatabaseConfig();
             $this->pdo = $databaseConfig->getConnection();
         } catch (Exception $error) {
@@ -22,6 +26,7 @@ class ProductQuery
         $this->pdo = null;
     }
 
+    // Find all products with category names
     public function all()
     {
         try {
@@ -52,6 +57,7 @@ class ProductQuery
         }
     }
 
+    // Find a single product by ID
     public function find($id)
     {
         try {
@@ -82,6 +88,7 @@ class ProductQuery
         }
     }
 
+    // Insert a new product
     public function insert(Product $product)
     {
         try {
@@ -105,6 +112,7 @@ class ProductQuery
         }
     }
 
+    // Update an existing product
     public function update(Product $product, $id)
     {
         try {
@@ -136,6 +144,7 @@ class ProductQuery
         }
     }
 
+    // Find products by category
     public function findCategory($category)
     {
         try {
@@ -173,8 +182,10 @@ class ProductQuery
     public function toggleStatus($id, $table, $field)
     {
         try {
+            // Đảm bảo $id là số nguyên
             $id = (int)$id;
 
+            // Tạo câu SQL động với bảng và cột được truyền từ bên ngoài
             $sql = "UPDATE `$table` 
                     SET `status` = CASE 
                         WHEN `status` = 0 THEN 1 
@@ -182,6 +193,7 @@ class ProductQuery
                     END 
                     WHERE `$field` = $id";
 
+            // Thực thi câu truy vấn
             $data = $this->pdo->exec($sql);
 
             if ($data === 1) {
@@ -190,37 +202,46 @@ class ProductQuery
                 return "Không có bản ghi nào được cập nhật.";
             }
         } catch (Exception $error) {
+            // Log lỗi thay vì hiển thị trực tiếp
             error_log("Lỗi toggleStatus: " . $error->getMessage());
             return "Lỗi: Cập nhật trạng thái thất bại";
         }
     }
 
 
+    // Additional methods for categories...
 
 
     public function allUser()
     {
         try {
+            // Query to get all users
             $sql = "SELECT * FROM users";
 
+            // Execute the query and fetch all user data
             $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
+            // Initialize an array to store User objects
             $danhSach = [];
 
+            // Loop through each result and create a User object
             foreach ($data as $value) {
+                // Create a new User object (assuming you have a User class)
                 $user = new User();
-                $user->user_id = $value["user_id"]; 
-                $user->username = $value["username"];   
-                $user->password = $value["password"];  
-                $user->email = $value["email"];       
-                $user->role = $value["role"];    
-                $user->status = $value["status"];
+                $user->user_id = $value["user_id"];  // Assuming 'user_id' exists in the 'users' table
+                $user->username = $value["username"];        // Assuming 'name' exists in the 'users' table
+                $user->password = $value["password"];      // Assuming 'email' exists in the 'users' table
+                $user->email = $value["email"];        // Assuming 'role' exists in the 'users' table
+                $user->role = $value["role"];    // Assuming 'status' exists in the 'users' table
+                $user->status = $value["status"]; // Assuming 'status' exists in the 'users'
 
+                // Add the User object to the danhSach array
                 $danhSach[] = $user;
             }
 
             return $danhSach;
         } catch (Exception $error) {
+            // Log the error message for debugging
             error_log("Lỗi: " . $error->getMessage());
             return "Tìm tất cả người dùng thất bại";
         }
@@ -267,8 +288,10 @@ class ProductQuery
             $sql = "SELECT COUNT(order_id) AS total_orders FROM orders";
             $result = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 
+            // Trả về tổng số người dùng
             return $result['total_orders'];
         } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 
@@ -280,7 +303,7 @@ class ProductQuery
                     JOIN users u ON o.user_id = u.user_id 
                     GROUP BY u.user_id 
                     ORDER BY total_spent DESC";
-            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC); 
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);  // Đây là mảng các mảng, không phải đối tượng
 
             $topUsers = [];
             foreach ($data as $value) {
@@ -288,20 +311,24 @@ class ProductQuery
                 $user->username = $value["username"];
                 $user->total_orders = $value["total_orders"];
                 $user->total_spent = $value["total_spent"];
-                array_push($topUsers, $user); 
+                array_push($topUsers, $user);  // Thêm đối tượng vào mảng
             }
-            return $topUsers;  
+            return $topUsers;  // Đảm bảo đây là mảng các đối tượng topUser
         } catch (\Throwable $th) {
+            // Error handling here
         }
     }
     public function totalUsers()
     {
         try {
+            // Truy vấn SQL để đếm số lượng người dùng
             $sql = "SELECT COUNT(*) AS total_users FROM users";
             $result = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 
+            // Trả về tổng số người dùng
             return $result['total_users'];
         } catch (\Throwable $th) {
+            // Xử lý lỗi
             return 0;
         }
     }
@@ -328,7 +355,8 @@ class ProductQuery
     }
 
     public function revenueByYear()
-{
+    {
+      
     try {
         $sql = "SELECT 
                     DATE(order_date) AS date, -- Lấy đầy đủ ngày, tháng, năm
@@ -344,13 +372,16 @@ class ProductQuery
                     DATE(order_date) DESC
                 ";
 
+            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
+            return $data;
+        } catch (\Throwable $th) {
+            // Xử lý listring
+            return [];
+        }
         return $data;
-    } catch (\Throwable $th) {
-        // Xử lý lỗi
-        return [];
-    }
+    
 }
 
     public function locDonHangTheoNam()
@@ -359,7 +390,7 @@ class ProductQuery
             $sql = "SELECT 
                         YEAR(order_date) AS year,
                         MONTH(order_date) AS month,
-                        COUNT(*) AS total_orders,  
+                        COUNT(*) AS total_orders,  -- Đếm số lượng đơn hàng
                         SUM(order_price * quantity) AS total_revenue,
                         SUM(quantity) AS total_quantity
                     FROM 
@@ -767,7 +798,7 @@ class ProductQuery
                 $new->content = $row["content"];
                 $new->new_img = $row["new_img"];
                 $new->status = $row["status"];
-                
+
                 return $new;
             }
             return null;

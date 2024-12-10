@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,29 +20,6 @@
             margin-top: 20px;
         }
 
-        .cart-item-card {
-            background: #ffffff;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        .cart-item-image {
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 10px 0 0 10px;
-        }
-
-        .cart-item-details {
-            flex: 1;
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
         .cart-total {
             font-size: 1.3rem;
             font-weight: bold;
@@ -55,6 +34,17 @@
             background-color: #218838;
         }
 
+        .checkbox-custom {
+            border: 2px solid #007bff !important;
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .checkbox-custom:checked {
+            background-color: #007bff;
+        }
+
         .btn-checkout {
             width: 100%;
         }
@@ -62,97 +52,106 @@
 </head>
 
 <body>
-<header>
+    <header>
         <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
 
     <main class="container cart-container">
         <h1 class="text-center mb-4">Giỏ Hàng của bạn</h1>
         <?php if (!empty($cartItems)) { ?>
-            <table class="table table-borderless bg-white" >
-                <thead class="table-light">
-                    <tr >
-                        <th style="width: 15%;">Hình Ảnh</th>
-                        <th>Tên Sản Phẩm</th>
-                        <th style="width: 15%;">Giá</th>
-                        <th style="width: 10%;">Số Lượng</th>
-                        <th style="width: 15%;">Tổng</th>
-                        <th style="width: 15%; text-align: center;">Hành Động</th>
-                    </tr>
-                </thead>
-                <tbody >
-                    <?php
-                    $totalAmount = 0;
-                    foreach ($cartItems as $item) {
-                        if($item->product_name != ""){
-                            $check = 1;
-                            $itemTotal = $item->quantity * $item->product_price;
-                            $totalAmount += $itemTotal;
-                    ?>
-                    <tr>
-                        <td>
-                            <img src="<?= htmlspecialchars(BASE_URL . $item->product_image) ?>"
-                                alt="Product Image"
-                                class="img-thumbnail"
-                                style="max-height: 100px; object-fit: cover;">
-                        </td>
-                        <td><?= htmlspecialchars($item->product_name) ?></td>
-                        <td class="text-danger fs-5">
-                            <?= number_format($item->product_price, 0, ',', '.') ?> VNĐ
-                        </td>
-                        <td>
-                            <form class="update_quantity" action="?act=update-cart&id=<?= $item->product_id ?>&item_id=<?= $item->item_id ?>" method="post">
-                                <input type="number" class="form-control" name="quantity[<?= $item->item_id ?>]" value="<?= $item->quantity ?>">
-                            </form>
-                        </td>
-                        <td class="text-danger fs-5">
-                            <?= number_format($itemTotal, 0, ',', '.') ?> VNĐ
-                        </td>
-                        <td class="text-center">
-                            <a href="?act=client-deletecart&id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
-                            <a href="?act=client-detail&id=<?= $item->product_id ?>" class="btn btn-primary btn-sm">Chi Tiết</a>
-                        </td>
-                    </tr>
-                    <?php } else {
-                        $check = 0;
-                    ?>
-                        <div class="alert alert-warning text-center">Giỏ hàng của bạn đang trống!</div>
-                    <?php }
-                } ?>
-                    <tr>
-                        <td colspan="4" class="text-end cart-total">Tổng Thanh Toán:</td>
-                        <td class="text-danger fs-4">
-                            <?= number_format($totalAmount, 0, ',', '.') ?> VNĐ
-                        </td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="text-end">
-                <?php if($check != 0) { ?>
-                    <a href="?act=client_pay&id=<?= $_SESSION['user_id'] ?>" class="btn btn-checkout btn-lg">Thanh Toán</a>
+        <table class="table table-borderless bg-white">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 5%; text-align: center;">Chọn</th>
+                    <th style="width: 15%;">Hình Ảnh</th>
+                    <th>Tên Sản Phẩm</th>
+                    <th style="width: 15%;">Giá</th>
+                    <th style="width: 10%;">Số Lượng</th>
+                    <th style="width: 10%;">Size</th>
+                    <th style="width: 15%;">Tổng</th>
+                    <th style="width: 15%; text-align: center;">Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $totalAmount = 0;
+                $check = 0;
+                foreach ($cartItems as $item) {
+                    if ($item->product_name != "") {
+                        $check = 1;
+                        $itemTotal = $item->quantity * $item->product_price;
+                        $totalAmount += $itemTotal;
+                ?>
+                <tr>
+                    <td class="text-center">
+                        <input type="checkbox" class="form-check-input select-item checkbox-custom"
+                            data-item-total="<?= $itemTotal ?>" name="selected_items[]"
+                            value="<?= $item->item_id ?>">
+                    </td>
+                    <td>
+                        <img src="<?= htmlspecialchars(BASE_URL . $item->product_image) ?>" alt="Product Image"
+                            class="img-thumbnail" style="max-height: 100px; object-fit: cover;">
+                    </td>
+                    <td><?= htmlspecialchars($item->product_name) ?></td>
+                    <td class="text-danger fs-5"><?= number_format($item->product_price, 0, ',', '.') ?> VNĐ</td>
+                    <td>
+                        <form class="update_quantity"
+                            action="?act=update-cart&id=<?= $item->product_id ?>&item_id=<?= $item->item_id ?>"
+                            method="post">
+                            <input type="number" class="form-control" name="quantity[<?= $item->item_id ?>]"
+                                value="<?= $item->quantity ?>">
+                        </form>
+                    </td>
+                    
+                    <td class=" fs-5"><?= $item->variant ?></td>
+                    <td class="text-danger fs-5"><?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</td>
+                    <td class="text-center">
+                        <a href="?act=client-deletecart&id=<?= $item->item_id ?>" class="btn btn-danger btn-sm">Xóa</a>
+                        <a href="?act=client-detail&id=<?= $item->product_id ?>"
+                            class="btn btn-primary btn-sm">Chi Tiết</a>
+                    </td>
+                </tr>
                 <?php } ?>
-            </div>
+                <?php } ?>
+                <tr>
+                    <td colspan="5" class="text-end cart-total">Tổng Thanh Toán:</td>
+                    <td class="text-danger fs-4" id="total-amount">
+                        <?= number_format($totalAmount, 0, ',', '.') ?> VNĐ
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-end">
+            <?php if ($check != 0) { ?>
+            <a href="?act=client_pay&id=<?= $_SESSION['user_id'] ?>" class="btn btn-checkout btn-lg">Thanh Toán</a>
+            <?php } ?>
+        </div>
         <?php } else { ?>
-            <div class="alert alert-warning text-center">Giỏ hàng của bạn đang trống!</div>
+        <div class="alert alert-warning text-center">Giỏ hàng của bạn đang trống!</div>
         <?php } ?>
     </main>
 
     <footer>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewclient/footer.php'; ?>
-</footer>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/footer.html'; ?>
+    </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const quantityInputs = document.querySelectorAll(".update_quantity input[type='number']");
+            const checkboxes = document.querySelectorAll(".select-item");
+            const totalAmountElement = document.getElementById("total-amount");
 
-            quantityInputs.forEach((input) => {
-                input.addEventListener("change", function () {
-                    const form = this.closest("form");
-                    if (form) {
-                        form.submit();
+            function updateTotal() {
+                let total = 0;
+                checkboxes.forEach((checkbox) => {
+                    if (checkbox.checked) {
+                        total += parseFloat(checkbox.dataset.itemTotal);
                     }
                 });
+                totalAmountElement.textContent = total.toLocaleString("vi-VN") + " VNĐ";
+            }
+
+            checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener("change", updateTotal);
             });
         });
     </script>

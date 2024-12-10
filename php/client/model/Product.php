@@ -11,8 +11,30 @@ class Product
     public $category;
     public $status;
 
+
     public function __construct() {}
     public function __destruct() {}
+}
+class ProductVariant
+{
+    public $product_id;
+    public $name;
+    public $description;
+    public $price;
+    public $stock;
+    public $img;
+    public $views;
+    public $category;
+    public $status;
+    public $variant;
+
+
+    public function __construct() {}
+    public function __destruct() {}
+}
+class Variant{
+    public $variant_id;
+    public $variant;
 }
 
 class Users {
@@ -72,6 +94,26 @@ class Card{
         
     }
 }
+class Cardvariant{
+    public $cart_id;
+    public $user_id;
+    public $username;
+    public $item_id;
+    public $product_id;
+    public $product_name;
+    public $quantity;
+    public $product_image;
+    public $product_price;
+    public $variant;
+    public function __construct()
+    {
+        
+    }
+    public function __destruct()
+    {
+        
+    }
+}
 class Banner{
     public $id;
     public $image_path;
@@ -86,6 +128,7 @@ class Pay{
     public $name_custom;
     public $address;
     public $sdt;
+    public $variant;
 
     public function __construct() {}
     public function __destruct() {}
@@ -128,6 +171,7 @@ class OrderItemCl
     public $product_price;
     public $product_img;
     public $status;
+    public $variant;
 
     public function __construct()
     {

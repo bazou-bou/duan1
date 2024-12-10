@@ -141,6 +141,7 @@
     const donHangTheoNam = <?php echo json_encode($donHangTheoNam); ?>;
 
     // Tạo các mảng labels (tháng), doanh thu và số lượng đơn hàng
+    const months = doanhSoTheoNam.map(item => `${item.month}/${item.year}`).reverse();
     const labels = doanhSoTheoNam.map(item => item.date).reverse(); // Ngày đầy đủ
     const revenues = doanhSoTheoNam.map(item => parseInt(item.total_revenue)).reverse();
     const orders = donHangTheoNam.map(item => parseInt(item.total_orders)).reverse();
@@ -150,6 +151,7 @@
     let revenueChart = new Chart(ctx, {
         type: 'line',
         data: {
+            labels: months, 
             labels: labels, 
             datasets: [
                 {
@@ -227,12 +229,12 @@
         // Chuyển đổi startDate và endDate thành dạng Date
         const start = new Date(startDate);
         const end = new Date(endDate);
-        
+
         // Lọc dữ liệu doanh thu và đơn hàng dựa trên khoảng thời gian
         const filteredMonths = [];
         const filteredRevenues = [];
         const filteredOrders = [];
-        
+
         for (let i = 0; i < months.length; i++) {
             const monthYear = months[i].split('/');
             const month = parseInt(monthYear[0]);

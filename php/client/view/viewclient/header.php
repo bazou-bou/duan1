@@ -137,10 +137,8 @@ a {
                                     <i class="bi bi-bag cart-icon"></i>
                                     </a>
                                     
-                                <?php } else { ?>
-                                   
-                                <?php } ?>
-
+                                <?php }  ?>
+                                    
                             </li>
 
                         </ul>
@@ -174,4 +172,3 @@ a {
             </div>
         </div>
     </div>
-    <!-- /. header-section-->

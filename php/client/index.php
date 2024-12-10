@@ -63,7 +63,7 @@ switch ($act) {
 
     case "client-detail":
         $productCtrl = new ProductController();
-        $productCtrl->showDetail($id);
+        $productCtrl->showProductVariant($id);
         break;
 
     case "product-search":
@@ -100,7 +100,9 @@ switch ($act) {
         $cartCtrl = new CartController();
         $userId =  $_SESSION["user_id"];
         $quantity = $_SESSION["quantity"];
-        $cartCtrl->addToCart($userId, $id, $quantity);
+        $variant = $_SESSION["variant_name"];
+        // var_dump($variant);
+        $cartCtrl->addToCart($userId, $id,  $variant ,$quantity);
         break;
     case "client-remove-listgiohang":
         if (isset($_GET['product_id'])) {
@@ -151,6 +153,8 @@ switch ($act) {
     case "client_paypage":
         $productCtrl = new ProductController();
         $userId = $_SESSION['user_id']; 
+        // $variant = $_SESSION['variant_name']; 
+        // var_dump($_SESSION['variant_name']);
 
         try {
             $productCtrl->createPay($userId);
