@@ -141,7 +141,7 @@
     const donHangTheoNam = <?php echo json_encode($donHangTheoNam); ?>;
 
     // Tạo các mảng labels (tháng), doanh thu và số lượng đơn hàng
-    const months = doanhSoTheoNam.map(item => `${item.month}/${item.year}`).reverse();
+    const labels = doanhSoTheoNam.map(item => item.date).reverse(); // Ngày đầy đủ
     const revenues = doanhSoTheoNam.map(item => parseInt(item.total_revenue)).reverse();
     const orders = donHangTheoNam.map(item => parseInt(item.total_orders)).reverse();
 
@@ -150,7 +150,7 @@
     let revenueChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: months, 
+            labels: labels, 
             datasets: [
                 {
                     label: 'Doanh Thu',

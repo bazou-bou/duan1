@@ -40,10 +40,8 @@
 </head>
 
 <body>
-    <header>
-
-
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
+<header>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
     <div class="page-header">
         <div class="container">
@@ -61,16 +59,9 @@
             </div>
         </div>
     </div>
-
     <!-- slideshow -->
 
     
-
-    <main>
-        <section id="featured-products" class="my-4">
-            <!-- <h2 class="text-center mb-4">Sản Phẩm Nổi Bật</h2> -->
-
-
     <main>
         <section id="featured-products" class="my-4">
            
@@ -163,8 +154,8 @@
     </main>
 
     <footer>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewclient/footer.php'; ?>
-    </footer>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewclient/footer.php'; ?>
+</footer>
 </body>
 
 </html>
