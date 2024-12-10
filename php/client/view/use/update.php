@@ -37,7 +37,7 @@
             <?php if (!empty($baoThanhCong)) { ?>
                 <div class="alert alert-success text-center mb-4"><?= htmlspecialchars($baoThanhCong) ?></div>
             <?php } ?>
-            <h3 class="text-center mb-4">Trang Tạo Mới Sản Phẩm</h3>
+            <h3 class="text-center mb-4">Trang Sửa Sản Phẩm</h3>
 
             <div class="mb-3">
                 <label for="name" class="form-label">Nhập tên giày</label>

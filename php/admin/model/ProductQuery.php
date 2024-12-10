@@ -328,29 +328,30 @@ class ProductQuery
     }
 
     public function revenueByYear()
-    {
-        try {
-            $sql = "SELECT 
-                        YEAR(order_date) AS year,
-                        MONTH(order_date) AS month,
-                        SUM(order_price * quantity) AS total_revenue,
-                        SUM(quantity) AS total_quantity
-                    FROM 
-                        order_items
-                    GROUP BY 
-                        YEAR(order_date), MONTH(order_date)
-                    ORDER BY 
-                        YEAR(order_date) DESC, MONTH(order_date) DESC
-                    ";
+{
+    try {
+        $sql = "SELECT 
+                    DATE(order_date) AS date, -- Lấy đầy đủ ngày, tháng, năm
+                    YEAR(order_date) AS year,
+                    MONTH(order_date) AS month,
+                    SUM(order_price * quantity) AS total_revenue,
+                    SUM(quantity) AS total_quantity
+                FROM 
+                    order_items
+                GROUP BY 
+                    DATE(order_date), YEAR(order_date), MONTH(order_date)
+                ORDER BY 
+                    DATE(order_date) DESC
+                ";
 
-            $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $data = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
-            return $data;
-        } catch (\Throwable $th) {
-            // Xử lý listring
-            return [];
-        }
+        return $data;
+    } catch (\Throwable $th) {
+        // Xử lý lỗi
+        return [];
     }
+}
 
     public function locDonHangTheoNam()
     {

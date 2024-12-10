@@ -190,8 +190,8 @@
     </main>
 
     <footer>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/footer.html'; ?>
-    </footer>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewclient/footer.php'; ?>
+</footer>
 </body>
 
 </html>

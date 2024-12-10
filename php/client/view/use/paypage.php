@@ -1,4 +1,7 @@
 <?php 
+
+<?php
+// If you want to see the POST data when the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     var_dump($_POST["name_custom"]);
 }
@@ -75,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <header>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewClient/header.php'; ?>
     </header>
 
     <main class="container mt-5">
@@ -87,25 +90,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="card mb-3">
                     <div class="card-body">
                         <?php
-                            $totalAmount = 0; // Biến tổng số tiền
-                            foreach ($cartItems as $item) {
-                                $itemTotal = $item->quantity * $item->product_price; // Tính tổng của từng sản phẩm
-                                $totalAmount += $itemTotal; // Cộng dồn vào tổng
+                        $totalAmount = 0; // Biến tổng số tiền
+                        foreach ($cartItems as $item) {
+                            $itemTotal = $item->quantity * $item->product_price; // Tính tổng của từng sản phẩm
+                            $totalAmount += $itemTotal; // Cộng dồn vào tổng
                         ?>
-                        <div class="row mb-3">
-                            <div class="col-3">
-                                <img src="<?= htmlspecialchars(BASE_URL . $item->product_image) ?>" alt="Product Image" class="img-fluid rounded">
+                            <div class="row mb-3">
+                                <div class="col-3">
+                                    <img src="<?= htmlspecialchars(BASE_URL . $item->product_image) ?>" alt="Product Image" class="img-fluid rounded">
+                                </div>
+                                <div class="col-6">
+                                    <p class="fw-bold"><?= htmlspecialchars($item->product_name) ?></p>
+                                    <p class="text-danger"><?= number_format($item->product_price, 0, ',', '.') ?> VNĐ</p>
+                                    <p>Số lượng: <?= $item->quantity ?></p>
+                                    <p class="text-danger"><?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</p>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <a href="?act=client-detail&id=<?= $item->product_id ?>" class="btn btn-primary btn-sm">Chi Tiết</a>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <p class="fw-bold"><?= htmlspecialchars($item->product_name) ?></p>
-                                <p class="text-danger"><?= number_format($item->product_price, 0, ',', '.') ?> VNĐ</p>
-                                <p>Số lượng: <?= $item->quantity ?></p>
-                                <p class="text-danger"><?= number_format($itemTotal, 0, ',', '.') ?> VNĐ</p>
-                            </div>
-                            <div class="col-3 text-center">
-                                <a href="?act=client-detail&id=<?= $item->product_id ?>" class="btn btn-primary btn-sm">Chi Tiết</a>
-                            </div>
-                        </div>
                         <?php } ?>
                     </div>
                 </div>
@@ -120,10 +123,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-md-6">
                 <div class="form-container">
                     <form method="post" action="?act=client_paypage">
-                    <?php if (!empty($baoThanhCong)) { ?>
-                        <div class="alert alert-success text-center mb-4"><?= htmlspecialchars($baoThanhCong) ?></div>
-                    <?php } ?>
-                    
+                        <?php if (!empty($baoThanhCong)) { ?>
+                            <div class="alert alert-success text-center mb-4"><?= htmlspecialchars($baoThanhCong) ?></div>
+                        <?php } ?>
+
                         <div class="mb-3">
                             <label for="name" class="form-label">Họ và tên</label>
                             <input type="text" class="form-control" id="name_custom" name="name_custom" required>
@@ -160,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <footer>
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/html/footer.html'; ?>
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/client/view/viewclient/footer.php'; ?>
     </footer>
 </body>
 

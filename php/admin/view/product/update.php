@@ -75,7 +75,7 @@
                     <div class="alert alert-success text-center"><?= htmlspecialchars($baoThanhCong) ?></div>
                 <?php } ?>
 
-                <h3 class="text-center mb-4">Trang Tạo Mới Sản Phẩm</h3>
+                <h3 class="text-center mb-4">Trang Sửa Sản Phẩm</h3>
 
                 <!-- Name -->
                 <div class="input-group mb-3">
