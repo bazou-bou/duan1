@@ -70,7 +70,7 @@ $_SESSION["quantity"] = 1;
                         </a>
                     </div>
                     <div class="category-content">
-                        <a href="#" class="text-decoration-none">
+                        <a href="?act=client-category&category=<?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>" class="text-decoration-none">
                             <h6 class="category-title text-primary mb-1">
                                 <?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>
                             </h6>

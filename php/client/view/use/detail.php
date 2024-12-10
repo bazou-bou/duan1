@@ -1,5 +1,25 @@
 <?php
 
+$isLoggedIn = isset($_SESSION['user_id']); 
+$_SESSION["quantity"] = 1;
+
+if (isset($_POST["quantity"])) {
+    $requestedQuantity = intval($_POST["quantity"]);
+    if ($requestedQuantity > $DanhSachOne->stock) {
+        // Giới hạn số lượng sản phẩm không vượt quá số lượng tồn kho
+        $_SESSION["quantity"] = $DanhSachOne->stock;
+        $error = "Số lượng yêu cầu vượt quá số lượng tồn kho.";
+    } elseif ($requestedQuantity < 1) {
+        // Không cho phép số lượng nhỏ hơn 1
+        $_SESSION["quantity"] = 1;
+        $error = "Số lượng sản phẩm phải lớn hơn hoặc bằng 1.";
+    } else {
+        $_SESSION["quantity"] = $requestedQuantity;
+    }
+} else {
+    $_SESSION["quantity"] = 1;
+}
+
 
 $isLoggedIn = isset($_SESSION['user_id']); 
 $_SESSION["quantity"] = 1;
@@ -215,6 +235,44 @@ if (isset($_POST["quantity"])) {
         function changeMainImage(element) {
             document.getElementById('main-img').src = element.getAttribute('data-img');
         }
+
+
+
+
+
+        
+
+document.getElementById('button-increment').addEventListener('click', function () {
+    let quantityInput = document.getElementById('quantity');
+    let currentValue = parseInt(quantityInput.value);
+    let maxStock = <?= $DanhSachOne->stock ?>;
+
+    if (currentValue < maxStock) {
+        quantityInput.value = currentValue + 1;
+        quantityInput.form.submit(); 
+    } else {
+        quantityInput.value = currentValue - 1;
+        alert("Số lượng yêu cầu vượt quá tồn kho.");
+
+    }
+});
+
+document.getElementById('quantity').addEventListener('input', function () {
+    let quantityInput = document.getElementById('quantity');
+    let currentValue = parseInt(quantityInput.value);
+    let maxStock = <?= $DanhSachOne->stock ?>; // Lấy số lượng tồn kho từ PHP
+
+    if (currentValue > maxStock) {
+        quantityInput.value = maxStock; // Giới hạn số lượng nhập không vượt quá tồn kho
+        alert("Số lượng yêu cầu vượt quá tồn kho.");
+    } else if (currentValue < 1) {
+        quantityInput.value = 1; // Không cho phép nhập nhỏ hơn 1
+        alert("Số lượng sản phẩm phải lớn hơn hoặc bằng 1.");
+    }
+});
+
+
+
 
         document.getElementById('button-decrement').addEventListener('click', function() {
             let quantityInput = document.getElementById('quantity');
