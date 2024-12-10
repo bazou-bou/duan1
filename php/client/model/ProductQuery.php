@@ -21,7 +21,6 @@ class ProductQuery
         $this->pdo = null;
     }
 
-    // Lấy tất cả sản phẩm kèm tên danh mục
     public function all()
     {
         try {
@@ -53,16 +52,13 @@ class ProductQuery
         }
     }
 
-    // Tìm sản phẩm theo ID
-    // Tìm sản phẩm theo ID
+  
     public function find($id)
     {
         try {
-            // Tăng số lượt xem mỗi khi xem chi tiết sản phẩm
             $sqlUpdateViews = "UPDATE products SET views = views + 1 WHERE product_id = $id";
-            $this->pdo->exec($sqlUpdateViews);  // Thực thi câu lệnh cập nhật
+            $this->pdo->exec($sqlUpdateViews);  
 
-            // Lấy thông tin sản phẩm
             $sql = "SELECT p.*, c.name AS category_name FROM products p
                 LEFT JOIN categories c ON p.category_id = c.category_id
                 WHERE p.product_id = $id";
@@ -76,8 +72,8 @@ class ProductQuery
                 $product->price = $data["price"];
                 $product->stock = $data["stock"];
                 $product->img = $data["img"];
-                $product->views = $data["views"];  // Lượt xem đã được cập nhật
-                $product->category = $data["category_name"];  // Thêm category_name ở đây
+                $product->views = $data["views"]; 
+                $product->category = $data["category_name"];  
                 return $product;
             }
         } catch (Exception $error) {
@@ -86,7 +82,6 @@ class ProductQuery
         }
     }
 
-    //lấy sản phẩm hot nhất 
     public function getHotProducts()
     {
         try {
@@ -154,36 +149,28 @@ class ProductQuery
 
 
 
-    // Thêm mới bình luận public function addComment($comment)
     public function addComment($comment)
     {
         try {
-            // Escape ký tự đặc biệt trong content để tránh SQL Injection
             $content = $this->pdo->quote($comment->content);
 
-            // Kiểm tra nếu username không có (trong trường hợp người dùng chưa đăng nhập)
             if (empty($comment->username)) {
-                // Đặt username mặc định là 'Anonymous' hoặc lấy từ session
                 $comment->username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Anonymous';
             }
 
-            // Nếu chưa đăng nhập, user_id sẽ là NULL
             $comment->user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : NULL;
 
-            // Xây dựng câu lệnh SQL với cột comment_date thay vì date
             $sql = "INSERT INTO comments (product_id, user_id, username, content, comment_date)
                     VALUES (:product_id, :user_id, :username, :content, :date)";
 
-            // Chuẩn bị câu lệnh SQL
             $stmt = $this->pdo->prepare($sql);
 
-            // Thực thi câu lệnh SQL với tham số đã chuẩn bị
             $stmt->execute([
                 ':product_id' => $comment->product_id,
-                ':user_id' => $comment->user_id, // Chắc chắn có user_id hợp lệ hoặc NULL
+                ':user_id' => $comment->user_id, 
                 ':username' => $comment->username,
                 ':content' => $content,
-                ':date' => $comment->comment_date // Dùng comment_date thay vì date
+                ':date' => $comment->comment_date 
             ]);
 
             echo "Bình luận đã được thêm thành công!";
@@ -193,7 +180,6 @@ class ProductQuery
         }
     }
 
-    //tìn bình luận theo id sản phẩm 
     public function findComment($id)
     {
         try {
@@ -224,7 +210,6 @@ class ProductQuery
 
 
 
-    // Tìm sản phẩm theo tên
     public function searchProduct($searchName)
     {
         try {
@@ -267,7 +252,6 @@ class ProductQuery
     }
 
 
-    // Tìm sản phẩm theo danh mục
     public function findCategory($category)
     {
         try {
@@ -298,7 +282,6 @@ class ProductQuery
         }
     }
 
-    // Thêm người dùng
     public function createUser(Users $product)
     {
         try {
@@ -313,7 +296,6 @@ class ProductQuery
         }
     }
 
-    // Lấy tất cả người dùng
 
     public function allUser()
     {
@@ -579,22 +561,17 @@ WHERE o.user_id = $id";
     public function deleteCart($id)
     {
         try {
-            // Sử dụng câu lệnh SQL an toàn
             $sql = "DELETE ci
                 FROM cart_items ci
                 INNER JOIN carts c ON ci.cart_id = c.cart_id
                 WHERE c.user_id = :user_id";
 
-            // Chuẩn bị câu lệnh
             $stmt = $this->pdo->prepare($sql);
 
-            // Liên kết tham số
             $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
 
-            // Thực thi câu lệnh
             $stmt->execute();
 
-            // Kiểm tra số dòng bị ảnh hưởng
             if ($stmt->rowCount() > 0) {
                 return "Xóa thành công";
             } else {
@@ -609,26 +586,20 @@ WHERE o.user_id = $id";
     public function deleteCartitem($id)
     {
         try {
-            // Sử dụng câu lệnh SQL an toàn với tham số placeholder
             $sql = "DELETE FROM `cart_items` WHERE `item_id` = :item_id";
 
-            // Chuẩn bị câu lệnh
             $stmt = $this->pdo->prepare($sql);
 
-            // Liên kết tham số với giá trị thực tế của $id
             $stmt->bindParam(':item_id', $id, PDO::PARAM_INT);
 
-            // Thực thi câu lệnh
             $stmt->execute();
 
-            // Kiểm tra số dòng bị ảnh hưởng
             if ($stmt->rowCount() > 0) {
                 return "Xóa thành công";
             } else {
                 return "Không có sản phẩm nào để xóa";
             }
         } catch (Exception $error) {
-            // Xử lý lỗi nếu có
             echo "Lỗi " . $error->getMessage() . "<br>";
             return "Xóa thất bại";
         }
@@ -641,7 +612,7 @@ WHERE o.user_id = $id";
                     VALUES ('{$contact->contact_name}', '{$contact->contact_email}', '{$contact->contact_phone}', '{$contact->contact_mess}')";
             $this->pdo->exec($sql);
     
-            return "ok"; // Trả về "ok" nếu thành công
+            return "ok"; 
         } catch (Exception $error) {
             echo "Lỗi: " . $error->getMessage() . "<br>";
             echo "Thêm mới tài khoản thất bại";

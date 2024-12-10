@@ -1,5 +1,4 @@
 <?php
-// Kết nối cơ sở dữ liệu
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=duan1', 'root', '051025');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -8,28 +7,42 @@ try {
     exit();
 }
 
-// Kiểm tra nếu có dữ liệu POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset($_POST['status'])) {
     $order_id = $_POST['order_id'];
     $new_status = $_POST['status'];
 
-    // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
-    $sql = "UPDATE orders SET status = :status WHERE order_id = :order_id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':status', $new_status, PDO::PARAM_INT);
+    $stmt = $pdo->prepare("SELECT status FROM orders WHERE order_id = :order_id");
     $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $current_status = $stmt->fetchColumn();
 
-    // Thực thi câu lệnh SQL
-    if ($stmt->execute()) {
-        $chuyen = $DanhSachobject[0]->order_id;
-        // Sau khi cập nhật thành công, chuyển hướng người dùng về trang chi tiết đơn hàng hoặc trang danh sách đơn hàng
-        header("Location: ?act=order_item&id= $chuyen");
-        exit();
+    $valid_transitions = [
+        0 => [1],
+        1 => [2],
+        2 => [3, 4],
+        // 3 => [],
+        4 => [],
+        5 => []
+    ];
+
+    if (in_array($new_status, $valid_transitions[$current_status])) {
+        $sql = "UPDATE orders SET status = :status WHERE order_id = :order_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':status', $new_status, PDO::PARAM_INT);
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            header("Location: ?act=order_item&id=$order_id");
+            exit();
+        } else {
+            echo "Có lỗi xảy ra khi cập nhật trạng thái đơn hàng.";
+        }
     } else {
-        echo "Có lỗi xảy ra khi cập nhật trạng thái đơn hàng.";
+        echo "Trạng thái không hợp lệ.";
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -182,20 +195,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
     </p>
 
     <form action='?act=order_item&id=<?= $DanhSachobject[0]->order_id ?>' method="POST">
-        <input type="hidden" name="order_id" value="<?php echo $DanhSachobject[0]->order_id; ?>">
-        
-        <label for="status">Chọn trạng thái mới:</label>
-        <select name="status" id="status" class="form-select" required>
-            <option value="0" <?php if ($current_status == 0) echo "selected"; ?>>Chờ xác nhận</option>
-            <option value="1" <?php if ($current_status == 1) echo "selected"; ?>>Đang chuẩn bị hàng</option>
-            <option value="2" <?php if ($current_status == 2) echo "selected"; ?>>Đang giao</option>
-            <option value="3" <?php if ($current_status == 3) echo "selected"; ?>>Đã thanh toán</option>
-            <option value="4" <?php if ($current_status == 4) echo "selected"; ?>>Đã giao thành công</option>
-            <option value="5" <?php if ($current_status == 5) echo "selected"; ?>>Đã hủy</option>
-        </select>
-        
-        <button type="submit" class="btn btn-success mt-2">Cập nhật trạng thái</button>
-    </form>
+                    <input type="hidden" name="order_id" value="<?php echo $DanhSachobject[0]->order_id; ?>">
+
+                    <label for="status">Chọn trạng thái mới:</label>
+                    <select name="status" id="status" class="form-select" required>
+                        <?php
+                        $valid_transitions = [
+                            0 => [1],
+                            1 => [2],
+                            2 => [3, 4],
+                            // 3 => [],
+                            4 => [],
+                            5 => []
+                        ];
+
+                        foreach ([0 => "Chờ xác nhận", 1 => "Đang chuẩn bị hàng", 2 => "Đang giao", 3 => "Đã thanh toán", 4 => "Đã giao thành công", 5 => "Đã hủy"] as $status => $label) {
+                            $disabled = !in_array($status, $valid_transitions[$current_status]) ? "disabled" : "";
+                            $selected = $current_status == $status ? "selected" : "";
+                            echo "<option value='$status' $disabled $selected>$label</option>";
+                        }
+                        ?>
+                    </select>
+
+                    <button type="submit" class="btn btn-success mt-2">Cập nhật trạng thái</button>
+                </form>
 
     <p><strong>Ngày đặt hàng: </strong>
         <?php
@@ -208,16 +231,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
         ?>
     </p>
 </div>
-
             </div>
-
-
             <footer>
                 <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/footer.html'; ?>
             </footer>
         </div>
-
-
         <div class="sidebar">
             <?php include $_SERVER['DOCUMENT_ROOT'] . '/shopBanGiay/php/admin/view/html/sidebar.html'; ?>
         </div>

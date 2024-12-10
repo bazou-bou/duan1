@@ -1,15 +1,34 @@
 <?php
 
-
-$isLoggedIn = isset($_SESSION['user_id']); // Kiểm tra người dùng đã đăng nhập
+$isLoggedIn = isset($_SESSION['user_id']); 
 $_SESSION["quantity"] = 1;
+
 if (isset($_POST["quantity"])) {
-    $_SESSION["quantity"] = intval($_POST["quantity"]); // Chuyển đổi sang số nguyên
+    $requestedQuantity = intval($_POST["quantity"]);
+    if ($requestedQuantity > $DanhSachOne->stock) {
+        // Giới hạn số lượng sản phẩm không vượt quá số lượng tồn kho
+        $_SESSION["quantity"] = $DanhSachOne->stock;
+        $error = "Số lượng yêu cầu vượt quá số lượng tồn kho.";
+    } elseif ($requestedQuantity < 1) {
+        // Không cho phép số lượng nhỏ hơn 1
+        $_SESSION["quantity"] = 1;
+        $error = "Số lượng sản phẩm phải lớn hơn hoặc bằng 1.";
+    } else {
+        $_SESSION["quantity"] = $requestedQuantity;
+    }
 } else {
     $_SESSION["quantity"] = 1;
 }
 
-//var_dump($_SESSION["quantity"]); // Debug, nên xoá sau khi kiểm tra
+
+$isLoggedIn = isset($_SESSION['user_id']); 
+$_SESSION["quantity"] = 1;
+if (isset($_POST["quantity"])) {
+    $_SESSION["quantity"] = intval($_POST["quantity"]); 
+} else {
+    $_SESSION["quantity"] = 1;
+}
+
 ?>
 
 
@@ -57,12 +76,10 @@ if (isset($_POST["quantity"])) {
     <main>
         <div class="container py-5">
             <div class="row product-info">
-                <!-- Main Image -->
                 <div class="col-md-6">
                     <div class="main-image">
                         <img id="main-img" src="<?= htmlspecialchars(BASE_URL . $DanhSachOne->img) ?>" class="img-fluid" />
                     </div>
-                    <!-- Thumbnail Slider -->
                     <div class="product-slider mt-3">
                         <?php
                         $images = ['shoeA1', 'shoeA2', 'shoeA3', 'shoeA4'];
@@ -75,7 +92,6 @@ if (isset($_POST["quantity"])) {
                     </div>
                 </div>
 
-                <!-- Product Details Section -->
                 <div class="col-md-6">
                     <h3 class="mb-3 product_style1"><?= htmlspecialchars($DanhSachOne->name) ?></h3>
                     <div class="d-flex align-items-center mb-3">
@@ -90,7 +106,6 @@ if (isset($_POST["quantity"])) {
                     </div>
                     <h4 class="price product_style2">Giá bán: <span><?= number_format($DanhSachOne->price, 0, ',', '.') ?> vnd</span></h4>
 
-                    <!-- Color Options -->
                     <div class="d-flex align-items-center mt-3 product_style2">
                         <h2 class="fs-5">Màu sắc:</h2>
                         <?php
@@ -100,7 +115,6 @@ if (isset($_POST["quantity"])) {
                         ?>
                     </div>
 
-                    <!-- Quantity Selection -->
                     <div class="d-flex align-items-center mt-3">
                         <h2 class="fs-5 product_style2 mb-0 me-2">Số lượng:</h2>
                         <div class="input-group">
@@ -113,7 +127,6 @@ if (isset($_POST["quantity"])) {
 
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="d-flex align-items-center mt-3">
                         <button class="btn btn-success me-2" type="submit" id="addToCartButton">
                             <i class="fas fa-shopping-cart"></i> <a href="?act=client-addcart&id=<?= htmlspecialchars($DanhSachOne->product_id) ?>" class="text-white">Thêm vào giỏ hàng</a>
@@ -121,7 +134,6 @@ if (isset($_POST["quantity"])) {
                         <button class="btn btn-outline-danger" type="button"><i class="fas fa-heart"></i></button>
                     </div>
 
-                    <!-- Description -->
                     <div class="mt-3">
                         <p><?= htmlspecialchars($DanhSachOne->description) ?></p>
                     </div>
@@ -134,7 +146,6 @@ if (isset($_POST["quantity"])) {
             </div>
             <br>
             <hr>
-            <!-- Main comment -->
             <section>
                 <div class="container">
                     <div class="row">
@@ -142,7 +153,6 @@ if (isset($_POST["quantity"])) {
                             <h1>Bình luận</h1>
                             <div id="comments-container">
                                 <?php
-                                // Lấy 5 bình luận đầu tiên
                                 $commentsToShow = array_slice($danhSachComment, 0, 5);
                                 foreach ($commentsToShow as $comment) { ?>
                                     <div class="comment mt-4 p-3 border rounded">
@@ -179,13 +189,11 @@ if (isset($_POST["quantity"])) {
                     </div>
                 </div>
             </section>
-            <!-- end comment -->
             <br>
             <hr>
 
 
 
-            <!-- Related Products -->
             <div>
                 <h2>Sản phẩm cùng loại</h2>
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
@@ -196,7 +204,6 @@ if (isset($_POST["quantity"])) {
                             <a href="?act=client-detail&id=<?= htmlspecialchars($product->product_id) ?>" class="text-decoration-none">
                                 <div class="card product-item">
                                     <div class="product-thumb">
-                                        <!-- Hình ảnh sản phẩm -->
                                         <img src="<?= htmlspecialchars(BASE_URL . $product->img) ?>" class="card-img-top" alt="<?= htmlspecialchars($product->name) ?>">
                                         <div class="product-action-link">
                                             <button class="btn cart-btn">
@@ -205,9 +212,7 @@ if (isset($_POST["quantity"])) {
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <!-- Tên sản phẩm -->
                                         <h5 class="product-title"><?= htmlspecialchars($product->name) ?></h5>
-                                        <!-- Giá sản phẩm -->
                                         <p class="product-price"><?= number_format($product->price, 0, ',', '.') ?> VNĐ</p>
                                     </div>
                                     <div class="card-footer">
@@ -226,12 +231,48 @@ if (isset($_POST["quantity"])) {
 </footer>
 
     <script>
-        // Function to change the main image
         function changeMainImage(element) {
             document.getElementById('main-img').src = element.getAttribute('data-img');
         }
 
-        // Quantity button functionality
+
+
+
+
+        
+
+document.getElementById('button-increment').addEventListener('click', function () {
+    let quantityInput = document.getElementById('quantity');
+    let currentValue = parseInt(quantityInput.value);
+    let maxStock = <?= $DanhSachOne->stock ?>;
+
+    if (currentValue < maxStock) {
+        quantityInput.value = currentValue + 1;
+        quantityInput.form.submit(); 
+    } else {
+        quantityInput.value = currentValue - 1;
+        alert("Số lượng yêu cầu vượt quá tồn kho.");
+
+    }
+});
+
+document.getElementById('quantity').addEventListener('input', function () {
+    let quantityInput = document.getElementById('quantity');
+    let currentValue = parseInt(quantityInput.value);
+    let maxStock = <?= $DanhSachOne->stock ?>; // Lấy số lượng tồn kho từ PHP
+
+    if (currentValue > maxStock) {
+        quantityInput.value = maxStock; // Giới hạn số lượng nhập không vượt quá tồn kho
+        alert("Số lượng yêu cầu vượt quá tồn kho.");
+    } else if (currentValue < 1) {
+        quantityInput.value = 1; // Không cho phép nhập nhỏ hơn 1
+        alert("Số lượng sản phẩm phải lớn hơn hoặc bằng 1.");
+    }
+});
+
+
+
+
         document.getElementById('button-decrement').addEventListener('click', function() {
             let quantityInput = document.getElementById('quantity');
             let currentValue = parseInt(quantityInput.value);
@@ -240,7 +281,6 @@ if (isset($_POST["quantity"])) {
             }
         });
 
-        //prevents
         document.getElementById('postComment').addEventListener('click', function(event) {
             let name = document.getElementById('username').value;
             let email = document.getElementById('email').value;
@@ -266,7 +306,6 @@ if (isset($_POST["quantity"])) {
             } else {
                 loi_comment.innerHTML = '';
             }
-            // Kiểm tra đăng nhập
 
 
             if (name == '' || email == '' || comment == '') {
@@ -280,42 +319,38 @@ if (isset($_POST["quantity"])) {
             quantityInput.value = parseInt(quantityInput.value) + 1;
         });
         $(document).ready(function() {
-            let offset = 5; // Bắt đầu từ bình luận thứ 6
+            let offset = 5;
             $('#load-more-comments').on('click', function() {
                 $.ajax({
-                    url: 'load_more_comments.php', // File xử lý lấy thêm bình luận
+                    url: 'load_more_comments.php',
                     method: 'POST',
                     data: {
                         offset: offset
                     },
                     success: function(response) {
-                        // Thêm bình luận vào phần tử #comments-container
+
                         $('#comments-container').append(response);
-                        offset += 5; // Cập nhật offset để lấy 5 bình luận tiếp theo
+                        offset += 5;
                     }
                 });
             });
         });
-        // Lắng nghe sự kiện khi thay đổi số lượng sản phẩm
         document.getElementById('quantity').addEventListener('input', function() {
-            // Tự động submit form khi thay đổi số lượng
             this.form.submit();
         });
-        // Giảm số lượng
         document.getElementById('button-decrement').addEventListener('click', function() {
             let quantityInput = document.getElementById('quantity');
             let currentValue = parseInt(quantityInput.value);
             if (currentValue > 1) {
                 quantityInput.value = currentValue - 0;
-                quantityInput.form.submit(); // Tự động gửi form khi thay đổi giá trị
+                quantityInput.form.submit();
             }
         });
 
-        // Tăng số lượng
         document.getElementById('button-increment').addEventListener('click', function() {
             let quantityInput = document.getElementById('quantity');
             quantityInput.value = parseInt(quantityInput.value) + 0;
-            quantityInput.form.submit(); // Tự động gửi form khi thay đổi giá trị
+            quantityInput.form.submit();
         });
 
 
@@ -323,11 +358,9 @@ if (isset($_POST["quantity"])) {
 
 
         document.getElementById("addToCartButton").addEventListener("click", function() {
-            // Gửi form bằng JavaScript
             document.getElementById("addToCartForm").submit();
 
-            // Chuyển trang sau khi gửi form
-            window.location.href = "?act=client-list"; // Thay URL bằng trang bạn muốn chuyển đến
+            window.location.href = "?act=client-list";
         });
     </script>
 

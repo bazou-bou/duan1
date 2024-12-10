@@ -1,3 +1,5 @@
+<?php 
+
 <?php
 // If you want to see the POST data when the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

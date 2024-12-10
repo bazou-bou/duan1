@@ -1,5 +1,4 @@
 <?php
-// Kết nối cơ sở dữ liệu
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=duan1', 'root', '051025');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -8,20 +7,16 @@ try {
     exit();
 }
 
-// Xử lý yêu cầu hủy đơn hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset($_POST['status'])) {
     $order_id = $_POST['order_id'];
     $new_status = $_POST['status'];
 
-    // Cập nhật trạng thái đơn hàng thành "Đã hủy" (trạng thái 5)
     $sql = "UPDATE orders SET status = :status WHERE order_id = :order_id AND status != 5 AND status != 4"; // Tránh cập nhật trạng thái cho đơn hàng đã giao
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':status', $new_status, PDO::PARAM_INT);
     $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
 
-    // Thực thi câu lệnh SQL
     if ($stmt->execute()) {
-        // Sau khi cập nhật thành công, chuyển hướng lại về trang lịch sử mua hàng
         header("Location: ?act=client_order");
         exit();
     } else {
@@ -29,8 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
     }
 }
 
-// Lấy danh sách đơn hàng từ cơ sở dữ liệu
-// Giả sử bạn đã có dữ liệu $DanhSachobject chứa danh sách đơn hàng
 
 ?>
 
@@ -46,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
     <style>
         .canceled {
             opacity: 0.5;
-            pointer-events: none; /* Không cho phép click vào các phần tử đã bị mờ */
+            pointer-events: none; 
         }
     </style>
 </head>
@@ -59,14 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
     <main class="container mt-5">
         <h1 class="text-center mb-4">Lịch Sử Mua Hàng</h1>
         
-        <!-- Nếu không có đơn hàng -->
         <?php if (empty($DanhSachobject)) { ?>
             <p class="text-center">Bạn chưa có đơn hàng nào.</p>
         <?php } else { ?>
 
             <div class="row">
     <?php foreach ($DanhSachobject as $order) { 
-        // Kiểm tra nếu trạng thái đơn hàng là đã hủy
         $isCanceled = $order->status == 5 ? 'canceled' : '';
     ?>
         <div class="col-12 mb-4">
@@ -95,11 +86,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
                         <div>
                             <a class="btn btn-primary btn-sm" href='?act=client_orderitem&id=<?= $order->order_id ?>'>Chi tiết đơn hàng</a>
 
-                            <!-- Thêm form để hủy đơn hàng, chỉ hiển thị khi đơn hàng có trạng thái "Chờ xác nhận" (status = 0) -->
                             <?php if ($order->status == 0) { ?>
                             <form action="?act=client_order" method="POST" style="display:inline;">
                                 <input type="hidden" name="order_id" value="<?= $order->order_id ?>">
-                                <input type="hidden" name="status" value="5"> <!-- Trạng thái "Đã hủy" -->
+                                <input type="hidden" name="status" value="5"> 
                                 <button type="submit" class="btn btn-danger btn-sm ms-2">Hủy</button>
                             </form>
                             <?php } ?>

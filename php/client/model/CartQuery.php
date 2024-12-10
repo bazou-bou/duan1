@@ -72,7 +72,6 @@ class CartQuery
         }
     }
 
-    //tìm theo id người dùng và id sản phẩm : 
     public function getCartByUserAndProduct($userId, $productId)
     {
         try {
